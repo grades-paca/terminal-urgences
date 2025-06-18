@@ -11,7 +11,7 @@ SYMFONY     = $(PHP) bin/console
 # —— 🐳 Docker - Dev Environment ———————————————————————————————————————————————
 .PHONY: build-dev
 build-dev: ## Build Docker images for dev
-	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml build
+	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml build --no-cache
 
 .PHONY: up-dev
 up-dev: ## Start development environment (MariaDB + Postgres + Adminer)
