@@ -9,6 +9,7 @@ grumphp:
             enforce_single_lined_subject: false
             matchers:
                 Must contain Redmine issue number: /.*\nConcerne \#[0-9]{6}/
+                
         # recherche d'expressions interdites
         phpparser:
             visitors:
@@ -21,6 +22,7 @@ grumphp:
                         - 'print_r'
                         - 'echo'
                         - 'dump'
+
         # mise en forme du code selon les preconisations Symfony (cf .php-cs-fixer.dist.php)
         phpcsfixer:
             config: .php-cs-fixer.dist.php
@@ -28,17 +30,19 @@ grumphp:
         # recherche de bugs
         phpstan:
             level: 6
-            configuration: phpstan.neon
+            
         # vérification templates twig
         twigcs:
             severity: 'warning'
             display: 'all'
             ruleset: 'FriendsOfTwig\Twigcs\Ruleset\Official'
             exclude: ['vendor']
+            
         # recherche de failles de sécurités dans les dépendances
         securitychecker_enlightn:
             lockfile: ./composer.lock
             run_always: false
+            
         # vérifications fichiers xml
         xmllint:
             ignore_patterns: [ ]
@@ -47,6 +51,7 @@ grumphp:
             dtd_validation: false
             scheme_validation: false
             triggered_by: [ 'xml' ]
+            
         # vérifications fichiers yaml
         yamllint:
             whitelist_patterns: [ ]

@@ -9,16 +9,30 @@
         "php": ">=8.4.8",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/doctrine-orm": "*",
+        "api-platform/symfony": "*",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.14",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
+        "lexik/jwt-authentication-bundle": "^3.1",
+        "nelmio/cors-bundle": "^2.5",
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "phpstan/phpdoc-parser": "^2.1",
         "runtime/frankenphp-symfony": "*",
+        "symfony/asset": "7.3.*",
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
+        "symfony/expression-language": "7.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.3.*",
+        "symfony/property-access": "7.3.*",
+        "symfony/property-info": "7.3.*",
         "symfony/runtime": "7.3.*",
+        "symfony/security-bundle": "7.3.*",
+        "symfony/serializer": "7.3.*",
+        "symfony/twig-bundle": "7.3.*",
+        "symfony/validator": "7.3.*",
         "symfony/yaml": "7.3.*"
     },
     "config": {
@@ -73,10 +87,13 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
         "enlightn/security-checker": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.75",
+        "friendsoftwig/twigcs": "^6.5",
         "phpro/grumphp": "^2.13",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^12.2"
+        "phpunit/phpunit": "^12.2",
+        "symfony/maker-bundle": "^1.63"
     }
 }
