@@ -30,6 +30,12 @@ grumphp:
         # recherche de bugs
         phpstan:
             level: 6
+
+        phpunit:
+            config_file: phpunit.dist.xml
+            testsuite: null
+            group: [ ]
+            always_execute: false
             
         # vérification templates twig
         twigcs:
