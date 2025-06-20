@@ -52,6 +52,7 @@ services:
                 protocol: tcp
         volumes:
             - mariadb_data:/var/lib/mysql
+            - .docker/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - appnet
 

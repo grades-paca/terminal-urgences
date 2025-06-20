@@ -37,7 +37,7 @@ logs-dev: ## Show logs for all containers (dev mode)
 install-dev: ## Build & launch dev environment
 	@$(MAKE) build-dev
 	@$(MAKE) up-dev
-	git config core.hooksPath hooks
+	git config core.hooksPath .hooks
 	@$(MAKE) doctrine-reset
 	@$(MAKE) doctrine-migrate
 	@$(MAKE) doctrine-fixtures
