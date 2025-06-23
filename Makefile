@@ -3,6 +3,7 @@ include .make/composer.mk
 include .make/docker.mk
 include .make/doctrine.mk
 include .make/symfony.mk
+include .make/typescript.mk
 include .make/grumphp.mk
 include .make/test.mk
 
