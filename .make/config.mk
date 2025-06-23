@@ -5,7 +5,6 @@ PHP         = $(PHP_CONT) php
 COMPOSER    = $(PHP_CONT) composer
 SYMFONY     = $(PHP) bin/console
 
-
 TS_CONT     = $(DOCKER_COMP) exec typescript
 TS_NPX      = $(TS_CONT) npx
 TS_NPM      = $(TS_CONT) npm

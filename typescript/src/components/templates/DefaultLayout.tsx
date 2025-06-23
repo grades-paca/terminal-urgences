@@ -1,6 +1,6 @@
 import { ReactNode, FormEvent, useState } from 'react'
 import { useMe, useLogin } from '../../features/auth/useAuth'
-import {Link, useLocation, useNavigate} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router'
 
 interface DefaultLayoutProps {
     children: ReactNode

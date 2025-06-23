@@ -17,7 +17,9 @@ TS_CHANGED=$(echo "$DIFF" | grep -E '\.tsx?$')
 if [ -n "$TS_CHANGED" ]; then
     echo "🔎 Fichiers TypeScript détectés. Lancement des vérifications..."
 
-    docker compose exec -T typescript npx eslint $TS_CHANGED
+    TS_CHANGED_IN_CONTAINER=$(echo "$TS_CHANGED" | sed 's|^typescript/||')
+
+    docker compose exec -T typescript npx eslint $TS_CHANGED_IN_CONTAINER
     ESLINT_STATUS=$?
 
     docker compose exec -T typescript npx tsc --noEmit

@@ -35,6 +35,7 @@ logs-dev: ## Show logs for all containers (dev mode)
 	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml logs -f
 
 install-dev: ## Build & launch dev environment
+	@$(MAKE) down-dev
 	@$(MAKE) build-dev
 	@$(MAKE) up-dev
 	git config core.hooksPath .hooks
