@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { MemoryRouter } from 'react-router'
-import {DefaultLayout} from "../components/templates/DefaultLayout";
-import {useLogin, useMe} from "../features/auth/useAuth";
+import {DefaultLayout} from "@templates/DefaultLayout";
+import {useLogin, useMe} from "@features/auth/useAuth";
 
 const mockedUseMe = useMe as jest.Mock;
 const mockedUseLogin = useLogin as jest.Mock;

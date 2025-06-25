@@ -19,16 +19,32 @@
         "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-scripts eject",
+        "lint": "eslint . --ext .ts,.tsx --fix"
     },
     "eslintConfig": {
         "extends": [
             "react-app",
             "react-app/jest"
         ]
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "^@components/(.*)$": "<rootDir>/src/components/$1",
+            "^@atoms/(.*)$": "<rootDir>/src/components/atoms/$1",
+            "^@molecules/(.*)$": "<rootDir>/src/components/molecules/$1",
+            "^@organisms/(.*)$": "<rootDir>/src/components/organisms/$1",
+            "^@templates/(.*)$": "<rootDir>/src/components/templates/$1",
+            "^@pages/(.*)$": "<rootDir>/src/components/pages/$1",
+            "^@features/(.*)$": "<rootDir>/src/features/$1",
+            "^@hooks/(.*)$": "<rootDir>/src/hooks/$1",
+            "^@routes/(.*)$": "<rootDir>/src/routes/$1",
+            "^@services/(.*)$": "<rootDir>/src/services/$1",
+            "^@assets/(.*)$": "<rootDir>/src/assets/$1"
+        }
     },
     "browserslist": {
         "production": [
@@ -44,10 +60,12 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.29.0",
+        "customize-cra": "^1.0.0",
         "eslint": "^8.57.1",
         "eslint-plugin-react": "^7.37.5",
         "globals": "^16.2.0",
         "prettier": "^3.5.3",
+        "react-app-rewired": "^2.2.1",
         "typescript": "4.9.5",
         "typescript-eslint": "^8.34.1"
     }

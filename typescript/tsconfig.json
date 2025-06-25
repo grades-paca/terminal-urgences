@@ -1,5 +1,19 @@
 {
     "compilerOptions": {
+        "baseUrl": "src",
+        "paths": {
+            "@components/*": ["components/*"],
+            "@atoms/*": ["components/atoms/*"],
+            "@molecules/*": ["components/molecules/*"],
+            "@organisms/*": ["components/organisms/*"],
+            "@templates/*": ["components/templates/*"],
+            "@pages/*": ["components/pages/*"],
+            "@features/*": ["features/*"],
+            "@hooks/*": ["hooks/*"],
+            "@routes/*": ["routes/*"],
+            "@services/*": ["services/*"],
+            "@assets/*": ["assets/*"]
+        },
         "target": "es5",
         "lib": [
             "dom",

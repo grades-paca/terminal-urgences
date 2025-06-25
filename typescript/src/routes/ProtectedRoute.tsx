@@ -1,5 +1,5 @@
 import {Navigate, Outlet} from 'react-router-dom'
-import { useMe } from '../features/auth/useAuth'
+import { useMe } from '@features/auth/useAuth'
 
 export const ProtectedRoute = () => {
     const { data: user, isLoading } = useMe()
