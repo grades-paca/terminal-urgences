@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { DefaultLayout } from '@templates/DefaultLayout'
-import { HomePage } from '@pages/HomePage'
-import { ProtectedRoute } from './ProtectedRoute'
+import { HomePage } from '@pages/HomePage';
+import { DefaultLayout } from '@templates/DefaultLayout';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ProtectedRoute } from './ProtectedRoute';
 
 export const AppRouter = () => (
     <BrowserRouter>
@@ -15,4 +15,4 @@ export const AppRouter = () => (
             </Routes>
         </DefaultLayout>
     </BrowserRouter>
-)
+);

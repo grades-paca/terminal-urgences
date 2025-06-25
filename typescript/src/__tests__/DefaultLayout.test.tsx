@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import React from 'react'
-import { MemoryRouter } from 'react-router'
-import {DefaultLayout} from "@templates/DefaultLayout";
-import {useLogin, useMe} from "@features/auth/useAuth";
+import { useLogin, useMe } from '@features/auth/useAuth';
+import { DefaultLayout } from '@templates/DefaultLayout';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router';
 
 const mockedUseMe = useMe as jest.Mock;
 const mockedUseLogin = useLogin as jest.Mock;
@@ -74,11 +73,16 @@ describe('DefaultLayout login form', () => {
             </MemoryRouter>
         );
 
-        expect(await screen.findByText(/Identifiants incorrects/i)).toBeInTheDocument();
+        expect(
+            await screen.findByText(/Identifiants incorrects/i)
+        ).toBeInTheDocument();
     });
 
     it('shows connected user info when logged in', () => {
-        mockedUseMe.mockReturnValue({ data: { username: 'testuser' }, isLoading: false });
+        mockedUseMe.mockReturnValue({
+            data: { username: 'testuser' },
+            isLoading: false,
+        });
         mockedUseLogin.mockReturnValue({
             mutate: jest.fn(),
             isPending: false,
@@ -93,6 +97,8 @@ describe('DefaultLayout login form', () => {
             </MemoryRouter>
         );
 
-        expect(screen.getByText(/Connecté en tant que testuser/i)).toBeInTheDocument();
+        expect(
+            screen.getByText(/Connecté en tant que testuser/i)
+        ).toBeInTheDocument();
     });
 });
