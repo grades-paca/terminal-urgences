@@ -2,10 +2,10 @@
 
 namespace App\Tests\Controller\Api;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserControllerTest extends WebTestCase
@@ -26,7 +26,9 @@ class UserControllerTest extends WebTestCase
     private function createTestUser(): void
     {
         $existing = $this->em->getRepository(User::class)->findOneBy(['username' => 'test']);
-        if ($existing) return;
+        if ($existing) {
+            return;
+        }
 
         $user = new User();
         $user->setUsername('test');
@@ -62,7 +64,7 @@ class UserControllerTest extends WebTestCase
         ['client' => $client, 'token' => $token] = $this->createAuthenticatedClient();
 
         $client->request('GET', '/api/me', [], [], [
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $token,
+            'HTTP_AUTHORIZATION' => 'Bearer '.$token,
         ]);
 
         $this->assertResponseIsSuccessful();

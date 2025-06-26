@@ -13,14 +13,13 @@ class DispatchingAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
         private readonly BddAuthenticator $bddAuthenticator,
-        private readonly string           $authMode,
-    )
-    {
+        private readonly string $authMode,
+    ) {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->getPathInfo() === '/api/login' && $request->isMethod('POST');
+        return '/api/login' === $request->getPathInfo() && $request->isMethod('POST');
     }
 
     public function authenticate(Request $request): Passport
@@ -47,4 +46,3 @@ class DispatchingAuthenticator extends AbstractAuthenticator
         };
     }
 }
-
