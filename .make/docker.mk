@@ -23,7 +23,7 @@ bash: ## Shell into the PHP container (bash)
 
 # —— 🐳 Docker - Dev Environment ———————————————————————————————————————————————
 build-dev: ## Build Docker images for dev
-	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml build --no-cache
+	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml build
 
 up-dev: ## Start development environment (MariaDB + Postgres + Adminer)
 	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml up -d
