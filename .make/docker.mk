@@ -32,7 +32,11 @@ down-dev: ## Stop and remove all containers, networks, volumes (dev mode)
 	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml down -v --remove-orphans
 
 logs-dev: ## Show logs for all containers (dev mode)
-	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml logs -f
+	$(DOCKER_COMP) -f docker-compose.yaml -f docker-compose.override.yaml logs -f
+
+install-root-cert-dev: ## Install local root certificate into system keychain (macOS)
+	docker cp $(shell docker compose ps -q php):/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && \
+	sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt
 
 install-dev: ## Build & launch dev environment
 	@$(MAKE) down-dev
@@ -43,3 +47,4 @@ install-dev: ## Build & launch dev environment
 	@$(MAKE) doctrine-migrate
 	@$(MAKE) doctrine-fixtures
 	$(PHP) bin/console app:create-admin
+	@$(MAKE) install-root-cert-dev
