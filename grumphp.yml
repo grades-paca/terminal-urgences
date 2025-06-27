@@ -29,6 +29,7 @@ grumphp:
             
         # recherche de bugs
         phpstan:
+            memory_limit: 512M
             level: 6
 
         phpunit:

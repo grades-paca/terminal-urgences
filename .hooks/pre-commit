@@ -1,16 +1,11 @@
 #!/bin/sh
 
-#
-# Run the hook command.
-# Note: this will be replaced by the real command during copy.
-#
-
-# Fetch the GIT diff and format it as command input:
 DIFF=$(git diff --staged --name-only | cat)
 
 # GrumPHP (PHP)
 export GRUMPHP_GIT_WORKING_DIR="$(git rev-parse --show-toplevel)"
 docker compose exec -T -e DIFF="$DIFF" php bash -c 'printf "$DIFF" | ./vendor/bin/grumphp git:pre-commit --skip-success-output'
+GRUMPHP_STATUS=$?
 
 # TypeScript (TS)
 TS_CHANGED=$(echo "$DIFF" | grep -E '\.tsx?$')
@@ -27,11 +22,22 @@ if [ -n "$TS_CHANGED" ]; then
 
     docker compose exec -T typescript npm run test -- --watchAll=false --silent --passWithNoTests
     TEST_STATUS=$?
-
-    if [ $ESLINT_STATUS -ne 0 ] || [ $TSC_STATUS -ne 0 ] || [ $TEST_STATUS -ne 0 ]; then
-        echo "❌ Une ou plusieurs vérifications TypeScript ont échoué. Commit annulé."
-        exit 1
-    fi
 else
     echo "✅ Aucun fichier TypeScript modifié. Vérifications TS ignorées."
+    ESLINT_STATUS=0
+    TSC_STATUS=0
+    TEST_STATUS=0
 fi
+
+# Vérifie les statuts
+if [ $GRUMPHP_STATUS -ne 0 ]; then
+    echo "❌ Vérification GrumPHP échouée. Commit annulé."
+    exit 1
+fi
+
+if [ $ESLINT_STATUS -ne 0 ] || [ $TSC_STATUS -ne 0 ] || [ $TEST_STATUS -ne 0 ]; then
+    echo "❌ Une ou plusieurs vérifications TypeScript ont échoué. Commit annulé."
+    exit 1
+fi
+
+exit 0

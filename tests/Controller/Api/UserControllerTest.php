@@ -4,6 +4,7 @@ namespace App\Tests\Controller\Api;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -39,6 +40,9 @@ class UserControllerTest extends WebTestCase
         $this->em->flush();
     }
 
+    /**
+     * @return array{client: KernelBrowser, token: ?string}
+     */
     private function createAuthenticatedClient(): array
     {
         self::ensureKernelShutdown();
