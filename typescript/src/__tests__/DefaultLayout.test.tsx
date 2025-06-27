@@ -40,9 +40,9 @@ describe('DefaultLayout login form', () => {
             </MemoryRouter>
         );
 
-        const usernameInput = screen.getByPlaceholderText(/username/i);
+        const usernameInput = screen.getByPlaceholderText(/Identifiant/i);
         const passwordInput = screen.getByPlaceholderText(/mot de passe/i);
-        const submitButton = screen.getByRole('button', { name: /connexion/i });
+        const submitButton = screen.getByTestId('submitButton');
 
         await userEvent.type(usernameInput, 'testuser');
         await userEvent.type(passwordInput, 'secret');

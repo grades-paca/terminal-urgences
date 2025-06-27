@@ -2,6 +2,8 @@ import { useLogin, useMe } from '@features/auth/useAuth';
 import { FormEvent, ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 
+import styles from './DefaultLayout.module.scss';
+
 interface DefaultLayoutProps {
     children: ReactNode;
 }
@@ -33,79 +35,67 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     if (isLoading) return <div>Chargement...</div>;
 
     return (
-        <div>
-            <header
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '1rem',
-                    backgroundColor: '#eee',
-                }}
-            >
-                <div>
-                    <Link to="/">🧙‍♂️ MonLogo</Link>
+        <div className={styles.defaultLayout}>
+            <header>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                    }}
+                >
+                    <div className={styles.logoContainer}>
+                        <Link to="/">
+                            <div className={styles.logo}></div>
+                        </Link>
+                    </div>
+                    <div className={styles.title}>Terminal des Urgences</div>
                 </div>
 
-                <div>
+                <div className={styles.authBox}>
                     {!user ? (
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'flex-end',
-                            }}
-                        >
-                            <form
-                                onSubmit={handleLogin}
-                                style={{ display: 'flex', gap: '0.5rem' }}
-                            >
+                        <div className={styles.authContainer}>
+                            <form onSubmit={handleLogin}>
+                                {/*TODO COMPONENT*/}
                                 <input
+                                    id="id"
                                     type="text"
-                                    placeholder="UserName"
+                                    placeholder="Identifiant"
                                     value={username}
                                     onChange={(e) =>
                                         setUsername(e.target.value)
                                     }
                                 />
+                                {/*TODO COMPONENT*/}
                                 <input
+                                    id="password"
                                     type="password"
-                                    placeholder="Mot de passe"
+                                    placeholder="mot de passe"
                                     value={password}
                                     onChange={(e) =>
                                         setPassword(e.target.value)
                                     }
                                 />
+                                {/*TODO COMPONENT*/}
                                 <button
+                                    id="submitButton"
+                                    data-testid="submitButton"
                                     type="submit"
                                     disabled={loginMutation.isPending}
                                 >
-                                    {loginMutation.isPending
-                                        ? 'Connexion...'
-                                        : 'Connexion'}
+                                    ✓
                                 </button>
                             </form>
 
                             {loginMutation.isError && (
-                                <div
-                                    style={{
-                                        color: 'red',
-                                        marginTop: '0.5rem',
-                                    }}
-                                >
+                                <div className={styles.errorMessage}>
                                     {(loginMutation.error as Error)?.message ||
                                         'Erreur inconnue'}
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem',
-                            }}
-                        >
+                        <div className={styles.userInfo}>
                             <span>Connecté en tant que {user.username}</span>
                             <button onClick={handleLogout}>Déconnexion</button>
                         </div>
@@ -113,7 +103,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 </div>
             </header>
 
-            <main style={{ padding: '2rem' }}>{children}</main>
+            <main>{children}</main>
         </div>
     );
 };

@@ -10,7 +10,7 @@ tslint: ## Run ESLint on all TypeScript files
 # Run ESLint with auto-fix on all TypeScript and JavaScript files
 tslint-fix: ## Fix lint issues using ESLint
 	@echo "🛠️  Fixing ESLint issues..."
-	npx eslint "src/**/*.{ts,tsx,js,jsx}" --fix
+	$(TS_NPX) "src/**/*.{ts,tsx,js,jsx}" --fix
 
 tsformat-check: ## Check format Prettier
 	@echo "🔎 Checking code format with Prettier..."
@@ -18,12 +18,12 @@ tsformat-check: ## Check format Prettier
 
 tsformat-fix: ## Format code using Prettier
 	@echo "🎨 Formatting code with Prettier..."
-	npx prettier --write "src/**/*.{ts,tsx,js,jsx,json}"
+	$(TS_NPX) prettier --write "src/**/*.{ts,tsx,js,jsx,json}"
 
 ts-fix: ## Run full fix (ESLint + Prettier)
 	@echo "🚀 Running full code fix..."
-	$(MAKE) lint-fix
-	$(MAKE) format
+	$(MAKE) tslint-fix
+	$(MAKE) tsformat-fix
 
 tstest: ## Run TypeScript unit tests
 	@echo "🧪 Running tests..."
