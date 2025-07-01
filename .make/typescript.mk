@@ -10,7 +10,7 @@ tslint: ## Run ESLint on all TypeScript files
 # Run ESLint with auto-fix on all TypeScript and JavaScript files
 tslint-fix: ## Fix lint issues using ESLint
 	@echo "🛠️  Fixing ESLint issues..."
-	$(TS_NPX) "src/**/*.{ts,tsx,js,jsx}" --fix
+	$(TS_NPX) eslint "src/**/*.{ts,tsx,js,jsx}" --fix
 
 tsformat-check: ## Check format Prettier
 	@echo "🔎 Checking code format with Prettier..."

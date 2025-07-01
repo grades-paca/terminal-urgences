@@ -1,16 +1,14 @@
-import { useLogin, useMe } from '@features/auth/useAuth';
+import { useLogin } from '@features/auth/useLogin';
+import { useMe } from '@features/auth/useMe';
+import { useConfigView } from '@features/config/useConfigView';
 import { DefaultLayout } from '@templates/DefaultLayout';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 
-const mockedUseMe = useMe as jest.Mock;
 const mockedUseLogin = useLogin as jest.Mock;
-
-jest.mock('../features/auth/useAuth', () => ({
-    useMe: jest.fn(),
-    useLogin: jest.fn(),
-}));
+const mockedUseMe = useMe as jest.Mock;
+const mockerConfigView = useConfigView as jest.Mock;
 
 jest.mock('react-router', () => {
     const actual = jest.requireActual('react-router');
@@ -19,6 +17,10 @@ jest.mock('react-router', () => {
         useNavigate: jest.fn(() => jest.fn()),
         useLocation: jest.fn(() => ({ pathname: '/' })),
     };
+});
+
+beforeEach(() => {
+    mockerConfigView.mockReturnValue([]);
 });
 
 describe('DefaultLayout login form', () => {

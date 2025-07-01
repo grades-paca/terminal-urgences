@@ -10,6 +10,7 @@
             "@pages/*": ["components/pages/*"],
             "@features/*": ["features/*"],
             "@hooks/*": ["hooks/*"],
+            "@interfaces/*": ["interfaces/*"],
             "@routes/*": ["routes/*"],
             "@services/*": ["services/*"],
             "@assets/*": ["assets/*"]

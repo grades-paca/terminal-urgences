@@ -39,12 +39,15 @@ install-root-cert-dev: ## Install local root certificate into system keychain (m
 	sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt
 
 install-dev: ## Build & launch dev environment
+	git config core.hooksPath .hooks
 	@$(MAKE) down-dev
 	@$(MAKE) build-dev
 	@$(MAKE) up-dev
-	git config core.hooksPath .hooks
+
 	@$(MAKE) doctrine-reset
 	@$(MAKE) doctrine-migrate
 	@$(MAKE) doctrine-fixtures
+
+	$(PHP) bin/console lexik:jwt:generate-keypair --overwrite
 	$(PHP) bin/console app:create-admin
 	@$(MAKE) install-root-cert-dev

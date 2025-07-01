@@ -12,6 +12,7 @@
         "@types/node": "^16.18.126",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
+        "lucide-react": "^0.525.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "react-router-dom": "^7.6.2",
@@ -37,6 +38,7 @@
             "^@pages/(.*)$": "<rootDir>/src/components/pages/$1",
             "^@features/(.*)$": "<rootDir>/src/features/$1",
             "^@hooks/(.*)$": "<rootDir>/src/hooks/$1",
+            "^@interfaces/(.*)$": "<rootDir>/src/interfaces/$1",
             "^@routes/(.*)$": "<rootDir>/src/routes/$1",
             "^@services/(.*)$": "<rootDir>/src/services/$1",
             "^@assets/(.*)$": "<rootDir>/src/assets/$1"

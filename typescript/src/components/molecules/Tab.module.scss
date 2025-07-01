@@ -1,0 +1,23 @@
+@use '../../styles/variables' as *;
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 6px 6px 0 0;
+    background-color: $tab-background-color-inactive;
+    color: $tab-background-text-color-inactive;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tab.active {
+    background-color: $tab-background-color-active;
+    color: $tab-background-text-color-active;
+}
+
+.tab:not(.active):hover {
+    background-color: $tab-background-color-inactive-hover;
+    color: $tab-background-text-color-inactive-hover;
+}
