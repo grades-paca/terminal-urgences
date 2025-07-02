@@ -29,7 +29,7 @@ export const Navigation = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    return !isMobile ? (
+    return (
         <div className={styles.tabBar} ref={containerRef}>
             <div className={`${styles.tab} ${isActive ? styles.active : ''}`}>
                 <Tab isActive={isActive}>
@@ -37,11 +37,10 @@ export const Navigation = () => {
                 </Tab>
             </div>
 
-            {!isLoadingView &&
+            {!isMobile &&
+                !isLoadingView &&
                 views &&
                 views.map((view, i) => <Tab key={i}>{view.label}</Tab>)}
         </div>
-    ) : (
-        <div>Coucou</div>
     );
 };
