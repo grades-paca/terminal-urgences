@@ -1,0 +1,34 @@
+@use '../../styles/variables' as *;
+
+.infoContainer {
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background-color: $background-color-modal;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $color-text-modal;
+    background-color: $background-color-modal;
+    padding-left: 8px;
+}
+
+.icon {
+    color: $color-text-modal;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 8px 16px 16px;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
