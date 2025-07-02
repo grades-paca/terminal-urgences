@@ -3,7 +3,7 @@
 .infoContainer {
     border: 1px solid $border-color;
     border-radius: 8px;
-    background-color: $background-color-modal;
+    background-color: $background-modal-color;
     overflow: hidden;
 }
 
@@ -11,13 +11,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: $color-text-modal;
-    background-color: $background-color-modal;
+    color: $text-color-modal;
+    background-color: $background-modal-color;
     padding-left: 8px;
 }
 
 .icon {
-    color: $color-text-modal;
+    color: $text-color-modal;
 }
 
 .grid {

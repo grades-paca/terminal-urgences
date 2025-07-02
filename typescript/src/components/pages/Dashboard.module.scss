@@ -12,6 +12,13 @@
         border-bottom: 1px solid $border-color;
     }
 
+    th > span:first-child {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
     thead {
         background-color: $background-table-head-color;
     }

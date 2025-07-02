@@ -23,8 +23,8 @@
     justify-content: center;
     padding: 4px 8px;
     border-radius: 6px 6px 0 0;
-    background-color: $tab-background-color-inactive;
-    color: $tab-background-text-color-inactive;
+    background-color: $background-tab-color-inactive;
+    color: $background-tab-text-color-inactive;
     cursor: pointer;
 
     &:hover .moreDropdown {

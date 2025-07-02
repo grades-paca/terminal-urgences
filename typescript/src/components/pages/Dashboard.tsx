@@ -2,9 +2,12 @@ import { ResumeDashboard } from '@organisms/ResumeDashboard';
 import {
     flexRender,
     getCoreRowModel,
+    getSortedRowModel,
+    SortingState,
     useReactTable,
 } from '@tanstack/react-table';
 
+import { useState } from 'react';
 import styles from './Dashboard.module.scss';
 
 const data = [
@@ -80,11 +83,17 @@ const columns = [
 
 export const Dashboard = () => {
     // const { idView } = useParams();
+    const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data,
         columns,
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
+        state: {
+            sorting,
+        },
     });
 
     return (
@@ -96,13 +105,25 @@ export const Dashboard = () => {
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
-                                <th key={header.id}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                              header.column.columnDef.header,
-                                              header.getContext()
-                                          )}
+                                <th
+                                    key={header.id}
+                                    onClick={header.column.getToggleSortingHandler()}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <span>
+                                        <span>
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                        </span>
+                                        <span>
+                                            {header.column.getIsSorted() ===
+                                                'asc' && '▲'}
+                                            {header.column.getIsSorted() ===
+                                                'desc' && '▼'}
+                                        </span>
+                                    </span>
                                 </th>
                             ))}
                         </tr>
