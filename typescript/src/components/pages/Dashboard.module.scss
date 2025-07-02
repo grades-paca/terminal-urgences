@@ -1,0 +1,18 @@
+@use '../../styles/variables' as *;
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+
+    th,
+    td {
+        padding: 8px 12px;
+        text-align: left;
+        border-bottom: 1px solid $border-color;
+    }
+
+    thead {
+        background-color: $background-table-head-color;
+    }
+}
