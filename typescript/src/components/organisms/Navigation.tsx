@@ -1,16 +1,16 @@
+import { useTabActivityChecker } from '@hooks/useTabActivityChecker';
 import { Tab } from '@molecules/Tab';
+import { useConfigView } from '@services/config/useConfigView';
 import { House } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { useConfigView } from '@features/config/useConfigView';
 import styles from './Navigation.module.scss';
 
 export const Navigation = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const isTabActive = useTabActivityChecker(); // hook appelé une seule fois
 
     const [isMobile, setIsMobile] = useState<boolean>(false);
-
-    const isActive = useMemo(() => true, []);
 
     const { data: views, isLoading: isLoadingView } = useConfigView();
 
@@ -31,16 +31,23 @@ export const Navigation = () => {
 
     return (
         <div className={styles.tabBar} ref={containerRef}>
-            <div className={`${styles.tab} ${isActive ? styles.active : ''}`}>
-                <Tab isActive={isActive}>
-                    <House size={24} />
-                </Tab>
-            </div>
+            <Tab isActive={isTabActive()}>
+                <House size={24} />
+            </Tab>
 
             {!isMobile &&
                 !isLoadingView &&
                 views &&
-                views.map((view, i) => <Tab key={i}>{view.label}</Tab>)}
+                views.map((view, i) => (
+                    <Tab
+                        key={i}
+                        type={view.type}
+                        id={view.id}
+                        isActive={isTabActive(view)}
+                    >
+                        {view.label}
+                    </Tab>
+                ))}
         </div>
     );
 };

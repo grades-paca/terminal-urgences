@@ -1,3 +1,4 @@
+import { Dashboard } from '@pages/Dashboard';
 import { HomePage } from '@pages/HomePage';
 import { DefaultLayout } from '@templates/DefaultLayout';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -10,7 +11,7 @@ export const AppRouter = () => (
                 <Route path="/" element={<HomePage />} />
 
                 <Route element={<ProtectedRoute />}>
-                    {/*<Route path="/dashboard" element={<DashboardPage />} />*/}
+                    <Route path="/dashboard/:idView" element={<Dashboard />} />
                 </Route>
             </Routes>
         </DefaultLayout>

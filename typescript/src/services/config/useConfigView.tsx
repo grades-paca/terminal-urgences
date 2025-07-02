@@ -1,5 +1,5 @@
-import { useMe } from '@features/auth/useMe';
-import { View } from '@interfaces/View';
+import { View, VIEW_DASHBOARD_TYPE } from '@interfaces/View';
+import { useMe } from '@services/auth/useMe';
 import { useQuery } from '@tanstack/react-query';
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -19,7 +19,14 @@ export const useConfigView = () => {
             });
 
             if (!res.ok) {
-                return [];
+                return [
+                    // TODO : TEST REMOVE AFTER CONFIGURATION DYNAMIC FEATURE
+                    {
+                        id: 1,
+                        label: 'urgence',
+                        type: VIEW_DASHBOARD_TYPE,
+                    },
+                ];
                 // throw new Error('Utilisateur non valide');
             }
 

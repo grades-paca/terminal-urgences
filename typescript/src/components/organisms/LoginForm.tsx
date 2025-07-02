@@ -1,7 +1,7 @@
 import { Button } from '@atoms/Button';
 import { InputField } from '@atoms/input/InputField';
-import { useLogin } from '@features/auth/useLogin';
-import { useMe } from '@features/auth/useMe';
+import { useLogin } from '@services/auth/useLogin';
+import { useMe } from '@services/auth/useMe';
 import { FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import styles from './LoginForm.module.scss';

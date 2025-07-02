@@ -6,13 +6,13 @@ Object.assign(global, {
     TextDecoder,
 });
 
-jest.mock('@features/auth/useLogin', () => ({
+jest.mock('@services/auth/useLogin', () => ({
     useLogin: jest.fn(),
 }));
-jest.mock('@features/auth/useMe', () => ({
+jest.mock('@services/auth/useMe', () => ({
     useMe: jest.fn(),
 }));
 
-jest.mock('@features/config/useConfigView', () => ({
+jest.mock('@services/config/useConfigView', () => ({
     useConfigView: jest.fn(),
 }));

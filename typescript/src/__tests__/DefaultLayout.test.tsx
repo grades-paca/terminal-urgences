@@ -1,6 +1,6 @@
-import { useLogin } from '@features/auth/useLogin';
-import { useMe } from '@features/auth/useMe';
-import { useConfigView } from '@features/config/useConfigView';
+import { useLogin } from '@services/auth/useLogin';
+import { useMe } from '@services/auth/useMe';
+import { useConfigView } from '@services/config/useConfigView';
 import { DefaultLayout } from '@templates/DefaultLayout';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -18,6 +18,10 @@ jest.mock('react-router', () => {
         useLocation: jest.fn(() => ({ pathname: '/' })),
     };
 });
+
+jest.mock('@hooks/useTabActivityChecker', () => ({
+    useTabActivityChecker: () => () => true, // renvoie une fonction qui renvoie true
+}));
 
 beforeEach(() => {
     mockerConfigView.mockReturnValue([]);
