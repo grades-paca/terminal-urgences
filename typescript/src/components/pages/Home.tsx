@@ -2,7 +2,7 @@ import TGSLogo from '@assets/TGS.png';
 import { InfoCard } from '@molecules/InfoCard';
 import { LinkCard } from '@molecules/LinkCard';
 
-export const HomePage = () => {
+export const Home = () => {
     return (
         <div style={{ padding: '1rem' }}>
             <InfoCard title="Informations et liens utiles">

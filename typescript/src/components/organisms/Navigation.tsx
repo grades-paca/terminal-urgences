@@ -8,7 +8,7 @@ import styles from './Navigation.module.scss';
 
 export const Navigation = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const isTabActive = useTabActivityChecker(); // hook appelé une seule fois
+    const isTabActive = useTabActivityChecker();
 
     const [isMobile, setIsMobile] = useState<boolean>(false);
 

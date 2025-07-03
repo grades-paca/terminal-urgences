@@ -44,6 +44,7 @@ install-dev: ## Build & launch dev environment
 	@$(MAKE) build-dev
 	@$(MAKE) up-dev
 
+	@$(MAKE) wait-symfony
 	@$(MAKE) doctrine-reset
 	@$(MAKE) doctrine-migrate
 	@$(MAKE) doctrine-fixtures

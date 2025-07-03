@@ -36,9 +36,7 @@ services:
                 protocol: udp
 
     typescript:
-        build:
-            context: typescript
-            dockerfile: Dockerfile
+        image: node:20
         volumes:
             - ./typescript:/app
         working_dir: /app
@@ -46,6 +44,7 @@ services:
             -   target: 3000
                 published: ${NODE_PORT:-3000}
                 protocol: tcp
+        command: sh -c "npm install && npx react-app-rewired start"
     
     # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
     ###> symfony/mercure-bundle ###
