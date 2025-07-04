@@ -18,7 +18,17 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
-        
+
     App\Security\DispatchingAuthenticator:
         arguments:
             $authMode: '%auth_mode%'
+            
+    Redis:
+        class: Redis
+        factory: [ 'Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection' ]
+        arguments:
+            - 'redis://redis:6379'
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'

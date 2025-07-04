@@ -39,6 +39,7 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 * Doctrine ORM
 * JWT Authentication (Lexik)
 * Runtime FrankenPHP
+* Redis (sessions, cache, lock distribué)
 
 ### Frontend – TypeScript + React
 
@@ -78,6 +79,11 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 * **Frontend React/TS** servie via conteneur dédié
 * **HTTPS local** avec certificat racine installé
 * **Qualité code** intégrée (GrumPHP, PHPStan, ESLint, Prettier, tests)
+  * Support Redis pour :
+  * Sessions PHP centralisées (multi-instance)
+  * Cache partagé (Redis adapter)
+  * Locks distribués (Symfony Lock Component)
+
 
 ---
 
@@ -105,6 +111,7 @@ Cette commande :
 * Génère les clés JWT
 * Crée un compte admin via `app:create-admin`
 * Installe le certificat racine local pour HTTPS (macOS)
+* Démarre un service Redis utilisé par Symfony (sessions/cache)
 
 ---
 
@@ -153,3 +160,5 @@ terminal-urgences/
 * ✅ **GrumPHP** : vérification hooks (lint, test, phpstan, etc.)
 * ✅ **ESLint + Prettier** : fix auto avec `make ts-fix`
 * ✅ **TypeScript** : check complet avec `make tscheck`
+
+---

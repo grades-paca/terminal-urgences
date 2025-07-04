@@ -34,6 +34,13 @@ services:
             -   target: 443
                 published: ${HTTP3_PORT:-443}
                 protocol: udp
+                
+    redis:
+        image: redis:7-alpine
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis_data:/data
 
     typescript:
         image: node:20
@@ -53,5 +60,4 @@ services:
 volumes:
     caddy_data:
     caddy_config:
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+    redis_data:
