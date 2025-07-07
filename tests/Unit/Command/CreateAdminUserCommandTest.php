@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Tests\Command;
+namespace App\Tests\Unit\Command;
 
 use App\Command\CreateAdminUserCommand;
 use App\Entity\User;
+use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class CreateAdminUserCommandTest extends TestCase
+class CreateAdminUserCommandTest extends Unit
 {
     private function createCommandTester(
         ?EntityManagerInterface $em = null,

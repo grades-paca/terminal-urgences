@@ -32,12 +32,11 @@ grumphp:
             memory_limit: 512M
             level: 6
 
-        phpunit:
-            config_file: phpunit.dist.xml
-            testsuite: null
-            group: [ ]
-            always_execute: false
-            
+        codeception:
+            config_file: codeception.yml
+            suite: ~ 
+            fail_fast: false
+        
         # vérification templates twig
         twigcs:
             severity: 'warning'
