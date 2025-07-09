@@ -66,7 +66,7 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
     * GrumPHP
     * PHPStan
     * TwigCS
-    * PHPUnit
+    * Codeception
 
 ---
 
@@ -83,7 +83,6 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
   * Sessions PHP centralisées (multi-instance)
   * Cache partagé (Redis adapter)
   * Locks distribués (Symfony Lock Component)
-
 
 ---
 
@@ -124,7 +123,7 @@ Cette commande :
 | `make install-root-cert-dev` | Ajoute le certificat local pour le HTTPS                  |
 | `make tscheck`               | Vérifie lint, types, format, tests TS                     |
 | `make ts-fix`                | Applique correctifs ESLint + Prettier                     |
-| `make test`                  | Exécute les tests backend PHPUnit                         |
+| `make test`                  | Exécute les tests backend Codeception                     |
 | `make grum`                  | Lance tous les hooks de qualité (précommit)               |
 
 > Pour toutes les commandes disponibles : `make help`
@@ -155,7 +154,7 @@ terminal-urgences/
 
 ## 8. Tests & Qualité
 
-* ✅ **PHPUnit** : tests backend (`make test`)
+* ✅ **Codeception** : tests backend (`make test`)
 * ✅ **Testing Library** : tests DOM/React dans `typescript/src/__tests__`
 * ✅ **GrumPHP** : vérification hooks (lint, test, phpstan, etc.)
 * ✅ **ESLint + Prettier** : fix auto avec `make ts-fix`
