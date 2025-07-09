@@ -34,7 +34,7 @@ $application->run(new ArrayInput([
 ]), $output);
 
 $application->run(new ArrayInput([
-    'command' => 'doctrine:fixtures:load',
+    'command' => 'hautelook:fixtures:load',
     '--no-interaction' => true,
     '--env' => 'test',
 ]), $output);

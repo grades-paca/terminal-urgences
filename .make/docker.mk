@@ -47,7 +47,7 @@ install-dev: ## Build & launch dev environment
 	@$(MAKE) wait-symfony
 	@$(MAKE) doctrine-reset
 	@$(MAKE) doctrine-migrate
-	@$(MAKE) doctrine-fixtures
+	@$(SYMFONY) hautelook:fixtures:load --env=dev --no-interaction
 
 	$(PHP) bin/console lexik:jwt:generate-keypair --overwrite
 	$(PHP) bin/console app:create-admin

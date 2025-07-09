@@ -101,6 +101,8 @@
         "enlightn/security-checker": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.75",
         "friendsoftwig/twigcs": "^6.5",
+        "hautelook/alice-bundle": "^2.15",
+        "nelmio/alice": "^3.14",
         "phpro/grumphp": "^2.13",
         "phpstan/phpstan": "^2.1",
         "symfony/browser-kit": "7.3.*",

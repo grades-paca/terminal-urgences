@@ -36,7 +36,7 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 * Symfony 7.3
 * API Platform
 * CORS (Nelmio)
-* Doctrine ORM
+* Doctrine ORM (avec Nelmio Alice pour les fixtures)
 * JWT Authentication (Lexik)
 * Runtime FrankenPHP
 * Redis (sessions, cache, lock distribué)
@@ -75,7 +75,7 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 * Environnement **full Dockerisé** : API, BDD, Adminer, certif local
 * **Backend Symfony** avec API Platform exposé en REST
 * **Authentification JWT** (clé privée/publique générée automatiquement)
-* **Base MariaDB** avec migration + fixtures
+* **Base MariaDB** avec migration + jeux de données via Alice
 * **Frontend React/TS** servie via conteneur dédié
 * **HTTPS local** avec certificat racine installé
 * **Qualité code** intégrée (GrumPHP, PHPStan, ESLint, Prettier, tests)
@@ -106,7 +106,7 @@ Cette commande :
 * Configure les hooks Git (`.hooks/`)
 * Stoppe les services dev existants
 * Rebuild et relance les conteneurs Docker pour le développement
-* Réinitialise la base de données (`reset`, `migrate`, `fixtures`)
+* Réinitialise la base de données (`reset`, `migrate`, `alice:load`)
 * Génère les clés JWT
 * Crée un compte admin via `app:create-admin`
 * Installe le certificat racine local pour HTTPS (macOS)
@@ -159,5 +159,6 @@ terminal-urgences/
 * ✅ **GrumPHP** : vérification hooks (lint, test, phpstan, etc.)
 * ✅ **ESLint + Prettier** : fix auto avec `make ts-fix`
 * ✅ **TypeScript** : check complet avec `make tscheck`
+* ✅ **Alice** : génération de données de test réalistes
 
 ---
