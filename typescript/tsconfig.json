@@ -27,6 +27,7 @@
         "paths": {
             "@components/*": ["components/*"],
             "@atoms/*": ["components/atoms/*"],
+            "@config/*": ["config/*"],
             "@molecules/*": ["components/molecules/*"],
             "@organisms/*": ["components/organisms/*"],
             "@templates/*": ["components/templates/*"],

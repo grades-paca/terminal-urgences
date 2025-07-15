@@ -7,13 +7,14 @@ import flowbiteReact from "flowbite-react/plugin/vite";
 export default defineConfig({
     plugins: [react(), tailwindcss(), flowbiteReact()],
     test: {
-        setupFiles: "./src/setupTests.ts",
         environment: 'jsdom',
         globals: true,
+        setupFiles: "./src/tests/setupTests.ts",
     },
     resolve: {
         alias: {
             '@atoms': path.resolve(__dirname, 'src/components/atoms'),
+            '@config': path.resolve(__dirname, 'src/config'),
             '@molecules': path.resolve(__dirname, 'src/components/molecules'),
             '@organisms': path.resolve(__dirname, 'src/components/organisms'),
             '@templates': path.resolve(__dirname, 'src/components/templates'),

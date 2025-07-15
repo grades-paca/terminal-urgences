@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@layer base {
+@layer base  {
     :root {
         --color: #333;
         --color-alert: #f05b5b;
@@ -56,3 +56,25 @@
     }
 }
 
+@layer utilities {
+    .bg-surface {
+        background-color: var(--background-color);
+    }
+
+    .bg-hover:hover,
+    .bg-hover:focus {
+        background-color: var(--background-button-color-hover);
+    }
+
+    .border-default {
+        border-color: var(--border-color);
+    }
+
+    .shadow-default {
+        box-shadow: 0 2px 4px var(--box-shadow-color);
+    }
+
+    .text-normal {
+        color: var(--color);
+    }
+}

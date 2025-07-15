@@ -29,6 +29,11 @@ services:
             - appnet
 
     typescript:
+        ports:
+            #           Vitest preview render 
+            -   target: 5006
+                published: ${VI_TEST_PORT:-5006}
+                protocol: tcp
         networks:
             - appnet
 
