@@ -4,24 +4,15 @@ import { useConfigView } from '@services/config/useConfigView';
 import { House } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import styles from './Navigation.module.scss';
-
 export const Navigation = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const isTabActive = useTabActivityChecker();
-
     const [isMobile, setIsMobile] = useState<boolean>(false);
-
     const { data: views, isLoading: isLoadingView } = useConfigView();
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth < 768) {
-                setIsMobile(true);
-                return;
-            } else {
-                setIsMobile(false);
-            }
+            setIsMobile(window.innerWidth < 768);
         };
 
         handleResize();
@@ -30,7 +21,10 @@ export const Navigation = () => {
     }, []);
 
     return (
-        <div className={styles.tabBar} ref={containerRef}>
+        <div
+            ref={containerRef}
+            className="flex gap-1 bg-[var(--background-color-header)] px-2 pt-1 overflow-x-auto whitespace-nowrap scrollbar-hide"
+        >
             <Tab isActive={isTabActive()}>
                 <House size={24} />
             </Tab>

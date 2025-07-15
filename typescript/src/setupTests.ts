@@ -1,18 +1,21 @@
 import '@testing-library/jest-dom';
 import { TextDecoder, TextEncoder } from 'util';
+import { vi } from 'vitest';
 
-Object.assign(global, {
+Object.assign(globalThis, {
     TextEncoder,
     TextDecoder,
 });
 
-jest.mock('@services/auth/useLogin', () => ({
-    useLogin: jest.fn(),
-}));
-jest.mock('@services/auth/useMe', () => ({
-    useMe: jest.fn(),
+// Mocks globaux
+vi.mock('@services/auth/useLogin', () => ({
+    useLogin: vi.fn(),
 }));
 
-jest.mock('@services/config/useConfigView', () => ({
-    useConfigView: jest.fn(),
+vi.mock('@services/auth/useMe', () => ({
+    useMe: vi.fn(),
+}));
+
+vi.mock('@services/config/useConfigView', () => ({
+    useConfigView: vi.fn(),
 }));

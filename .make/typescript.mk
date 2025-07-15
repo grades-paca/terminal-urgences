@@ -1,7 +1,7 @@
 # —— 📘 TypeScript —————————————————————————————————————————————————————————————
 ts: ## Run TypeScript type-check (tsc --noEmit)
 	@echo "🔍 Running TypeScript type-check..."
-	$(TS_NPX) tsc --noEmit
+	$(TS_NPX) tsc --build
 
 tslint: ## Run ESLint on all TypeScript files
 	@echo "🧹 Running ESLint..."
@@ -27,11 +27,11 @@ ts-fix: ## Run full fix (ESLint + Prettier)
 
 tstest: ## Run TypeScript unit tests
 	@echo "🧪 Running tests..."
-	$(TS_NPM) run test -- --watchAll=false --passWithNoTests
+	$(TS_NPM) test
 
 tscheck: ## Run all TS checks (lint + tsc + test + format)
 	@echo "🔧 Running full TypeScript checks (lint + format + tsc + test)..."
-	$(TS_NPX) eslint "**/*.{ts,tsx}" && \
-	$(TS_NPX) prettier --check "src/**/*.{ts,tsx,js,jsx,json}" && \
-	$(TS_NPX) tsc --noEmit && \
-	$(TS_NPM) run test -- --watchAll=false --passWithNoTests
+	$(MAKE) tslint
+	$(MAKE) tsformat-check
+	$(MAKE) ts
+	$(MAKE) tstest

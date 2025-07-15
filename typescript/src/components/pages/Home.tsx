@@ -4,7 +4,7 @@ import { LinkCard } from '@molecules/LinkCard';
 
 export const Home = () => {
     return (
-        <div style={{ padding: '1rem' }}>
+        <div>
             <InfoCard title="Informations et liens utiles">
                 <LinkCard
                     href="https://tgs.iess.fr/"
