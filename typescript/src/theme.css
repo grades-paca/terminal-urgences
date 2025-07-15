@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@layer base {
+    :root {
+        --color: #333;
+        --color-alert: #f05b5b;
+
+        --background-color: #ffffff;
+        --background-header-color: #095985;
+
+        --background-tab-color-active: #ffffff;
+        --background-tab-text-color-active: #000000;
+
+        --background-tab-color-inactive: #b4d7ee;
+        --background-tab-text-color-inactive: #1d5273;
+
+        --background-tab-color-inactive-hover: #0073b3;
+        --background-tab-text-color-inactive-hover: #ffffff;
+
+        --background-modal-color: #f9fcfd;
+        --text-color-modal: #ffffff;
+
+        --background-table-head-color: #f4f4f4;
+
+        --border-color: #d0d0d0;
+        --background-button-color-hover: #f0f0f0;
+
+        --box-shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme='dark'] {
+        --color: #f1f1f1;
+        --color-alert: #f87171;
+
+        --background-color: #1a1a1a;
+        --background-header-color: #004060;
+
+        --background-tab-color-active: #1a1a1a;
+        --background-tab-text-color-active: #ffffff;
+
+        --background-tab-color-inactive: #2f3e4f;
+        --background-tab-text-color-inactive: #cccccc;
+
+        --background-tab-color-inactive-hover: #3d5773;
+        --background-tab-text-color-inactive-hover: #ffffff;
+
+        --background-modal-color: #262b30;
+        --text-color-modal: #ffffff;
+
+        --background-table-head-color: #2b2b2b;
+
+        --border-color: #555;
+        --background-button-color-hover: #2a2a2a;
+
+        --box-shadow-color: rgba(255, 255, 255, 0.05);
+    }
+}
+

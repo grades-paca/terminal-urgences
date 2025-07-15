@@ -1,4 +1,4 @@
-import { View, VIEW_DASHBOARD_TYPE } from '@interfaces/View';
+import { type View, VIEW_DASHBOARD_TYPE } from '@interfaces/View';
 import { useLocation } from 'react-router';
 
 export function useTabActivityChecker() {

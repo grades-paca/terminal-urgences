@@ -3,12 +3,19 @@ import {
     flexRender,
     getCoreRowModel,
     getSortedRowModel,
-    SortingState,
+    type SortingState,
     useReactTable,
 } from '@tanstack/react-table';
 
 import { useState } from 'react';
-import styles from './Dashboard.module.scss';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeadCell,
+    TableRow,
+} from 'flowbite-react';
 
 const data = [
     {
@@ -82,68 +89,67 @@ const columns = [
 ];
 
 export const Dashboard = () => {
-    // const { idView } = useParams();
     const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data,
         columns,
+        state: { sorting },
         onSortingChange: setSorting,
-        getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
-        state: {
-            sorting,
-        },
+        getSortedRowModel: getSortedRowModel(),
     });
 
     return (
-        <div>
+        <div className="space-y-4">
             <ResumeDashboard />
 
-            <table className={styles.table}>
-                <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <th
-                                    key={header.id}
-                                    onClick={header.column.getToggleSortingHandler()}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <span>
-                                        <span>
+            <div className="overflow-x-auto">
+                <Table hoverable>
+                    <TableHead>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <TableHeadCell
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                        className="cursor-pointer select-none"
+                                    >
+                                        <div className="flex items-center justify-between w-full">
                                             {flexRender(
                                                 header.column.columnDef.header,
                                                 header.getContext()
                                             )}
-                                        </span>
-                                        <span>
                                             {header.column.getIsSorted() ===
                                                 'asc' && '▲'}
                                             {header.column.getIsSorted() ===
                                                 'desc' && '▼'}
-                                        </span>
-                                    </span>
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                                        </div>
+                                    </TableHeadCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHead>
+
+                    <TableBody>
+                        {table.getRowModel().rows.map((row) => (
+                            <TableRow key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell
+                                        key={cell.id}
+                                        className="px-3 py-2"
+                                    >
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     );
 };

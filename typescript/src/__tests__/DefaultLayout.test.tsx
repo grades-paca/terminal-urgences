@@ -3,33 +3,35 @@ import { useMe } from '@services/auth/useMe';
 import { useConfigView } from '@services/config/useConfigView';
 import { DefaultLayout } from '@templates/DefaultLayout';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type * as ReactRouter from 'react-router';
 
-const mockedUseLogin = useLogin as jest.Mock;
-const mockedUseMe = useMe as jest.Mock;
-const mockerConfigView = useConfigView as jest.Mock;
-
-jest.mock('react-router', () => {
-    const actual = jest.requireActual('react-router');
+vi.mock('react-router', async () => {
+    const actual = await vi.importActual<typeof ReactRouter>('react-router');
     return {
         ...actual,
-        useNavigate: jest.fn(() => jest.fn()),
-        useLocation: jest.fn(() => ({ pathname: '/' })),
+        useNavigate: vi.fn(() => vi.fn()),
+        useLocation: vi.fn(() => ({ pathname: '/' })),
     };
 });
 
-jest.mock('@hooks/useTabActivityChecker', () => ({
-    useTabActivityChecker: () => () => true, // renvoie une fonction qui renvoie true
+vi.mock('@hooks/useTabActivityChecker', () => ({
+    useTabActivityChecker: () => () => true,
 }));
 
+const mockedUseLogin = useLogin as ReturnType<typeof vi.fn>;
+const mockedUseMe = useMe as ReturnType<typeof vi.fn>;
+const mockedConfigView = useConfigView as ReturnType<typeof vi.fn>;
+
 beforeEach(() => {
-    mockerConfigView.mockReturnValue([]);
+    mockedConfigView.mockReturnValue([]);
 });
 
 describe('DefaultLayout login form', () => {
     it('allows user to submit login form', async () => {
-        const mockMutate = jest.fn();
+        const mockMutate = vi.fn();
 
         mockedUseMe.mockReturnValue({ data: null, isLoading: false });
         mockedUseLogin.mockReturnValue({
@@ -61,7 +63,7 @@ describe('DefaultLayout login form', () => {
     });
 
     it('displays error message on failed login', async () => {
-        const mockMutate = jest.fn();
+        const mockMutate = vi.fn();
 
         mockedUseMe.mockReturnValue({ data: null, isLoading: false });
         mockedUseLogin.mockReturnValue({
@@ -90,7 +92,7 @@ describe('DefaultLayout login form', () => {
             isLoading: false,
         });
         mockedUseLogin.mockReturnValue({
-            mutate: jest.fn(),
+            mutate: vi.fn(),
             isPending: false,
             isError: false,
         });
