@@ -1,6 +1,3 @@
 export const Patient = () => {
-
-    return <div>
-
-    </div>
-}
+    return <div></div>;
+};

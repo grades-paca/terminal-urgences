@@ -1,8 +1,8 @@
-import { View, VIEW_DASHBOARD_TYPE } from '@interfaces/View';
+import { type View, VIEW_DASHBOARD_TYPE } from '@interfaces/View';
 import { useMe } from '@services/auth/useMe';
 import { useQuery } from '@tanstack/react-query';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const useConfigView = () => {
     const { data: user, isLoading } = useMe();

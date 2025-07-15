@@ -8,7 +8,7 @@ docker compose exec -T -e DIFF="$DIFF" php bash -c 'printf "$DIFF" | ./vendor/bi
 GRUMPHP_STATUS=$?
 
 # TypeScript (TS)
-TS_CHANGED=$(echo "$DIFF" | grep -E '\.tsx?$')
+TS_CHANGED=$(echo "$DIFF" | grep -E '^[^D]' | grep -E '\.tsx?$')
 if [ -n "$TS_CHANGED" ]; then
     echo "🔎 Fichiers TypeScript détectés. Lancement des vérifications..."
 

@@ -1,6 +1,6 @@
 import { LoginForm } from '@organisms/LoginForm';
 import { Navigation } from '@organisms/Navigation';
-import { ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 import styles from './DefaultLayout.module.scss';
@@ -35,20 +35,23 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     }, []);
 
     return (
-        <div className={styles.defaultLayout}>
-            <header>
-                <div className={styles.headerTopBar}>
-                    <div className={styles.tilteContainer}>
-                        <div className={styles.logoContainer}>
+        <div className="min-h-screen">
+            <header className="bg-[var(--background-header-color)] text-white">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-4 md:px-8 py-4">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+                        <div className="flex items-center">
                             <Link to="/">
-                                <div className={styles.logo}></div>
+                                <div className={styles.logo} />
                             </Link>
                         </div>
-                        <div className={styles.titleBlock}>
-                            <div className={styles.title}>
-                                <span>Terminal des Urgences - Dev</span>
+
+                        <div className="flex flex-col">
+                            <div className="text-white font-bold text-xl md:text-2xl">
+                                Terminal des Urgences - Dev
                             </div>
-                            <div className={styles.dateTime}>{dateTime}</div>
+                            <div className="text-white font-bold text-lg md:text-xl">
+                                {dateTime}
+                            </div>
                         </div>
                     </div>
 
@@ -58,7 +61,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 <Navigation />
             </header>
 
-            <main>{children}</main>
+            <main className="p-2">{children}</main>
         </div>
     );
 };
