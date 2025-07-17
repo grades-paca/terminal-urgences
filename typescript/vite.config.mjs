@@ -15,6 +15,7 @@ export default defineConfig({
         alias: {
             '@atoms': path.resolve(__dirname, 'src/components/atoms'),
             '@config': path.resolve(__dirname, 'src/config'),
+            '@const': path.resolve(__dirname, 'src/const'),
             '@molecules': path.resolve(__dirname, 'src/components/molecules'),
             '@organisms': path.resolve(__dirname, 'src/components/organisms'),
             '@templates': path.resolve(__dirname, 'src/components/templates'),

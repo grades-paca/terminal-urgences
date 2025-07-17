@@ -25,9 +25,10 @@
 
         "baseUrl": "src",
         "paths": {
-            "@components/*": ["components/*"],
             "@atoms/*": ["components/atoms/*"],
+            "@components/*": ["components/*"],
             "@config/*": ["config/*"],
+            "@const/*": ["const/*"],
             "@molecules/*": ["components/molecules/*"],
             "@organisms/*": ["components/organisms/*"],
             "@templates/*": ["components/templates/*"],
