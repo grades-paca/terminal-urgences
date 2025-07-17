@@ -1,12 +1,17 @@
-.logo {
-    height: 60px;
-    width: 140px;
-    background-image: url('../../assets/logo.png');
-    background-repeat: no-repeat;
-    background-size: contain;
+.header {
+    background-color: var(--color-primary-700);
+    color: var(--color-secondary-50);
 
-    @media (max-width: 768px) {
-        background-image: url('../../assets/favicon.png');
-        width: 50px;
+    .logo {
+        height: 60px;
+        width: 140px;
+        background-image: url('../../assets/logo.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        @media (max-width: 768px) {
+            background-image: url('../../assets/favicon.png');
+            width: 50px;
+        }
     }
 }

@@ -10,6 +10,8 @@ import { ChevronRight } from 'lucide-react';
 import { menuConfig, type MenuItem } from '@config/menuConfig';
 import { useNavigate } from 'react-router';
 
+import styles from './DropdownMenu.module.scss';
+
 interface Props {
     children: ReactNode;
 }
@@ -19,7 +21,7 @@ interface Coords {
     left: number;
 }
 
-const OFFSET = 4;
+const OFFSET = 0;
 
 export default function DropdownMenu({ children }: Props) {
     const [open, setOpen] = useState(false);
@@ -74,9 +76,10 @@ export default function DropdownMenu({ children }: Props) {
                 createPortal(
                     <div
                         ref={menuRef}
-                        className="absolute z-[9999] w-44 rounded-md border border-default bg-surface
-                        mt-2 -ml-2 shadow-default transition transform origin-top-left
-                        animate-[fadeIn_150ms_ease-out] motion-reduce:animate-none"
+                        className={`absolute z-[9999] w-44 rounded-md border border-default
+                            transition transform origin-top-left
+                            animate-[fadeIn_150ms_ease-out] motion-reduce:animate-none
+                            ${styles.dropdownButton}`}
                         style={{ top: coords.top, left: coords.left }}
                         role="menu"
                     >
@@ -104,7 +107,7 @@ function MenuList({ items }: { items: MenuItem[] }) {
                     return (
                         <button
                             key={index}
-                            className="block w-full px-4 py-2 text-left text-sm bg-surface text-normal bg-hover"
+                            className="block w-full px-4 py-2 text-left text-sm"
                             role="menuitem"
                             onClick={() => navigate(item.navigate)}
                         >
@@ -151,7 +154,7 @@ function SubMenu({
             onMouseLeave={closeSub}
         >
             <button
-                className="flex w-full items-center justify-between px-4 py-2 text-sm hover:bg-gray-100"
+                className={`flex w-full items-center justify-between px-4 py-2 text-sm`}
                 role="menuitem"
                 aria-haspopup="menu"
                 aria-expanded={subOpen}
@@ -162,7 +165,7 @@ function SubMenu({
 
             {subOpen && (
                 <div
-                    className="absolute left-full top-0 z-[9999] -mt-1 w-56 rounded-md border border-default bg-surface shadow-default"
+                    className={`absolute left-full top-0 z-[9999] -mt-1 ml-0.5 w-56 rounded-md border border-default ${styles.dropdownButton}`}
                     role="menu"
                     onMouseEnter={openSub}
                     onMouseLeave={closeSub}
