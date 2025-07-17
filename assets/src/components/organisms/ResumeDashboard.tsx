@@ -1,10 +1,17 @@
 import { ArrowDownToLine, Plus } from 'lucide-react';
 
 export function ResumeDashboard() {
+    // TODO CSS review with dev this feature
+
     return (
         <div
+<<<<<<< HEAD:assets/src/components/organisms/ResumeDashboard.tsx
             className="flex justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-md shadow-sm"
+            style={{boxShadow: '0 1px 4px var(--box-shadow-color)'}}
+=======
+            className="flex justify-between items-center px-4 py-3 rounded-md shadow-sm"
             style={{ boxShadow: '0 1px 4px var(--box-shadow-color)' }}
+>>>>>>> e36f038 (Start feature add Fiche and update css):typescript/src/components/organisms/ResumeDashboard.tsx
         >
             <div className="text-sm text-[var(--text-color)] flex flex-wrap gap-x-2 gap-y-1">
                 <span>

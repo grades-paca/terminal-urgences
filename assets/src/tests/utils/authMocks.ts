@@ -1,6 +1,6 @@
-import {useLogin} from "@services/auth/useLogin.tsx";
-import {vi} from "vitest";
-import {useMe} from "@services/auth/useMe.tsx";
+import { useLogin } from '@services/auth/useLogin.tsx';
+import { vi } from 'vitest';
+import { useMe } from '@services/auth/useMe.tsx';
 
 export const mockMutate = vi.fn();
 export const mockedUseLogin = useLogin as ReturnType<typeof vi.fn>;
@@ -13,7 +13,7 @@ export const notLogin = () => {
         isPending: false,
         isError: false,
     });
-}
+};
 
 export const login = () => {
     mockedUseMe.mockReturnValue({
@@ -25,4 +25,4 @@ export const login = () => {
         isPending: false,
         isError: false,
     });
-}
+};

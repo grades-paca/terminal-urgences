@@ -1,4 +1,4 @@
-import {ROUTE_PARAMETER_FICHES} from "@const/navigation.ts";
+import { ROUTE_PARAMETER_FICHES } from '@const/navigation.ts';
 
 export type MenuItem =
     | {
