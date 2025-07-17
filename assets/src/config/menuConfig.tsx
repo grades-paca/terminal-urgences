@@ -1,3 +1,5 @@
+import {ROUTE_PARAMETER_FICHES} from "@const/navigation.ts";
+
 export type MenuItem =
     | {
           type: 'item';
@@ -21,7 +23,7 @@ export const menuConfig: MenuItem[] = [
             {
                 type: 'item',
                 label: 'Gestion et création des fiches',
-                navigate: '/parameter/fiches',
+                navigate: ROUTE_PARAMETER_FICHES,
             },
         ],
     },

@@ -6,6 +6,7 @@
     :root {
         --color: #333;
         --color-alert: #f05b5b;
+        --color-link : #99a1af;
 
         --background-color: #ffffff;
         --background-header-color: #095985;
@@ -33,6 +34,7 @@
     [data-theme='dark'] {
         --color: #f1f1f1;
         --color-alert: #f87171;
+        --color-link: #6b7280;
 
         --background-color: #1a1a1a;
         --background-header-color: #004060;
@@ -77,6 +79,14 @@
     }
 
     .text-normal {
+        color: var(--color);
+    }
+
+    .pop-up-link {
+        color: var(--color-link);
+    }
+
+    .pop-up-link:hover {
         color: var(--color);
     }
 }
