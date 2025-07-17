@@ -22,12 +22,16 @@ ts-format-fix: ## Format code using Prettier
 
 ts-fix: ## Run full fix (ESLint + Prettier)
 	@echo "🚀 Running full code fix..."
-	$(MAKE) tslint-fix
-	$(MAKE) tsformat-fix
+	$(MAKE) ts-lint-fix
+	$(MAKE) ts-format-fix
 
 ts-test: ## Run TypeScript unit tests
 	@echo "🧪 Running tests..."
 	$(TS_NPM) test
+
+ts-build-css: ## Run postinstall commande for generate flowbite class
+	@echo "🎨 Running postinstall commande..."
+	$(TS_NPX) buildCss
 
 ts-post-install: ## Run postinstall commande for generate flowbite class
 	@echo "🎨 Running postinstall commande..."

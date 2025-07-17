@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import { VIEW_PARAMETER_TYPE } from '@interfaces/View.ts';
 import { useMe } from '@services/auth/useMe.tsx';
 
+import styles from './Navigation.module.scss';
+
 export const Navigation = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const isTabActive = useTabActivityChecker();
@@ -28,12 +30,9 @@ export const Navigation = () => {
         <div
             data-testid="navigation"
             ref={containerRef}
-            className="flex gap-1 bg-[var(--background-color-header)] px-2 pt-1 overflow-x-auto whitespace-nowrap scrollbar-hide"
+            className={`${styles.navigation} flex gap-1 px-2 pt-1 overflow-x-auto whitespace-nowrap scrollbar-hide`}
         >
-            <Tab
-                isActive={isTabActive()}
-                dataTestId="tab-home"
-            >
+            <Tab isActive={isTabActive()} dataTestId="tab-home">
                 <House size={24} />
             </Tab>
 
