@@ -20,7 +20,7 @@ export default defineConfig(({mode}) => {
                 symfonyPlugin(),
             ],
             test: {
-                setupFiles: "./src/setupTests.ts",
+                setupFiles: "./src/tests/setupTests.ts",
                 environment: 'jsdom',
                 globals: true,
             },

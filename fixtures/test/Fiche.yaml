@@ -1,0 +1,21 @@
+App\Entity\Fiche:
+    fiche_1:
+        id: 'FICHE001'
+        idTerme: 'TERME001'
+        description: 'Description de test'
+        importation: 'IMPORT001'
+        configuration: '@fiche_2'
+    
+    fiche_2:
+        id: 'FICHE002'
+        idTerme: 'TERME002'
+        description: 'Configuration parente'
+        importation: null
+        configuration: null
+        
+    fiche_3:
+        id: 'FICHE003'
+        idTerme: 'Terme'
+        description: null
+        importation: null
+        configuration: '@fiche_2'

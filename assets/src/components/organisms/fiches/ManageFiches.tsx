@@ -11,7 +11,10 @@ import {
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import type { Fiche } from '@interfaces/Fiche.ts';
-import {AlphanumericValidator, LargeTextValidator} from "@tools/Validator.tsx";
+import {
+    AlphanumericValidator,
+    LargeTextValidator,
+} from '@tools/Validator.tsx';
 
 export const ManageFiches = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -23,7 +26,7 @@ export const ManageFiches = () => {
         configuration: '',
     });
 
-    const fichesParent: Fiche[] = []
+    const fichesParent: Fiche[] = [];
 
     return (
         <div>
@@ -41,9 +44,7 @@ export const ManageFiches = () => {
                 onClose={() => setOpenModal(false)}
                 dismissible
             >
-                <ModalHeader>
-                    <h3>Création d'une fiche</h3>
-                </ModalHeader>
+                <ModalHeader>Création d'une fiche</ModalHeader>
                 <ModalBody>
                     <div className="flex max-w-md flex-col gap-4">
                         <div className="grid grid-cols-2 gap-x-4">
@@ -74,8 +75,13 @@ export const ManageFiches = () => {
                                     onChange={(e) =>
                                         setFiche((prev) => ({
                                             ...prev,
-                                            id: AlphanumericValidator.sanitize(e.target.value),
-                                            idTerme: AlphanumericValidator.sanitize(e.target.value),
+                                            id: AlphanumericValidator.sanitize(
+                                                e.target.value
+                                            ),
+                                            idTerme:
+                                                AlphanumericValidator.sanitize(
+                                                    e.target.value
+                                                ),
                                         }))
                                     }
                                 />
@@ -94,7 +100,10 @@ export const ManageFiches = () => {
                                 onChange={(e) =>
                                     setFiche((prev) => ({
                                         ...prev,
-                                        description: LargeTextValidator.sanitize(e.target.value),
+                                        description:
+                                            LargeTextValidator.sanitize(
+                                                e.target.value
+                                            ),
                                     }))
                                 }
                             />
@@ -112,7 +121,10 @@ export const ManageFiches = () => {
                                 onChange={(e) =>
                                     setFiche((prev) => ({
                                         ...prev,
-                                        importation: AlphanumericValidator.sanitize(e.target.value),
+                                        importation:
+                                            AlphanumericValidator.sanitize(
+                                                e.target.value
+                                            ),
                                     }))
                                 }
                             />
@@ -134,27 +146,20 @@ export const ManageFiches = () => {
                                 }
                             >
                                 <option>---</option>
-                                {
-                                    fichesParent.map((fiche: Fiche) => (
-                                        <option key={fiche.id} value={fiche.id}>
-                                            {fiche.idTerme}
-                                        </option>
-                                    ))
-                                }
+                                {fichesParent.map((fiche: Fiche) => (
+                                    <option key={fiche.id} value={fiche.id}>
+                                        {fiche.idTerme}
+                                    </option>
+                                ))}
                             </Select>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button
-                        onClick={() => setOpenModal(false)}
-                    >
+                    <Button onClick={() => setOpenModal(false)}>
                         Sauvegarder
                     </Button>
-                    <Button
-                        color="red"
-                        onClick={() => setOpenModal(false)}
-                    >
+                    <Button color="red" onClick={() => setOpenModal(false)}>
                         Annuler
                     </Button>
                 </ModalFooter>
