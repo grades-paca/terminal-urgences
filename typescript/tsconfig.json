@@ -38,6 +38,7 @@
             "@interfaces/*": ["interfaces/*"],
             "@routes/*": ["routes/*"],
             "@services/*": ["services/*"],
+            "@tools/*": ["tools/*"],
             "@assets/*": ["assets/*"]
         }
     },

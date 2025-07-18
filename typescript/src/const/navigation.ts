@@ -1,1 +1,1 @@
-export const ROUTE_PARAMETER_FICHES = '/parameter/fiches'
+export const ROUTE_PARAMETER_FICHES = '/parameter/fiches';

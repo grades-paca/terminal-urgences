@@ -1,15 +1,17 @@
-import { Popover, TabItem, Tabs } from "flowbite-react";
-import { CircleQuestionMark, Lock } from "lucide-react";
-import {TUTOS_LINK} from "@const/const.ts";
+import { Popover, TabItem, Tabs } from 'flowbite-react';
+import { CircleQuestionMark, Lock } from 'lucide-react';
+import { TUTOS_LINK } from '@const/const.ts';
+import { ManageFiches } from '@organisms/fiches/ManageFiches.tsx';
 
 export const ParameterFiches = () => {
-    const rights = [true, false, false];
+    // TODO feature access not exist
+    const rights = [true, true, false];
     const subLink = 'admin-gestion-gestion-fiches-et-vues';
 
     const tabsItems = [
         {
             label: 'Création et gestion des fiches',
-            content: 'Contenu 1',
+            content: <ManageFiches />,
             link: TUTOS_LINK + subLink,
         },
         {
@@ -31,8 +33,8 @@ export const ParameterFiches = () => {
     );
 
     return (
-        <div className="mx-auto w-fit">
-            <Tabs variant="underline">
+        <div className="overflow-x-auto">
+            <Tabs aria-label="Full width tabs" variant="fullWidth">
                 {tabsItems.map((item, index) => {
                     const allowed = rights[index];
 
@@ -53,7 +55,11 @@ export const ParameterFiches = () => {
                     const title = allowed ? (
                         baseTitle
                     ) : (
-                        <Popover trigger="hover" placement="top" content={unauthorized}>
+                        <Popover
+                            trigger="hover"
+                            placement="top"
+                            content={unauthorized}
+                        >
                             <div className="flex items-center gap-1">
                                 {baseTitle}
                                 <Lock size={14} className="text-gray-400" />

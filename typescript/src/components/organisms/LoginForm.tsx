@@ -57,14 +57,14 @@ export const LoginForm = () => {
                             data-testid="submitButton"
                             type="submit"
                             disabled={loginMutation.isPending}
-                            className="text-white text-xl px-3"
+                            className="text-xl px-3"
                         >
                             ✓
                         </Button>
                     </form>
 
                     {loginMutation.isError && (
-                        <div className="text-[var(--color-alert)] text-sm font-bold">
+                        <div className="alert text-sm font-bold">
                             {(loginMutation.error as Error)?.message ||
                                 'Erreur inconnue'}
                         </div>
@@ -75,7 +75,7 @@ export const LoginForm = () => {
                     <span>Connecté en tant que {user.username}</span>
                     <button
                         onClick={handleLogout}
-                        className="text-white underline cursor-pointer"
+                        className="underline cursor-pointer"
                     >
                         Déconnexion
                     </button>
