@@ -2,8 +2,14 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import type * as ReactRouter from 'react-router';
-import {login, mockedUseLogin, mockedUseMe, mockMutate, notLogin} from "./utils/authMocks.ts";
-import {simpleRender} from "./utils/render.tsx";
+import {
+    login,
+    mockedUseLogin,
+    mockedUseMe,
+    mockMutate,
+    notLogin,
+} from './utils/authMocks.ts';
+import { simpleRender } from './utils/render.tsx';
 
 vi.mock('react-router', async () => {
     const actual = await vi.importActual<typeof ReactRouter>('react-router');
@@ -20,9 +26,9 @@ vi.mock('@hooks/useTabActivityChecker', () => ({
 
 describe('DefaultLayout login form', () => {
     it('allows user to submit login form', async () => {
-        notLogin()
+        notLogin();
 
-        simpleRender()
+        simpleRender();
 
         const usernameInput = screen.getByPlaceholderText(/Identifiant/i);
         const passwordInput = screen.getByPlaceholderText(/mot de passe/i);
@@ -47,7 +53,7 @@ describe('DefaultLayout login form', () => {
             error: new Error('Identifiants incorrects'),
         });
 
-        simpleRender()
+        simpleRender();
 
         expect(
             await screen.findByText(/Identifiants incorrects/i)
@@ -55,8 +61,8 @@ describe('DefaultLayout login form', () => {
     });
 
     it('shows connected user info when logged in', () => {
-        login()
-        simpleRender()
+        login();
+        simpleRender();
 
         expect(
             screen.getByText(/Connecté en tant que testuser/i)

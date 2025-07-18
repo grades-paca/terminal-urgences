@@ -1,23 +1,22 @@
-import {describe, expect, it} from "vitest";
-import {screen} from '@testing-library/react';
-import {login, notLogin} from "./utils/authMocks.ts";
-import {VIEW_DASHBOARD_TYPE} from "@interfaces/View.ts";
-import {mockedConfigView} from "./setupTests.ts";
-import {simpleRender} from "./utils/render.tsx";
+import { describe, expect, it } from 'vitest';
+import { screen } from '@testing-library/react';
+import { login, notLogin } from './utils/authMocks.ts';
+import { VIEW_DASHBOARD_TYPE } from '@interfaces/View.ts';
+import { mockedConfigView } from './setupTests.ts';
+import { simpleRender } from './utils/render.tsx';
 
 describe('Navigation display tabs check', () => {
-
     it('User not connected display single home tabs', async () => {
-        notLogin()
-        simpleRender()
+        notLogin();
+        simpleRender();
 
         expect(screen.getAllByRole('tab')).toHaveLength(1);
         expect(screen.getByTestId('tab-home')).toBeInTheDocument();
         expect(screen.queryByTestId('tab-cog')).toBeNull();
-    })
+    });
 
     it('User connected home tabs and menu', async () => {
-        login()
+        login();
 
         mockedConfigView.mockReturnValue({
             data: [
@@ -35,11 +34,11 @@ describe('Navigation display tabs check', () => {
                     id: 3,
                     label: 'parent',
                     type: VIEW_DASHBOARD_TYPE,
-                }
-            ]
+                },
+            ],
         });
 
-        simpleRender()
+        simpleRender();
 
         expect(screen.getAllByRole('tab')).toHaveLength(5);
         expect(screen.queryByTestId('tab-home')).toBeInTheDocument();
@@ -47,9 +46,9 @@ describe('Navigation display tabs check', () => {
         expect(screen.queryByTestId('tab-views-1')).toBeInTheDocument();
         expect(screen.queryByTestId('tab-views-2')).toBeInTheDocument();
         expect(screen.queryByTestId('tab-views-3')).toBeInTheDocument();
-    })
+    });
 
     // it('User connected minor access cog dropdown', async () => {
     //
     // })
-})
+});

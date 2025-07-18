@@ -2,10 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import tailwindcss from "@tailwindcss/vite";
-import flowbiteReact from "flowbite-react/plugin/vite";
 
 export default defineConfig({
-    plugins: [react(), tailwindcss(), flowbiteReact()],
+    plugins: [react(), tailwindcss()],
     test: {
         environment: 'jsdom',
         globals: true,
@@ -15,6 +14,7 @@ export default defineConfig({
         alias: {
             '@atoms': path.resolve(__dirname, 'src/components/atoms'),
             '@config': path.resolve(__dirname, 'src/config'),
+            '@const': path.resolve(__dirname, 'src/const'),
             '@molecules': path.resolve(__dirname, 'src/components/molecules'),
             '@organisms': path.resolve(__dirname, 'src/components/organisms'),
             '@templates': path.resolve(__dirname, 'src/components/templates'),
@@ -24,6 +24,7 @@ export default defineConfig({
             '@interfaces': path.resolve(__dirname, 'src/interfaces'),
             '@routes': path.resolve(__dirname, 'src/routes'),
             '@services': path.resolve(__dirname, 'src/services'),
+            '@tools': path.resolve(__dirname, 'src/tools'),
             '@assets': path.resolve(__dirname, 'src/assets')
         }
     },
