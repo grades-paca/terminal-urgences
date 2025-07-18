@@ -1,4 +1,4 @@
-import {ArrowDownToLine, Plus} from 'lucide-react';
+import { ArrowDownToLine, Plus } from 'lucide-react';
 
 export function ResumeDashboard() {
     // TODO CSS review with dev this feature
@@ -21,17 +21,15 @@ export function ResumeDashboard() {
                 <span className="text-[var(--text-color-alert)] font-bold">
                     Aujourd'hui : 0 -
                 </span>
-                <span>
-                    Durée moyenne de séjour : -- min.
-                </span>
+                <span>Durée moyenne de séjour : -- min.</span>
             </div>
 
             <div className="flex gap-2">
                 <button className="p-1 rounded hover:bg-[var(--background-button-color-hover)] transition-colors">
-                    <Plus size={20}/>
+                    <Plus size={20} />
                 </button>
                 <button className="p-1 rounded hover:bg-[var(--background-button-color-hover)] transition-colors">
-                    <ArrowDownToLine size={20}/>
+                    <ArrowDownToLine size={20} />
                 </button>
             </div>
         </div>
