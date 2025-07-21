@@ -112,6 +112,17 @@ Cette commande :
 * Installe le certificat racine local pour HTTPS (macOS)
 * Démarre un service Redis utilisé par Symfony (sessions/cache)
 
+### 3. Accès aux interfaces et identifiants de test
+   
+* API (Swagger) : https://terminal-urgence.localhost:8043/api/docs#
+* Frontend : http://terminal-urgence.localhost:3000/
+* Profiler Symfony : https://terminal-urgence.localhost:8043/_profiler/
+
+### 4. Identifiants de test :
+
+* Utilisateur : superAdmin
+* Mot de passe : 123ADMIN321
+
 ---
 
 ## 6. Commandes Make courantes (essentielles)

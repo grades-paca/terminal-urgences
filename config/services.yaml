@@ -27,7 +27,7 @@ services:
         class: Redis
         factory: [ 'Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection' ]
         arguments:
-            - 'redis://redis:6379'
+            - '%env(resolve:REDIS_URL)%'
 
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:

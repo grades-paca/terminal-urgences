@@ -3,5 +3,5 @@ snc_redis:
         default:
             type: phpredis
             alias: default
-            dsn: redis://redis
+            dsn: '%env(resolve:REDIS_URL)%'
             logging: true

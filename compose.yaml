@@ -36,12 +36,13 @@ services:
                 protocol: udp
                 
     redis:
-        image: redis:7-alpine
+        image: redis/redis-stack
         ports:
             - "6379:6379"
+            - "8001:8001"
         volumes:
             - redis_data:/data
-
+    
     typescript:
         image: node:20
         volumes:

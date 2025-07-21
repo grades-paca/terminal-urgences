@@ -15,14 +15,15 @@ $application->setAutoExit(false);
 $output = new NullOutput();
 
 $application->run(new ArrayInput([
-    'command' => 'doctrine:schema:drop',
+    'command' => 'doctrine:database:drop',
     '--force' => true,
+    '--if-exists' => true,
     '--env' => 'test',
     '--quiet' => true,
 ]), $output);
 
 $application->run(new ArrayInput([
-    'command' => 'doctrine:schema:create',
+    'command' => 'doctrine:database:create',
     '--env' => 'test',
     '--quiet' => true,
 ]), $output);
@@ -35,6 +36,8 @@ $application->run(new ArrayInput([
 
 $application->run(new ArrayInput([
     'command' => 'hautelook:fixtures:load',
-    '--no-interaction' => true,
     '--env' => 'test',
+    '--no-bundles' => true,
+    '--no-interaction' => true,
+    '--purge-with-truncate' => true,
 ]), $output);
