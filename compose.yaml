@@ -7,7 +7,7 @@ services:
         image: ${IMAGES_PREFIX:-}app-php
         restart: unless-stopped
         environment:
-            SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
+            SERVER_NAME: ${SERVER_NAME:-localhost}
             MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
             MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
             DATABASE_URL: "${DATABASE_URL:-mysql://user:pass@mariadb:3306/app?serverVersion=11&charset=utf8mb4}"
@@ -34,6 +34,10 @@ services:
             -   target: 443
                 published: ${HTTP3_PORT:-443}
                 protocol: udp
+            # Vite
+            -   target: 3000
+                published: ${NODE_PORT:-3000}
+                protocol: tcp
                 
     redis:
         image: redis/redis-stack
@@ -42,17 +46,6 @@ services:
             - "8001:8001"
         volumes:
             - redis_data:/data
-    
-    typescript:
-        image: node:20
-        volumes:
-            - ./typescript:/app
-        working_dir: /app
-        ports:
-            -   target: 3000
-                published: ${NODE_PORT:-3000}
-                protocol: tcp
-        command: sh -c "npm install && npm run dev"
     
     # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
     ###> symfony/mercure-bundle ###

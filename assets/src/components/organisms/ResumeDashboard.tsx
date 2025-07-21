@@ -1,10 +1,10 @@
-import { ArrowDownToLine, Plus } from 'lucide-react';
+import {ArrowDownToLine, Plus} from 'lucide-react';
 
 export function ResumeDashboard() {
     return (
         <div
             className="flex justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-md shadow-sm"
-            style={{ boxShadow: '0 1px 4px var(--box-shadow-color)' }}
+            style={{boxShadow: '0 1px 4px var(--box-shadow-color)'}}
         >
             <div className="text-sm text-[var(--text-color)] flex flex-wrap gap-x-2 gap-y-1">
                 <span>
@@ -17,16 +17,19 @@ export function ResumeDashboard() {
                     <strong>Attendus :</strong> 0 -
                 </span>
                 <span className="text-[var(--text-color-alert)] font-bold">
-                    Aujourd'hui : 0
-                </span>{' '}
-                -<span>Durée moyenne de séjour : -- min.</span>
+                    Aujourd'hui : 0 -
+                </span>
+                <span>
+                    Durée moyenne de séjour : -- min.
+                </span>
             </div>
+
             <div className="flex gap-2">
                 <button className="p-1 rounded hover:bg-[var(--background-button-color-hover)] transition-colors">
-                    <Plus size={20} />
+                    <Plus size={20}/>
                 </button>
                 <button className="p-1 rounded hover:bg-[var(--background-button-color-hover)] transition-colors">
-                    <ArrowDownToLine size={20} />
+                    <ArrowDownToLine size={20}/>
                 </button>
             </div>
         </div>

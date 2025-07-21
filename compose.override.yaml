@@ -28,10 +28,6 @@ services:
         networks:
             - appnet
 
-    typescript:
-        networks:
-            - appnet
-
     redis:
         networks:
             - appnet

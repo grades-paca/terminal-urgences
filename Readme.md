@@ -1,4 +1,4 @@
-# Terminal Urgences – Base Symfony + TypeScript
+# Terminal Urgences – Base Symfony + Vite (React + TS)
 
 ## Sommaire
 
@@ -15,7 +15,7 @@
 
 ## 1. Contexte / Objectif du projet
 
-Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/dunglas/symfony-docker), adapté pour une application combinant un backend Symfony et un frontend TypeScript. Il fournit un environnement Dockerisé prêt à l'emploi, avec les outils nécessaires pour le développement, les tests et l'intégration continue.
+Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/dunglas/symfony-docker), adapté pour une application combinant un backend Symfony et un frontend TypeScript via Vite. Il fournit un environnement Dockerisé prêt à l'emploi, avec les outils nécessaires pour le développement, les tests et l'intégration continue.
 
 > La documentation d'origine est conservée dans `docs/Dunglas.md`.
 
@@ -25,6 +25,7 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 
 * [Documentation Dunglas](docs/Dunglas.md)
 * [Repo d'origine](https://github.com/dunglas/symfony-docker)
+* [ViteBundle (Pentatrion)](https://github.com/Pentatrion/vite-bundle)
 
 ---
 
@@ -41,14 +42,16 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 * Runtime FrankenPHP
 * Redis (sessions, cache, lock distribué)
 
-### Frontend – TypeScript + React
+### Frontend – React + TypeScript (via Vite)
 
 * React 19.1
 * TypeScript 4.9
+* Vite + vite-plugin-symfony
 * React Router DOM 7.6
 * @tanstack/react-query
 * @tanstack/react-table
 * Testing Library (DOM, React, User Event)
+* TailwindCSS + Flowbite React
 * Icônes : Lucide-react
 * SCSS support via `sass`
 * Alias de résolution JS/TS
@@ -76,13 +79,14 @@ Ce projet est basé sur le dépôt [Dunglas/symfony-docker](https://github.com/d
 * **Backend Symfony** avec API Platform exposé en REST
 * **Authentification JWT** (clé privée/publique générée automatiquement)
 * **Base MariaDB** avec migration + jeux de données via Alice
-* **Frontend React/TS** servie via conteneur dédié
+* **Frontend React/TS** intégré à Symfony via Vite (dossier `assets/`)
 * **HTTPS local** avec certificat racine installé
 * **Qualité code** intégrée (GrumPHP, PHPStan, ESLint, Prettier, tests)
-  * Support Redis pour :
-  * Sessions PHP centralisées (multi-instance)
-  * Cache partagé (Redis adapter)
-  * Locks distribués (Symfony Lock Component)
+* Support Redis pour :
+
+    * Sessions PHP centralisées (multi-instance)
+    * Cache partagé (Redis adapter)
+    * Locks distribués (Symfony Lock Component)
 
 ---
 
@@ -113,10 +117,10 @@ Cette commande :
 * Démarre un service Redis utilisé par Symfony (sessions/cache)
 
 ### 3. Accès aux interfaces et identifiants de test
-   
-* API (Swagger) : https://terminal-urgence.localhost:8043/api/docs#
-* Frontend : http://terminal-urgence.localhost:3000/
-* Profiler Symfony : https://terminal-urgence.localhost:8043/_profiler/
+
+* API (Swagger) : [https://terminal-urgence.localhost:8043/api/docs#](https://terminal-urgence.localhost:8043/api/docs#)
+* Frontend : [https://terminal-urgence.localhost:8043/](https://terminal-urgence.localhost:8043/)
+* Profiler Symfony : [https://terminal-urgence.localhost:8043/\_profiler/](https://terminal-urgence.localhost:8043/_profiler/)
 
 ### 4. Identifiants de test :
 
@@ -128,7 +132,7 @@ Cette commande :
 ## 6. Commandes Make courantes (essentielles)
 
 | Commande                     | Description                                               |
-|------------------------------|-----------------------------------------------------------|
+| ---------------------------- | --------------------------------------------------------- |
 | `make install-dev`           | Build + BDD + admin + certif : environnement complet prêt |
 | `make sh` / `make bash`      | Accès au conteneur PHP (shell)                            |
 | `make install-root-cert-dev` | Ajoute le certificat local pour le HTTPS                  |
@@ -149,6 +153,7 @@ terminal-urgences/
 ├── .github/
 ├── .hooks/          # Hooks Git
 ├── .make/           # Commandes Make personnalisées
+├── assets/          # Code frontend React/TS (via Vite)
 ├── bin/
 ├── config/          # Config Symfony
 ├── docs/            # Documentation projet
@@ -158,7 +163,6 @@ terminal-urgences/
 ├── src/             # Code source Symfony
 ├── templates/       # Templates Twig
 ├── tests/           # Tests PHPUnit
-├── typescript/      # Code frontend React/TS
 ```
 
 ---
@@ -166,7 +170,7 @@ terminal-urgences/
 ## 8. Tests & Qualité
 
 * ✅ **Codeception** : tests backend (`make test`)
-* ✅ **Testing Library** : tests DOM/React dans `typescript/src/__tests__`
+* ✅ **Testing Library** : tests DOM/React dans `assets/src/__tests__`
 * ✅ **GrumPHP** : vérification hooks (lint, test, phpstan, etc.)
 * ✅ **ESLint + Prettier** : fix auto avec `make ts-fix`
 * ✅ **TypeScript** : check complet avec `make tscheck`
