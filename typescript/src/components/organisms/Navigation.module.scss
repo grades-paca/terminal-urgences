@@ -1,0 +1,33 @@
+@use '../../styles/variables' as *;
+
+.tabBar {
+    display: flex;
+    background-color: $background-color-header;
+    padding: 4px 8px 0 8px;
+    gap: 4px;
+
+    overflow-x: auto;
+    overflow-y: visible;
+    white-space: nowrap;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.moreMenu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 6px 6px 0 0;
+    background-color: $background-tab-color-inactive;
+    color: $background-tab-text-color-inactive;
+    cursor: pointer;
+
+    &:hover .moreDropdown {
+        display: block;
+    }
+}

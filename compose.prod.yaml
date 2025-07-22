@@ -1,10 +1,16 @@
 # Production environment override
 services:
-  php:
-    build:
-      context: .
-      target: frankenphp_prod
-    environment:
-      APP_SECRET: ${APP_SECRET}
-      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+    php:
+        build:
+            context: .
+            target: frankenphp_prod
+        environment:
+            APP_SECRET: ${APP_SECRET}
+            MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+            MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+            CADDYFILE_WORKER_BLOCK: |
+                worker {
+                  file ./public/index.php
+                  env APP_RUNTIME Runtime\FrankenPhpSymfony\Runtime
+                  {$FRANKENPHP_WORKER_CONFIG}
+                }

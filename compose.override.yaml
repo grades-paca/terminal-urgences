@@ -1,26 +1,94 @@
 # Development environment override
 services:
-  php:
-    build:
-      context: .
-      target: frankenphp_dev
-    volumes:
-      - ./:/app
-      - ./frankenphp/Caddyfile:/etc/frankenphp/Caddyfile:ro
-      - ./frankenphp/conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
-      # If you develop on Mac or Windows you can remove the vendor/ directory
-      #  from the bind-mount for better performance by enabling the next line:
-      #- /app/vendor
-    environment:
-      FRANKENPHP_WORKER_CONFIG: watch
-      MERCURE_EXTRA_DIRECTIVES: demo
-      # See https://xdebug.org/docs/all_settings#mode
-      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
-      APP_ENV: "${APP_ENV:-dev}"
-    extra_hosts:
-      # Ensure that host.docker.internal is correctly defined on Linux
-      - host.docker.internal:host-gateway
-    tty: true
+    php:
+        build:
+            context: ./
+            target: frankenphp_dev
+        volumes:
+            - ./:/app
+            - ./frankenphp/Caddyfile:/etc/frankenphp/Caddyfile:ro
+            - ./frankenphp/conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
+            # If you develop on Mac or Windows you can remove the vendor/ directory
+            #  from the bind-mount for better performance by enabling the next line:
+            #- /app/vendor
+        environment:
+            PHP_CS_FIXER_IGNORE_ENV: 1
+            FRANKENPHP_WORKER_CONFIG: watch
+            MERCURE_EXTRA_DIRECTIVES: demo
+            # See https://xdebug.org/docs/all_settings#mode
+            XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+            APP_ENV: "${APP_ENV:-dev}"
+        extra_hosts:
+            # Ensure that host.docker.internal is correctly defined on Linux
+            - host.docker.internal:host-gateway
+        tty: true
+        depends_on:
+            mariadb:
+                condition: service_healthy
+        networks:
+            - appnet
+
+    typescript:
+        networks:
+            - appnet
+
+    redis:
+        networks:
+            - appnet
+    
+    mariadb:
+        image: mariadb:11
+        container_name: dev_mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: app
+            MYSQL_USER: user
+            MYSQL_PASSWORD: pass
+        healthcheck:
+            test: [ "CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/3306'" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 20s
+        ports:
+            -   target: 3306
+                published: ${MARIADB_PORT:-3306}
+                protocol: tcp
+        volumes:
+            - ./.docker/mariadb/data/:/var/lib/mysql:rw
+            - .docker/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - appnet
+
+    postgres:
+        image: postgres:16
+        container_name: dev_postgres
+        environment:
+            POSTGRES_DB: app
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: pass
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}" ]
+            timeout: 5s
+            retries: 5
+            start_period: 60s
+        ports:
+            -   target: 5432
+                published: ${POSTGRE_PORT:-5432}
+                protocol: tcp
+        volumes:
+            - ./.docker/postgres/data/:/var/lib/postgresql/data:rw
+        networks:
+            - appnet
+
+    adminer:
+        image: adminer
+        ports:
+            -   target: 8080
+                published: ${ADMINER_PORT:-8080}
+                protocol: tcp
+        networks:
+            - appnet
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###

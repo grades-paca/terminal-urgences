@@ -1,0 +1,43 @@
+#!/bin/sh
+
+DIFF=$(git diff --staged --name-only | cat)
+
+# GrumPHP (PHP)
+export GRUMPHP_GIT_WORKING_DIR="$(git rev-parse --show-toplevel)"
+docker compose exec -T -e DIFF="$DIFF" php bash -c 'printf "$DIFF" | ./vendor/bin/grumphp git:pre-commit --skip-success-output'
+GRUMPHP_STATUS=$?
+
+# TypeScript (TS)
+TS_CHANGED=$(echo "$DIFF" | grep -E '\.tsx?$')
+if [ -n "$TS_CHANGED" ]; then
+    echo "🔎 Fichiers TypeScript détectés. Lancement des vérifications..."
+
+    TS_CHANGED_IN_CONTAINER=$(echo "$TS_CHANGED" | sed 's|^typescript/||')
+
+    docker compose exec -T typescript npx eslint $TS_CHANGED_IN_CONTAINER
+    ESLINT_STATUS=$?
+
+    docker compose exec -T typescript npx tsc --noEmit
+    TSC_STATUS=$?
+
+    docker compose exec -T typescript npm run test -- --watchAll=false --silent --passWithNoTests
+    TEST_STATUS=$?
+else
+    echo "✅ Aucun fichier TypeScript modifié. Vérifications TS ignorées."
+    ESLINT_STATUS=0
+    TSC_STATUS=0
+    TEST_STATUS=0
+fi
+
+# Vérifie les statuts
+if [ $GRUMPHP_STATUS -ne 0 ]; then
+    echo "❌ Vérification GrumPHP échouée. Commit annulé."
+    exit 1
+fi
+
+if [ $ESLINT_STATUS -ne 0 ] || [ $TSC_STATUS -ne 0 ] || [ $TEST_STATUS -ne 0 ]; then
+    echo "❌ Une ou plusieurs vérifications TypeScript ont échoué. Commit annulé."
+    exit 1
+fi
+
+exit 0

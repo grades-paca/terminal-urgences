@@ -1,0 +1,18 @@
+{
+    "root": true,
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "no-console": "warn",
+        "no-debugger": "error",
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/no-explicit-any": "error",
+        "react-hooks/exhaustive-deps": "error"
+    }
+}
