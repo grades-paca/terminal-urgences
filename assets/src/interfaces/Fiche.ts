@@ -1,7 +1,9 @@
 export interface Fiche {
     id: string;
     idTerme: string;
-    description: string;
-    importation: string;
-    configuration: string;
+    description: string | null;
+    importation: string | null;
+    configuration: string | null;
 }
+
+export type FicheError = Record<string, string>;

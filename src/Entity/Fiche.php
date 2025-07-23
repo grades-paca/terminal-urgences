@@ -28,12 +28,12 @@ class Fiche
 {
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 32)]
-    #[Assert\Length(max: 32)]
+    #[Assert\Length(min: 5, max: 32)]
     #[AlphanumericConstraint]
     private string $id;
 
     #[ORM\Column(type: 'string', length: 32, unique: true)]
-    #[Assert\Length(max: 32)]
+    #[Assert\Length(min: 5, max: 32)]
     #[AlphanumericConstraint]
     private string $idTerme;
 
