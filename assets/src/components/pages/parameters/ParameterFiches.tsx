@@ -1,7 +1,7 @@
 import { Popover, TabItem, Tabs } from 'flowbite-react';
 import { CircleQuestionMark, Lock } from 'lucide-react';
 import { TUTOS_LINK } from '@const/const.ts';
-import {ManageFiches} from "@organisms/fiches/ManageFiches.tsx";
+import { ManageFiches } from '@organisms/fiches/ManageFiches.tsx';
 
 export const ParameterFiches = () => {
     // TODO feature access not exist

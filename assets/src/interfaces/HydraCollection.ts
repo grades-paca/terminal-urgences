@@ -23,6 +23,14 @@ export interface ApiPlatformError {
     }[];
 }
 
+export interface ApiPlatformResource {
+    '@context': string;
+    '@id': string;
+    '@type': string;
+}
+
+export type ApiPlatformResponse<T> = ApiPlatformResource & T;
+
 export interface HydraCollection<T> {
     '@context': string;
     '@id': string;
@@ -31,8 +39,8 @@ export interface HydraCollection<T> {
     totalItems: number;
 }
 
-export interface UseCreateOptions {
-    onSuccess?: (data: any) => void;
+export interface UseCreateOptions<T> {
+    onSuccess?: (data: ApiPlatformResponse<T>) => void;
     onError?: (error: ApiPlatformError | Error) => void;
 }
 
@@ -41,8 +49,8 @@ export function isApiPlatformError(error: unknown): error is ApiPlatformError {
         typeof error === 'object' &&
         error !== null &&
         '@type' in error &&
-        (error as any)['@type'] === 'ConstraintViolation' &&
-        Array.isArray((error as any).violations)
+        error['@type'] === 'ConstraintViolation' &&
+        'violations' in error &&
+        Array.isArray(error['violations'])
     );
 }
-

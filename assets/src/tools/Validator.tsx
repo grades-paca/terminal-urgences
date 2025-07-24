@@ -18,7 +18,7 @@ export const LargeTextValidator = {
 
     sanitize(input: string, maxLength: number = 255): string {
         const cleaned = input.replace(
-            /[^\p{L}0-9\s.,;:!?'"()[\]{}\-_\/@#€%&+=]/gu,
+            /[^\p{L}0-9\s.,;:!?'"()[\]{}\-_/@#€%&+=]/gu,
             ''
         );
         return cleaned.slice(0, maxLength);

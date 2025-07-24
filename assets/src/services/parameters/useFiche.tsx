@@ -1,6 +1,10 @@
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import type {Fiche} from '@interfaces/Fiche.ts';
-import type {ApiPlatformError, HydraCollection, UseCreateOptions} from "@interfaces/HydraCollection.ts";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { Fiche } from '@interfaces/Fiche.ts';
+import type {
+    ApiPlatformError,
+    HydraCollection,
+    UseCreateOptions,
+} from '@interfaces/HydraCollection.ts';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -25,7 +29,10 @@ export const useFiches = () => {
     });
 };
 
-export const useCreateFiche = ({ onSuccess, onError } : UseCreateOptions) => {
+export const useCreateFiche = ({
+    onSuccess,
+    onError,
+}: UseCreateOptions<Fiche>) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (fiche: Fiche) => {

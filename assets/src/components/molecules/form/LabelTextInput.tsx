@@ -1,21 +1,24 @@
-import {HelperText, Label, TextInput, type TextInputProps} from "flowbite-react";
+import {
+    HelperText,
+    Label,
+    TextInput,
+    type TextInputProps,
+} from 'flowbite-react';
 
-export const LabelTextInput = (
-    {
-        id,
-        label,
-        value,
-        onChange,
-        error,
-        ...rest
-    }: {
-        id: string;
-        label: string;
-        value: string | undefined;
-        onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-        error?: string;
-    } & Omit<TextInputProps, 'value' | 'onChange'>
-) => (
+export const LabelTextInput = ({
+    id,
+    label,
+    value,
+    onChange,
+    error,
+    ...rest
+}: {
+    id: string;
+    label: string;
+    value: string | undefined;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    error?: string;
+} & Omit<TextInputProps, 'value' | 'onChange'>) => (
     <div className="flex flex-col">
         <Label htmlFor={id}>{label}</Label>
         <TextInput
@@ -25,8 +28,6 @@ export const LabelTextInput = (
             color={error ? 'failure' : undefined}
             {...rest}
         />
-        {error && (
-            <HelperText color="failure">{error}</HelperText>
-        )}
+        {error && <HelperText color="failure">{error}</HelperText>}
     </div>
 );
