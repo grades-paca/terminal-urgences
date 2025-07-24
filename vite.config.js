@@ -6,7 +6,6 @@ import path from 'path';
 import tailwindcss from "@tailwindcss/vite";
 import flowbiteReact from "flowbite-react/plugin/vite";
 
-
 export default defineConfig(({mode}) => {
         const env = loadEnv(mode, process.cwd())
         const SERVER_NAME = env.VITE_SERVER_NAME;
