@@ -14,13 +14,13 @@ if [ -n "$TS_CHANGED" ]; then
 
     TS_CHANGED_IN_CONTAINER=$(echo "$TS_CHANGED" | sed 's|^assets/||')
 
-    docker compose exec -T php -w /app/assets npx eslint $TS_CHANGED_IN_CONTAINER
+    docker compose exec -T -w /app/assets php npx eslint $TS_CHANGED_IN_CONTAINER
     ESLINT_STATUS=$?
 
-    docker compose exec -T php -w /app/assets npx tsc --noEmit
+    docker compose exec -T -w /app/assets php npx tsc --noEmit
     TSC_STATUS=$?
 
-    docker compose exec -T php npm run test -- --watchAll=false --silent --passWithNoTests
+    docker compose exec -T php npm run test
     TEST_STATUS=$?
 else
     echo "✅ Aucun fichier TypeScript modifié. Vérifications TS ignorées."
