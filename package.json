@@ -9,8 +9,9 @@
         "lint": "eslint .",
         "preview": "vite preview",
         "test": "vitest run",
-        "postinstall": "flowbite-react patch",
-        "buildCss": "flowbite-react build"
+        "flowbite-init": "flowbite-react init",
+        "flowbite-build": "flowbite-react build",
+        "flowbite-patch": "flowbite-react patch"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.11",

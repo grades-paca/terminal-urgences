@@ -47,8 +47,4 @@ describe('Navigation display tabs check', () => {
         expect(screen.queryByTestId('tab-views-2')).toBeInTheDocument();
         expect(screen.queryByTestId('tab-views-3')).toBeInTheDocument();
     });
-
-    // it('User connected minor access cog dropdown', async () => {
-    //
-    // })
 });
