@@ -3,6 +3,7 @@ import type { ChangeEvent, ReactNode, SelectHTMLAttributes } from 'react';
 
 export const LabelSelectInput = ({
     id,
+    dataTestId,
     label,
     value,
     onChange,
@@ -11,6 +12,7 @@ export const LabelSelectInput = ({
     ...rest
 }: {
     id: string;
+    dataTestId?: string;
     label: string;
     value: string | undefined;
     onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
@@ -22,6 +24,7 @@ export const LabelSelectInput = ({
             <Label htmlFor={id}>{label}</Label>
             <Select
                 id={id}
+                data-testid={dataTestId ?? id}
                 value={value}
                 onChange={onChange}
                 color={error ? 'failure' : undefined}
