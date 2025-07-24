@@ -7,6 +7,7 @@ import {
 
 export const LabelTextInput = ({
     id,
+    dataTestId,
     label,
     value,
     onChange,
@@ -15,6 +16,7 @@ export const LabelTextInput = ({
 }: {
     id: string;
     label: string;
+    dataTestId?: string;
     value: string | undefined;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
@@ -23,6 +25,7 @@ export const LabelTextInput = ({
         <Label htmlFor={id}>{label}</Label>
         <TextInput
             id={id}
+            data-testid={dataTestId ?? id}
             value={value}
             onChange={onChange}
             color={error ? 'failure' : undefined}

@@ -76,6 +76,7 @@ export const ModalUpdateManageFiche = ({
                     e.preventDefault();
                     saveFiche();
                 }}
+                data-testId="modal-create-update-manage-fiche"
             >
                 <ModalHeader>Création d'une fiche</ModalHeader>
                 <ModalBody>
@@ -86,7 +87,7 @@ export const ModalUpdateManageFiche = ({
                                     id={'id'}
                                     label={'ID'}
                                     value={fiche.id}
-                                    minLength={5}
+                                    minLength={4}
                                     maxLength={32}
                                     disabled
                                 />
@@ -97,7 +98,7 @@ export const ModalUpdateManageFiche = ({
                                     id={'idTerme'}
                                     label={'IDTerm *'}
                                     value={fiche.idTerme}
-                                    minLength={5}
+                                    minLength={4}
                                     maxLength={32}
                                     required
                                     error={ficheError.idTerme}
@@ -142,7 +143,7 @@ export const ModalUpdateManageFiche = ({
                                 id={'importation'}
                                 label={'Importation'}
                                 value={fiche.importation ?? undefined}
-                                minLength={5}
+                                minLength={4}
                                 maxLength={32}
                                 error={ficheError.importation}
                                 onChange={(e) =>
@@ -183,7 +184,12 @@ export const ModalUpdateManageFiche = ({
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button type="submit">Sauvegarder</Button>
+                    <Button
+                        type="submit"
+                        data-testid={'modal-create-update-manage-fiche-submit'}
+                    >
+                        Sauvegarder
+                    </Button>
                     <Button color="red" onClick={() => setOpenModal(false)}>
                         Annuler
                     </Button>

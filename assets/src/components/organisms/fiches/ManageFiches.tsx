@@ -21,7 +21,11 @@ export const ManageFiches = () => {
             <div className="flex justify-between">
                 <div className="manage-fiches-filter"></div>
                 <div className="manage-fiches-button-add m-1">
-                    <Button pill onClick={() => setOpenModal(true)}>
+                    <Button
+                        pill
+                        onClick={() => setOpenModal(true)}
+                        data-testid="manage-fiches-add-btn"
+                    >
                         <Plus size={24} />
                     </Button>
                 </div>
