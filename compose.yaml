@@ -49,7 +49,6 @@ services:
         volumes:
             - ./assets:/app/assets
             - ./.flowbite-react:/app/.flowbite-react
-            - ./assets:/app/assets
             - ./package.json:/app/package.json
             - ./package-lock.json:/app/package-lock.json
             - ./vite.config.js:/app/vite.config.js
