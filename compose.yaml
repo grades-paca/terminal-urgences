@@ -7,7 +7,7 @@ services:
         image: ${IMAGES_PREFIX:-}app-php
         restart: unless-stopped
         environment:
-            SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
+            SERVER_NAME: ${SERVER_NAME:-localhost}
             MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
             MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
             DATABASE_URL: "${DATABASE_URL:-mysql://user:pass@mariadb:3306/app?serverVersion=11&charset=utf8mb4}"
@@ -18,9 +18,17 @@ services:
             # The two next lines can be removed after initial installation
             SYMFONY_VERSION: ${SYMFONY_VERSION:-}
             STABILITY: ${STABILITY:-stable}
+        healthcheck:
+            test: [ "CMD", "php", "bin/console", "about" ]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+            start_period: 10s
         volumes:
             - caddy_data:/data
             - caddy_config:/config
+            - caddy_certs:/data/caddy
+            - ./public/build:/app/public/build
         ports:
             # HTTP
             -   target: 80
@@ -34,6 +42,28 @@ services:
             -   target: 443
                 published: ${HTTP3_PORT:-443}
                 protocol: udp
+    
+    typescript:
+        image: node:20
+        environment:
+            VITE_SERVER_NAME: ${VITE_SERVER_NAME:-localhost}
+        volumes:
+            - ./assets:/app/assets
+            - ./.flowbite-react:/app/.flowbite-react
+            - ./package.json:/app/package.json
+            - ./package-lock.json:/app/package-lock.json
+            - ./vite.config.js:/app/vite.config.js
+            - ./public/build:/app/public/build
+            - caddy_certs:/data/caddy
+        working_dir: /app
+        ports:
+            -   target: 3000
+                published: ${NODE_PORT:-3000}
+                protocol: tcp
+        depends_on:
+            php:
+                condition: service_healthy
+        command: sh -c "npm install && npm run dev"
                 
     redis:
         image: redis/redis-stack
@@ -43,17 +73,6 @@ services:
         volumes:
             - redis_data:/data
     
-    typescript:
-        image: node:20
-        volumes:
-            - ./typescript:/app
-        working_dir: /app
-        ports:
-            -   target: 3000
-                published: ${NODE_PORT:-3000}
-                protocol: tcp
-        command: sh -c "npm install && npx react-app-rewired start"
-    
     # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
     ###> symfony/mercure-bundle ###
     ###< symfony/mercure-bundle ###
@@ -61,4 +80,5 @@ services:
 volumes:
     caddy_data:
     caddy_config:
+    caddy_certs:
     redis_data:
