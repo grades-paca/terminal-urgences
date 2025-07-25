@@ -3,6 +3,7 @@ import { Tab } from '@molecules/Tab';
 import { useConfigView } from '@services/config/useConfigView';
 import { House } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { WIDTH_MOBILE_SCREEN } from '@const/const.ts';
 
 export const Navigation = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -12,7 +13,7 @@ export const Navigation = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
+            setIsMobile(window.innerWidth < WIDTH_MOBILE_SCREEN);
         };
 
         handleResize();

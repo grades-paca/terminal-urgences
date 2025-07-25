@@ -99,7 +99,16 @@ git clone https://github.com/grades-paca/terminal-urgences
 cd terminal-urgences
 ```
 
-### 2. Lancer l’environnement de développement complet
+### 2. Fichiers d'environnement
+
+Avant toute chose, pensez à copier les fichiers d'exemple d'environnement :
+
+```bash
+cp .env.dist .env
+cp assets/.env.dist assets/.env
+```
+
+### 3. Lancer l’environnement de développement complet
 
 ```bash
 make install-dev

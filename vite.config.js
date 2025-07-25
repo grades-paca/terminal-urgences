@@ -27,6 +27,7 @@ export default defineConfig(({mode}) => {
             resolve: {
                 alias: {
                     '@atoms': path.resolve(__dirname, 'assets/src/components/atoms'),
+                    "@const": path.resolve(__dirname, 'assets/src/const'),
                     '@molecules': path.resolve(__dirname, 'assets/src/components/molecules'),
                     '@organisms': path.resolve(__dirname, 'assets/src/components/organisms'),
                     '@templates': path.resolve(__dirname, 'assets/src/components/templates'),

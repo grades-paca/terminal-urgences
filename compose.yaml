@@ -28,6 +28,7 @@ services:
             - caddy_data:/data
             - caddy_config:/config
             - caddy_certs:/data/caddy
+            - ./public/build:/app/public/build
         ports:
             # HTTP
             -   target: 80
@@ -52,12 +53,16 @@ services:
             - ./package.json:/app/package.json
             - ./package-lock.json:/app/package-lock.json
             - ./vite.config.js:/app/vite.config.js
+            - ./public/build:/app/public/build
             - caddy_certs:/data/caddy
         working_dir: /app
         ports:
             -   target: 3000
                 published: ${NODE_PORT:-3000}
                 protocol: tcp
+        depends_on:
+            php:
+                condition: service_healthy
         command: sh -c "npm install && npm run dev"
                 
     redis:

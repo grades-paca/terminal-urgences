@@ -26,4 +26,4 @@ export default tseslint.config([
         ],
     },
 ])
-w
+
