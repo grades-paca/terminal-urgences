@@ -1,9 +1,11 @@
 import { ArrowDownToLine, Plus } from 'lucide-react';
 
 export function ResumeDashboard() {
+    // TODO CSS review with dev this feature
+
     return (
         <div
-            className="flex justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-md shadow-sm"
+            className="flex justify-between items-center px-4 py-3 rounded-md shadow-sm"
             style={{ boxShadow: '0 1px 4px var(--box-shadow-color)' }}
         >
             <div className="text-sm text-[var(--text-color)] flex flex-wrap gap-x-2 gap-y-1">

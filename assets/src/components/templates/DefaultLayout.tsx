@@ -36,7 +36,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
     return (
         <div className="min-h-screen">
-            <header className="bg-[var(--background-header-color)] text-white">
+            <header className={styles.header}>
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-4 md:px-8 py-4">
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
                         <div className="flex items-center">
@@ -46,10 +46,10 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                         </div>
 
                         <div className="flex flex-col">
-                            <div className="text-white font-bold text-xl md:text-2xl">
+                            <div className="font-bold text-xl md:text-2xl">
                                 Terminal des Urgences - Dev
                             </div>
-                            <div className="text-white font-bold text-lg md:text-xl">
+                            <div className="font-bold text-lg md:text-xl">
                                 {dateTime}
                             </div>
                         </div>
