@@ -39,7 +39,7 @@
         --color-secondary-800: #e5e5e5;
         --color-secondary-900: #ffffff;
 
-        --color-alert:  #C1443C;
+        --color-alert:  #FFA733;
     }
 
     :root {
@@ -54,7 +54,7 @@
         --color-secondary-800: #1f1f1f;
         --color-secondary-900: #000000;
 
-        --color-alert:  #C1443C;
+        --color-alert:  #EB851B;
     }
 }
 
@@ -64,7 +64,7 @@
     }
 
     .standardBackground {
-        background-color: var(--color-primary-700);
-        color: var(--color-secondary-50);
+        background-color: var(--color-primary-50);
+        color: var(--color-secondary-900);
     }
 }

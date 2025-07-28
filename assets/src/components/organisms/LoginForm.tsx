@@ -29,7 +29,7 @@ export const LoginForm = () => {
     };
 
     return (
-        <div className="bg-white/5 p-4 rounded w-auto md:w-auto max-w-full">
+        <div className="bg-[var(--color-primary-100)] p-4 rounded w-auto md:w-auto max-w-full">
             {!user ? (
                 <div className="flex flex-col gap-2 items-end">
                     <form
