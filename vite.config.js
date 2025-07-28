@@ -20,13 +20,14 @@ export default defineConfig(({mode}) => {
                 symfonyPlugin(),
             ],
             test: {
-                setupFiles: "./src/setupTests.ts",
+                setupFiles: "./src/tests/setupTests.ts",
                 environment: 'jsdom',
                 globals: true,
             },
             resolve: {
                 alias: {
                     '@atoms': path.resolve(__dirname, 'assets/src/components/atoms'),
+                    "@config": path.resolve(__dirname, 'assets/src/config'),
                     "@const": path.resolve(__dirname, 'assets/src/const'),
                     '@molecules': path.resolve(__dirname, 'assets/src/components/molecules'),
                     '@organisms': path.resolve(__dirname, 'assets/src/components/organisms'),
@@ -37,6 +38,7 @@ export default defineConfig(({mode}) => {
                     '@interfaces': path.resolve(__dirname, 'assets/src/interfaces'),
                     '@routes': path.resolve(__dirname, 'assets/src/routes'),
                     '@services': path.resolve(__dirname, 'assets/src/services'),
+                    '@tools': path.resolve(__dirname, 'assets/src/tools'),
                     '@assets': path.resolve(__dirname, 'assets/src/assets')
                 }
             },

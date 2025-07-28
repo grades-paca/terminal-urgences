@@ -1,0 +1,14 @@
+.tabInactive {
+    background-color: var(--color-primary-600);
+    color: var(--color-secondary-50);
+
+    &:hover {
+        background-color: var(--color-secondary-50);
+        color: var(--color-primary-700);
+    }
+}
+
+.tabActive {
+    background-color: var(--color-secondary-50);
+    color: var(--color-secondary-900);
+}

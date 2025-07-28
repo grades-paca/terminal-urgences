@@ -19,6 +19,11 @@ security:
             stateless: true
             custom_authenticator: App\Security\DispatchingAuthenticator
 
+        api_docs:
+            pattern: ^/api/docs
+            stateless: true
+            security: false
+        
         api:
             pattern: ^/api
             stateless: true
@@ -26,4 +31,7 @@ security:
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/docs\.json$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users, roles: ROLE_ADMIN }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
