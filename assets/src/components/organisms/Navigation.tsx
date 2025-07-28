@@ -6,10 +6,12 @@ import { useEffect, useRef, useState } from 'react';
 import { WIDTH_MOBILE_SCREEN } from '@const/const.ts';
 import { VIEW_PARAMETER_TYPE } from '@interfaces/View.ts';
 import { useMe } from '@services/auth/useMe.tsx';
+import { useParams } from 'react-router-dom';
 
 import styles from './Navigation.module.scss';
 
 export const Navigation = () => {
+    const { viewType } = useParams();
     const containerRef = useRef<HTMLDivElement>(null);
     const isTabActive = useTabActivityChecker();
     const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -45,7 +47,10 @@ export const Navigation = () => {
                         key={i}
                         type={view.type}
                         id={view.id}
-                        isActive={isTabActive(view)}
+                        isActive={isTabActive({
+                            type: view.type,
+                            view: view.id,
+                        })}
                         dataTestId={`tab-views-${view.id}`}
                     >
                         {view.label}
@@ -54,7 +59,10 @@ export const Navigation = () => {
 
             {user && (
                 <Tab
-                    isActive={isTabActive({ type: VIEW_PARAMETER_TYPE })}
+                    isActive={isTabActive({
+                        type: VIEW_PARAMETER_TYPE,
+                        view: viewType,
+                    })}
                     type={VIEW_PARAMETER_TYPE}
                     dataTestId="tab-cog"
                 >

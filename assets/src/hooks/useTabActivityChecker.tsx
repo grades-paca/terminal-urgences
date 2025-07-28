@@ -8,17 +8,23 @@ import { useLocation } from 'react-router';
 export function useTabActivityChecker() {
     const location = useLocation();
 
-    return ({ type, id }: { type?: ViewType; id?: number } = {}): boolean => {
+    return ({
+        type,
+        view,
+    }: { type?: ViewType; view?: number | string } = {}): boolean => {
         let expectedPath = '/';
 
         switch (type) {
             case VIEW_DASHBOARD_TYPE:
-                if (id !== undefined) {
-                    expectedPath = `/dashboard/${id}`;
+                if (view !== undefined) {
+                    expectedPath = `/dashboard/${view}`;
                 }
                 break;
             case VIEW_PARAMETER_TYPE:
-                expectedPath = `/parameter/fiches`;
+                expectedPath =
+                    view !== undefined
+                        ? `/parameter/fiches/${view}`
+                        : `/parameter/fiches`;
                 break;
         }
 

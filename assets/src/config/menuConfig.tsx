@@ -1,36 +1,39 @@
-import { ROUTE_PARAMETER_FICHES } from '@const/navigation.ts';
+import {
+    ROUTE_PARAMETER_FICHES_STANDARD,
+    ROUTE_PARAMETER_FICHES_CONF,
+    ROUTE_PARAMETER_FICHES_TRANSFER,
+} from '@const/navigation.ts';
 
-export type MenuItem =
-    | {
-          type: 'item';
-          label: string;
-          navigate: string;
-      }
-    | {
-          type: 'submenu';
-          label: string;
-          children: MenuItem[];
-      }
-    | {
-          type: 'separator';
-      };
+export type SectionMenuItem = {
+    label: string;
+    navigate?: string;
+    locked?: boolean;
+};
+
+export type MenuItem = {
+    title: string;
+    navigate?: string;
+    sections: SectionMenuItem[];
+};
 
 export const menuConfig: MenuItem[] = [
     {
-        type: 'submenu',
-        label: 'Gestion',
-        children: [
+        title: 'FICHE',
+        navigate: undefined,
+        sections: [
             {
-                type: 'item',
-                label: 'Gestion et création des fiches',
-                navigate: ROUTE_PARAMETER_FICHES,
+                label: 'Création et Gestion des fiches',
+                navigate: ROUTE_PARAMETER_FICHES_STANDARD,
+            },
+            {
+                label: 'Configuration des Fiches',
+                navigate: ROUTE_PARAMETER_FICHES_CONF,
+            },
+            {
+                label: 'Gestion des Transferts entre fiches',
+                navigate: ROUTE_PARAMETER_FICHES_TRANSFER,
+                locked: true,
             },
         ],
     },
-    // {type: 'separator'},
-    // {
-    //     type: 'item',
-    //     label: 'Déconnexion',
-    //     navigate: '/',
-    // },
 ];
