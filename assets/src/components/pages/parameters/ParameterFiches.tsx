@@ -2,9 +2,11 @@ import { Popover, TabItem, Tabs } from 'flowbite-react';
 import { CircleQuestionMark, Lock } from 'lucide-react';
 import { TUTOS_LINK } from '@const/const.ts';
 import { ManageFiches } from '@organisms/fiches/ManageFiches.tsx';
+import { useParams } from 'react-router-dom';
 
 export const ParameterFiches = () => {
     // TODO feature access not exist
+    const { viewType } = useParams();
     const rights = [true, true, false];
     const subLink = 'admin-gestion-gestion-fiches-et-vues';
 
@@ -12,16 +14,19 @@ export const ParameterFiches = () => {
         {
             label: 'Création et gestion des fiches',
             content: <ManageFiches />,
+            type: 'standard',
             link: TUTOS_LINK + subLink,
         },
         {
             label: 'Configuration des fiches',
             content: 'Contenu 2',
+            type: 'conf',
             link: TUTOS_LINK + subLink,
         },
         {
             label: 'Gestion des transferts entres fiches',
             content: 'Contenu 3',
+            type: 'transfer',
             link: TUTOS_LINK + subLink,
         },
     ];
@@ -68,7 +73,12 @@ export const ParameterFiches = () => {
                     );
 
                     return (
-                        <TabItem key={index} disabled={!allowed} title={title}>
+                        <TabItem
+                            active={item.type === viewType}
+                            key={index}
+                            disabled={!allowed}
+                            title={title}
+                        >
                             {allowed ? item.content : unauthorized}
                         </TabItem>
                     );

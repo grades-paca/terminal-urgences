@@ -1,15 +1,11 @@
 import { LoginForm } from '@organisms/LoginForm';
 import { Navigation } from '@organisms/Navigation';
-import { type ReactNode, useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router';
 
 import styles from './DefaultLayout.module.scss';
 
-interface DefaultLayoutProps {
-    children: ReactNode;
-}
-
-export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
+export const DefaultLayout = () => {
     const [dateTime, setDateTime] = useState('');
 
     useEffect(() => {
@@ -35,8 +31,8 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     }, []);
 
     return (
-        <div className="min-h-screen">
-            <header className={styles.header}>
+        <div>
+            <header className={`${styles.header} standardBackground`}>
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-4 md:px-8 py-4">
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
                         <div className="flex items-center">
@@ -61,7 +57,9 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 <Navigation />
             </header>
 
-            <main className="p-2">{children}</main>
+            <main className="p-2">
+                <Outlet />
+            </main>
         </div>
     );
 };

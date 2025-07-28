@@ -27,6 +27,7 @@ build-dev: ## Build Docker images for dev
 
 up-dev: ## Start development environment (MariaDB + Postgres + Adminer)
 	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml up -d
+	@$(MAKE) install-root-cert-dev
 
 down-dev: ## Stop and remove all containers, networks, volumes (dev mode)
 	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml down -v --remove-orphans

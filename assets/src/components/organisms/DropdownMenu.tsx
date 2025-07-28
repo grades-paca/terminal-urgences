@@ -4,13 +4,17 @@ import {
     useEffect,
     useLayoutEffect,
     type ReactNode,
+    type Dispatch,
+    type SetStateAction,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronRight } from 'lucide-react';
-import { menuConfig, type MenuItem } from '@config/menuConfig';
+import {
+    menuConfig,
+    type MenuItem,
+    type SectionMenuItem,
+} from '@config/menuConfig';
+import { Lock } from 'lucide-react';
 import { useNavigate } from 'react-router';
-
-import styles from './DropdownMenu.module.scss';
 
 interface Props {
     children: ReactNode;
@@ -18,14 +22,13 @@ interface Props {
 
 interface Coords {
     top: number;
-    left: number;
 }
 
 const OFFSET = 0;
 
 export default function DropdownMenu({ children }: Props) {
     const [open, setOpen] = useState(false);
-    const [coords, setCoords] = useState<Coords>({ top: 0, left: 0 });
+    const [coords, setCoords] = useState<Coords>({ top: 0 });
     const btnRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,15 +37,11 @@ export default function DropdownMenu({ children }: Props) {
             const btnRect = btnRef.current.getBoundingClientRect();
             const menuRect = menuRef.current.getBoundingClientRect();
             let top = btnRect.bottom + OFFSET;
-            let left = btnRect.left;
 
-            if (left + menuRect.width > window.innerWidth) {
-                left = window.innerWidth - menuRect.width - OFFSET;
-            }
             if (top + menuRect.height > window.innerHeight) {
                 top = btnRect.top - menuRect.height - OFFSET;
             }
-            setCoords({ top, left });
+            setCoords({ top });
         }
     }, [open]);
 
@@ -76,14 +75,14 @@ export default function DropdownMenu({ children }: Props) {
                 createPortal(
                     <div
                         ref={menuRef}
-                        className={`absolute z-[9999] w-44 rounded-md border border-default
+                        className={`absolute z-[9999] w-full
                             transition transform origin-top-left
                             animate-[fadeIn_150ms_ease-out] motion-reduce:animate-none
-                            ${styles.dropdownButton}`}
-                        style={{ top: coords.top, left: coords.left }}
+                            standardBackground`}
+                        style={{ top: coords.top }}
                         role="menu"
                     >
-                        <MenuList items={menuConfig} />
+                        <ConfigGrid config={menuConfig} setOpen={setOpen} />
                     </div>,
                     document.body
                 )}
@@ -91,88 +90,65 @@ export default function DropdownMenu({ children }: Props) {
     );
 }
 
-// Rendu récursif du menu
-function MenuList({ items }: { items: MenuItem[] }) {
-    const navigate = useNavigate();
-
-    return (
-        <div className="py-1">
-            {items.map((item, index) => {
-                if (item.type === 'separator') {
-                    return (
-                        <div key={index} className="my-1 h-px bg-gray-200" />
-                    );
-                }
-                if (item.type === 'item') {
-                    return (
-                        <button
-                            key={index}
-                            className="block w-full px-4 py-2 text-left text-sm"
-                            role="menuitem"
-                            onClick={() => navigate(item.navigate)}
-                        >
-                            {item.label}
-                        </button>
-                    );
-                }
-                if (item.type === 'submenu') {
-                    return (
-                        <SubMenu
-                            key={index}
-                            label={item.label}
-                            childrenItems={item.children}
-                        />
-                    );
-                }
-            })}
-        </div>
-    );
-}
-
-function SubMenu({
-    label,
-    childrenItems,
+function ConfigGrid({
+    config,
+    setOpen,
 }: {
-    label: string;
-    childrenItems: MenuItem[];
+    config: MenuItem[];
+    setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-    const [subOpen, setSubOpen] = useState(false);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const navigate = useNavigate();
+    function displayNavigation(section: SectionMenuItem) {
+        const block = (
+            <>
+                <span>{section.label}</span>
+                <span className="flex gap-1">{section.locked && <Lock />}</span>
+            </>
+        );
 
-    const openSub = () => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        setSubOpen(true);
-    };
-    const closeSub = () => {
-        timeoutRef.current = setTimeout(() => setSubOpen(false), 150);
-    };
+        if (section.navigate !== undefined && section.locked !== true) {
+            const path = section.navigate;
+
+            return (
+                <div
+                    className={'cursor-pointer'}
+                    onClick={() => {
+                        navigate(path);
+                        setOpen(false);
+                    }}
+                >
+                    {block}
+                </div>
+            );
+        }
+
+        return block;
+    }
 
     return (
-        <div
-            className="relative"
-            onMouseEnter={openSub}
-            onMouseLeave={closeSub}
-        >
-            <button
-                className={`flex w-full items-center justify-between px-4 py-2 text-sm`}
-                role="menuitem"
-                aria-haspopup="menu"
-                aria-expanded={subOpen}
-            >
-                {label}
-                <ChevronRight className="h-4 w-4 shrink-0" />
-            </button>
-
-            {subOpen && (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-2">
+            {config.map((block: MenuItem, i: number) => (
                 <div
-                    className={`absolute left-full top-0 z-[9999] -mt-1 ml-0.5 w-56 rounded-md border border-default ${styles.dropdownButton}`}
-                    role="menu"
-                    onMouseEnter={openSub}
-                    onMouseLeave={closeSub}
+                    key={i}
+                    className="border border-[var(--color-primary-600)] rounded bg-[var(--color-primary-200)]"
                 >
-                    <MenuList items={childrenItems} />
+                    <div className="bg-[var(--color-primary-600)] text-[var(--color-secondary-50)] font-bold p-2 text-sm">
+                        {block.title}
+                    </div>
+                    <ul className="divide-y text-sm">
+                        {block.sections.map(
+                            (section: SectionMenuItem, j: number) => (
+                                <li
+                                    key={j}
+                                    className="flex items-center justify-between px-2 py-1 text-[var(--color-secondary-900)]"
+                                >
+                                    {displayNavigation(section)}
+                                </li>
+                            )
+                        )}
+                    </ul>
                 </div>
-            )}
+            ))}
         </div>
     );
 }
