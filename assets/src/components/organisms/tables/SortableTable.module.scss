@@ -1,0 +1,17 @@
+.stripedRow {
+    td {
+        background-color: var(--color-secondary-100);
+        transition: background-color 0.2s ease;
+
+        &:nth-child(odd) {
+            background-color: var(--color-secondary-200);
+        }
+    }
+
+    &:hover {
+        td {
+            background-color: var(--color-primary-500) !important;
+            color: var(--color-secondary-50) !important;
+        }
+    }
+}

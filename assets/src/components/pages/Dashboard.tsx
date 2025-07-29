@@ -1,21 +1,5 @@
 import { ResumeDashboard } from '@organisms/ResumeDashboard';
-import {
-    flexRender,
-    getCoreRowModel,
-    getSortedRowModel,
-    type SortingState,
-    useReactTable,
-} from '@tanstack/react-table';
-
-import { useState } from 'react';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeadCell,
-    TableRow,
-} from 'flowbite-react';
+import { SortableTable } from '@organisms/tables/SortableTable.tsx';
 
 const data = [
     {
@@ -89,66 +73,12 @@ const columns = [
 ];
 
 export const Dashboard = () => {
-    const [sorting, setSorting] = useState<SortingState>([]);
-
-    const table = useReactTable({
-        data,
-        columns,
-        state: { sorting },
-        onSortingChange: setSorting,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-    });
-
     return (
         <div className="space-y-4">
             <ResumeDashboard />
 
             <div className="overflow-x-auto">
-                <Table hoverable>
-                    <TableHead>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <TableHeadCell
-                                        key={header.id}
-                                        onClick={header.column.getToggleSortingHandler()}
-                                        className="cursor-pointer select-none"
-                                    >
-                                        <div className="flex items-center justify-between w-full">
-                                            {flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                            {header.column.getIsSorted() ===
-                                                'asc' && '▲'}
-                                            {header.column.getIsSorted() ===
-                                                'desc' && '▼'}
-                                        </div>
-                                    </TableHeadCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableHead>
-
-                    <TableBody>
-                        {table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell
-                                        key={cell.id}
-                                        className="px-3 py-2"
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                <SortableTable columns={columns} data={data} />
             </div>
         </div>
     );

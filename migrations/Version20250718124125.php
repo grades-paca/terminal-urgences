@@ -42,4 +42,9 @@ final class Version20250718124125 extends AbstractMigration
         SQL
         );
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

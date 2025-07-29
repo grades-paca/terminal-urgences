@@ -98,32 +98,6 @@ function ConfigGrid({
     setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const navigate = useNavigate();
-    function displayNavigation(section: SectionMenuItem) {
-        const block = (
-            <>
-                <span>{section.label}</span>
-                <span className="flex gap-1">{section.locked && <Lock />}</span>
-            </>
-        );
-
-        if (section.navigate !== undefined && section.locked !== true) {
-            const path = section.navigate;
-
-            return (
-                <div
-                    className={'cursor-pointer'}
-                    onClick={() => {
-                        navigate(path);
-                        setOpen(false);
-                    }}
-                >
-                    {block}
-                </div>
-            );
-        }
-
-        return block;
-    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-2">
@@ -137,14 +111,35 @@ function ConfigGrid({
                     </div>
                     <ul className="divide-y text-sm">
                         {block.sections.map(
-                            (section: SectionMenuItem, j: number) => (
-                                <li
-                                    key={j}
-                                    className="flex items-center justify-between px-2 py-1 text-[var(--color-secondary-900)]"
-                                >
-                                    {displayNavigation(section)}
-                                </li>
-                            )
+                            (section: SectionMenuItem, j: number) => {
+                                const enableLink =
+                                    section.navigate !== undefined &&
+                                    section.locked !== true;
+
+                                return (
+                                    <li
+                                        key={j}
+                                        className={`flex items-center justify-between px-2 py-1 w-full
+                                        bg-[var(--color-secondary-100)]
+                                        text-[var(--color-secondary-900)]
+                                        ${enableLink ? 'cursor-pointer hover:bg-[var(--color-primary-500)] hover:text-[var(--color-secondary-50)]' : ''}`}
+                                        onClick={() => {
+                                            if (enableLink) {
+                                                const path =
+                                                    section.navigate ?? '';
+
+                                                navigate(path);
+                                                setOpen(false);
+                                            }
+                                        }}
+                                    >
+                                        <span>{section.label}</span>
+                                        <span className="flex gap-1">
+                                            {section.locked && <Lock />}
+                                        </span>
+                                    </li>
+                                );
+                            }
                         )}
                     </ul>
                 </div>

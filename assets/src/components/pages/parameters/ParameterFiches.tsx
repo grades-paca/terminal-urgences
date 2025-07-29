@@ -44,7 +44,7 @@ export const ParameterFiches = () => {
                     const allowed = rights[index];
 
                     const baseTitle = (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 font-bold">
                             <a
                                 href={item.link}
                                 target="_blank"

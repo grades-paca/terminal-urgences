@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import { login, mockMutate } from './utils/authMocks.ts';
 import { ParameterFiches } from '@pages/parameters/ParameterFiches.tsx';
 import {
@@ -141,11 +141,12 @@ describe('Test of fiches interface', () => {
         const submitBtn = within(modal).getByTestId(
             'modal-create-update-manage-fiche-submit'
         );
-        await userEvent.click(submitBtn);
 
-        const errorMsg = await screen.findByText(
-            'Cette valeur est déjà utilisée.'
-        );
-        expect(errorMsg).toBeInTheDocument();
+        await act(async () => {
+            await userEvent.click(submitBtn);
+        });
+
+        const error = await screen.findByTestId('idTerme-error');
+        expect(error).toHaveTextContent('Cette valeur est déjà utilisée.');
     });
 });
