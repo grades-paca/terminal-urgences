@@ -1,10 +1,15 @@
 import type { Fiche } from '@interfaces/Fiche.ts';
 import type { Row } from '@tanstack/react-table';
-import { ChevronDown, ChevronRight, CornerDownRight } from 'lucide-react';
+import {
+    ChevronDown,
+    ChevronRight,
+    CornerDownRight,
+    PencilLine,
+} from 'lucide-react';
 
 export type FicheWithChildren = Fiche & { childrens?: Fiche[] };
 
-export const columns = [
+export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
     {
         header: 'idTerme',
         accessorKey: 'idTerme',
@@ -43,5 +48,18 @@ export const columns = [
     {
         header: 'Importation',
         accessorKey: 'importation',
+    },
+    {
+        header: 'Modifier',
+        id: 'edit',
+        cell: ({ row }: { row: Row<FicheWithChildren> }) => (
+            <button
+                onClick={() => onEditFiche(row.original)}
+                title="Modifier la fiche"
+                className="cursor-pointer text-muted-foreground hover:text-primary"
+            >
+                <PencilLine size={16} />
+            </button>
+        ),
     },
 ];

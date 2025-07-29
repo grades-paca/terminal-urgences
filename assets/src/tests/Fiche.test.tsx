@@ -2,11 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, render, screen, within } from '@testing-library/react';
 import { login, mockMutate } from './utils/authMocks.ts';
 import { ParameterFiches } from '@pages/parameters/ParameterFiches.tsx';
-import {
-    useCreateFiche,
-    useFiches,
-    useUpdateFiche,
-} from '@services/parameters/useFiche.tsx';
+import { useFiches, useFicheSubmit } from '@services/parameters/useFiche.tsx';
 import {
     ALPHANUM_SANITIZED,
     LARGE_TEXT_SANITIZED,
@@ -17,23 +13,17 @@ import userEvent from '@testing-library/user-event';
 // Mocks globaux
 vi.mock('@services/parameters/useFiche', () => ({
     useFiches: vi.fn(),
-    useCreateFiche: vi.fn(),
-    useUpdateFiche: vi.fn(),
+    useFicheSubmit: vi.fn(),
 }));
 
 export const mockedUseFiches = useFiches as ReturnType<typeof vi.fn>;
-export const mockedUseCreateFiche = useCreateFiche as ReturnType<typeof vi.fn>;
-export const mockedUseUpdateFiche = useUpdateFiche as ReturnType<typeof vi.fn>;
+export const mockedUseFicheSubmit = useFicheSubmit as ReturnType<typeof vi.fn>;
 
 mockedUseFiches.mockReturnValue({
     member: [],
 });
 
-mockedUseCreateFiche.mockReturnValue({
-    mutate: mockMutate,
-});
-
-mockedUseUpdateFiche.mockReturnValue({
+mockedUseFicheSubmit.mockReturnValue({
     mutate: mockMutate,
 });
 
@@ -106,7 +96,7 @@ describe('Test of fiches interface', () => {
         expect(manageFicheAddBtn).toBeInTheDocument();
         manageFicheAddBtn.click();
 
-        mockedUseCreateFiche.mockImplementation(({ onError }) => ({
+        mockedUseFicheSubmit.mockImplementation(({ onError }) => ({
             mutate: () => {
                 onError?.({
                     '@context': '/api/contexts/ConstraintViolation',
@@ -138,7 +128,7 @@ describe('Test of fiches interface', () => {
         await userEvent.clear(inputIdTerme);
         await userEvent.type(inputIdTerme, 'aaaa');
 
-        const submitBtn = within(modal).getByTestId(
+        const submitBtn = await within(modal).findByTestId(
             'modal-create-update-manage-fiche-submit'
         );
 
@@ -146,7 +136,7 @@ describe('Test of fiches interface', () => {
             await userEvent.click(submitBtn);
         });
 
-        const error = await screen.findByTestId('idTerme-error');
+        const error = await within(modal).findByTestId('idTerme-error');
         expect(error).toHaveTextContent('Cette valeur est déjà utilisée.');
     });
 });
