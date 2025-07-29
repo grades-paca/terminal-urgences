@@ -2,24 +2,26 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { Fiche } from '@interfaces/Fiche.ts';
 import type {
     ApiPlatformError,
+    ApiPlatformResponse,
     HydraCollection,
-    UseCreateOptions,
 } from '@interfaces/HydraCollection.ts';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+const getToken = () => localStorage.getItem('jwt');
+
 export const useFiches = () => {
-    const token = localStorage.getItem('jwt');
+    const token = getToken();
 
     return useQuery<HydraCollection<Fiche>>({
         queryKey: ['fiches'],
         queryFn: async () => {
-            const token = localStorage.getItem('jwt');
             const res = await fetch(`${API_URL}/fiches`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
+
             if (!res.ok) throw new Error('Failed to fetch fiches');
 
             const json: HydraCollection<Fiche> = await res.json();
@@ -29,62 +31,59 @@ export const useFiches = () => {
     });
 };
 
-export const useCreateFiche = ({
+type FichePayload = Fiche & { __method: 'POST' | 'PATCH' };
+
+async function submitFiche(
+    fiche: FichePayload
+): Promise<ApiPlatformResponse<Fiche>> {
+    const { __method, ...payload } = fiche;
+    const token = getToken();
+
+    const url =
+        __method === 'PATCH'
+            ? `${API_URL}/fiches/${fiche.id}`
+            : `${API_URL}/fiches`;
+
+    const headers = {
+        'Content-Type':
+            __method === 'PATCH'
+                ? 'application/merge-patch+json'
+                : 'application/ld+json',
+        Authorization: `Bearer ${token}`,
+    };
+
+    const res = await fetch(url, {
+        method: __method,
+        headers,
+        body: JSON.stringify(payload),
+    });
+
+    if (res.status === 422) {
+        throw await res.json();
+    }
+
+    if (!res.ok) {
+        throw new Error(`HTTP error ${res.status}`);
+    }
+
+    return res.json();
+}
+
+export const useFicheSubmit = ({
     onSuccess,
     onError,
-}: UseCreateOptions<Fiche>) => {
+}: {
+    onSuccess?: (data: ApiPlatformResponse<Fiche>) => void;
+    onError?: (error: ApiPlatformError | Error) => void;
+}) => {
     const queryClient = useQueryClient();
+
     return useMutation({
-        mutationFn: async (fiche: Fiche) => {
-            const token = localStorage.getItem('jwt');
-            const res = await fetch(`${API_URL}/fiches`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/ld+json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(fiche),
-            });
-
-            if (res.status === 422) {
-                throw await res.json();
-            }
-            console.log(res.status);
-
-            if (!res.ok) {
-                throw new Error(`HTTP error ${res.status}`);
-            }
-
-            return res.json();
-        },
+        mutationFn: submitFiche,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['fiches'] });
             onSuccess?.(data);
         },
-        onError: (error: ApiPlatformError | Error) => {
-            onError?.(error);
-        },
-    });
-};
-
-export const useUpdateFiche = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async (fiche: Partial<Fiche> & { id: string }) => {
-            const token = localStorage.getItem('jwt');
-            const res = await fetch(`${API_URL}/fiches/${fiche.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/merge-patch+json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(fiche),
-            });
-            if (!res.ok) throw new Error('Failed to update fiche');
-            return res.json();
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['fiches'] });
-        },
+        onError,
     });
 };

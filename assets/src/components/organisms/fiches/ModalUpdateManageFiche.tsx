@@ -13,7 +13,7 @@ import {
 import { LabelSelectInput } from '@molecules/form/LabelSelectInput.tsx';
 import type { Fiche, FicheError } from '@interfaces/Fiche.ts';
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
-import { useCreateFiche } from '@services/parameters/useFiche.tsx';
+import { useFicheSubmit } from '@services/parameters/useFiche.tsx';
 import {
     type ApiPlatformError,
     isApiPlatformError,
@@ -23,6 +23,7 @@ interface ModalUpdateManageFicheProps {
     fichesParent?: Fiche[] | undefined;
     openModal: boolean;
     setOpenModal: Dispatch<SetStateAction<boolean>>;
+    fiche?: Fiche | null;
 }
 
 const initialState: Fiche = {
@@ -37,36 +38,45 @@ export const ModalUpdateManageFiche = ({
     fichesParent,
     openModal,
     setOpenModal,
+    fiche,
 }: ModalUpdateManageFicheProps) => {
-    const [fiche, setFiche] = useState<Fiche>(initialState);
+    const [ficheState, setFicheState] = useState<Fiche>(initialState);
     const [ficheError, setFicheError] = useState<FicheError>({});
 
     useEffect(() => {
-        setFiche(initialState);
-    }, [openModal]);
+        setFicheState(fiche ?? initialState);
+        setFicheError({});
+    }, [fiche, openModal]);
 
     const saveFiche = () => {
-        fiche.configuration =
-            fiche.configuration === '' ? null : fiche.configuration;
-        mutate(fiche);
+        submitFiche({
+            ...ficheState,
+            configuration:
+                ficheState.configuration === ''
+                    ? null
+                    : ficheState.configuration,
+            __method: fiche ? 'PATCH' : 'POST',
+        });
     };
 
-    const { mutate } = useCreateFiche({
+    const onError = (error: ApiPlatformError | Error) => {
+        if (isApiPlatformError(error)) {
+            const result: FicheError = {};
+
+            if (error.violations) {
+                for (const v of error.violations) {
+                    result[v.propertyPath] = v.message;
+                }
+            }
+            setFicheError(result);
+        }
+    };
+
+    const { mutate: submitFiche } = useFicheSubmit({
         onSuccess: () => {
             setOpenModal(false);
         },
-        onError: (error: ApiPlatformError | Error) => {
-            if (isApiPlatformError(error)) {
-                const result: FicheError = {};
-
-                if (error.violations) {
-                    for (const v of error.violations) {
-                        result[v.propertyPath] = v.message;
-                    }
-                }
-                setFicheError(result);
-            }
-        },
+        onError: onError,
     });
 
     return (
@@ -86,7 +96,7 @@ export const ModalUpdateManageFiche = ({
                                 <LabelTextInput
                                     id={'id'}
                                     label={'ID'}
-                                    value={fiche.id}
+                                    value={ficheState.id}
                                     minLength={4}
                                     maxLength={32}
                                     disabled
@@ -97,17 +107,19 @@ export const ModalUpdateManageFiche = ({
                                 <LabelTextInput
                                     id={'idTerme'}
                                     label={'IDTerm *'}
-                                    value={fiche.idTerme}
+                                    value={ficheState.idTerme}
                                     minLength={4}
                                     maxLength={32}
                                     required
                                     error={ficheError.idTerme}
                                     onChange={(e) =>
-                                        setFiche((prev) => ({
+                                        setFicheState((prev) => ({
                                             ...prev,
-                                            id: AlphanumericValidator.sanitize(
-                                                e.target.value
-                                            ),
+                                            id: fiche
+                                                ? prev.id
+                                                : AlphanumericValidator.sanitize(
+                                                      e.target.value
+                                                  ),
                                             idTerme:
                                                 AlphanumericValidator.sanitize(
                                                     e.target.value
@@ -122,12 +134,12 @@ export const ModalUpdateManageFiche = ({
                             <LabelTextInput
                                 id={'description'}
                                 label={'Description'}
-                                value={fiche.description ?? undefined}
+                                value={ficheState.description ?? undefined}
                                 sizing="lg"
                                 maxLength={255}
                                 error={ficheError.description}
                                 onChange={(e) =>
-                                    setFiche((prev) => ({
+                                    setFicheState((prev) => ({
                                         ...prev,
                                         description:
                                             LargeTextValidator.sanitize(
@@ -142,12 +154,12 @@ export const ModalUpdateManageFiche = ({
                             <LabelTextInput
                                 id={'importation'}
                                 label={'Importation'}
-                                value={fiche.importation ?? undefined}
+                                value={ficheState.importation ?? undefined}
                                 minLength={4}
                                 maxLength={32}
                                 error={ficheError.importation}
                                 onChange={(e) =>
-                                    setFiche((prev) => ({
+                                    setFicheState((prev) => ({
                                         ...prev,
                                         importation:
                                             AlphanumericValidator.sanitize(
@@ -162,9 +174,9 @@ export const ModalUpdateManageFiche = ({
                             <LabelSelectInput
                                 id="configuration"
                                 label="Configuration"
-                                value={fiche.configuration ?? undefined}
+                                value={ficheState.configuration ?? undefined}
                                 onChange={(e) =>
-                                    setFiche((prev) => ({
+                                    setFicheState((prev) => ({
                                         ...prev,
                                         configuration: e.target.value,
                                     }))

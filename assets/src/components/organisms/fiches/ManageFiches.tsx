@@ -5,12 +5,15 @@ import { Plus } from 'lucide-react';
 import { ModalUpdateManageFiche } from '@organisms/fiches/ModalUpdateManageFiche.tsx';
 import { SortableTable } from '@organisms/tables/SortableTable.tsx';
 import {
-    columns,
     type FicheWithChildren,
+    getColumns,
 } from '@config/tables/ManageFichesColumn.tsx';
 
 export const ManageFiches = () => {
     const [openModal, setOpenModal] = useState(false);
+    const [updateFiche, setUpdateFiche] = useState<FicheWithChildren | null>(
+        null
+    );
 
     const { data: fiches, isLoading: isLoadingFiche } = useFiches();
 
@@ -39,6 +42,11 @@ export const ManageFiches = () => {
         }));
     }, [fichesParent, fichesEnfants]);
 
+    const handleEditFiche = (fiche: FicheWithChildren) => {
+        setUpdateFiche(fiche);
+        setOpenModal(true);
+    };
+
     return (
         <div className={'bg-[var(--color-primary-50)] rounded-lg'}>
             <div className="flex justify-between">
@@ -46,7 +54,10 @@ export const ManageFiches = () => {
                 <div className="manage-fiches-button-add m-1">
                     <Button
                         pill
-                        onClick={() => setOpenModal(true)}
+                        onClick={() => {
+                            setUpdateFiche(null);
+                            setOpenModal(true);
+                        }}
                         data-testid="manage-fiches-add-btn"
                     >
                         <Plus size={24} />
@@ -57,7 +68,7 @@ export const ManageFiches = () => {
                 {!isLoadingFiche ? (
                     <SortableTable
                         data={fichesDisplay}
-                        columns={columns}
+                        columns={getColumns(handleEditFiche)}
                         getSubRows={(row: FicheWithChildren) => row.childrens}
                     />
                 ) : (
@@ -68,6 +79,7 @@ export const ManageFiches = () => {
                 fichesParent={fichesParent}
                 openModal={openModal}
                 setOpenModal={setOpenModal}
+                fiche={updateFiche}
             />
         </div>
     );

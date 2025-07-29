@@ -39,11 +39,6 @@ export interface HydraCollection<T> {
     totalItems: number;
 }
 
-export interface UseCreateOptions<T> {
-    onSuccess?: (data: ApiPlatformResponse<T>) => void;
-    onError?: (error: ApiPlatformError | Error) => void;
-}
-
 export function isApiPlatformError(error: unknown): error is ApiPlatformError {
     return (
         typeof error === 'object' &&
