@@ -31,6 +31,13 @@ export const LabelTextInput = ({
             color={error ? 'failure' : undefined}
             {...rest}
         />
-        {error && <HelperText color="failure">{error}</HelperText>}
+        {error && (
+            <HelperText
+                color="failure"
+                data-testid={`${dataTestId ?? id}-error`}
+            >
+                {error}
+            </HelperText>
+        )}
     </div>
 );

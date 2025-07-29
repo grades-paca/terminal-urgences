@@ -18,7 +18,7 @@ export type MenuItem = {
 
 export const menuConfig: MenuItem[] = [
     {
-        title: 'FICHE',
+        title: 'FICHES',
         navigate: undefined,
         sections: [
             {
@@ -35,5 +35,15 @@ export const menuConfig: MenuItem[] = [
                 locked: true,
             },
         ],
+    },
+    {
+        title: 'ONGLETS',
+        navigate: undefined,
+        sections: [],
+    },
+    {
+        title: 'UTILISATEURS ET DROITS',
+        navigate: undefined,
+        sections: [],
     },
 ];

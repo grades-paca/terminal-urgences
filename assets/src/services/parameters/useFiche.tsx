@@ -49,6 +49,7 @@ export const useCreateFiche = ({
             if (res.status === 422) {
                 throw await res.json();
             }
+            console.log(res.status);
 
             if (!res.ok) {
                 throw new Error(`HTTP error ${res.status}`);
