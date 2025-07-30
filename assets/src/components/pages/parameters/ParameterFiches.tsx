@@ -43,33 +43,39 @@ export const ParameterFiches = () => {
                 {tabsItems.map((item, index) => {
                     const allowed = rights[index];
 
-                    const baseTitle = (
-                        <div className="flex items-center gap-1 font-bold">
-                            <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="pop-up-link"
-                            >
-                                <CircleQuestionMark size={14} />
-                            </a>
-                            {item.label}
+                    const label = (
+                        <div className="flex items-center gap-1">
+                            <span>{item.label}</span>
+                            {!allowed && (
+                                <Lock size={14} className="text-gray-400" />
+                            )}
                         </div>
                     );
 
-                    const title = allowed ? (
-                        baseTitle
+                    const centeredTitle = allowed ? (
+                        label
                     ) : (
                         <Popover
                             trigger="hover"
                             placement="top"
                             content={unauthorized}
                         >
-                            <div className="flex items-center gap-1">
-                                {baseTitle}
-                                <Lock size={14} className="text-gray-400" />
-                            </div>
+                            {label}
                         </Popover>
+                    );
+
+                    const title = (
+                        <div className="relative flex justify-center items-center w-full px-2">
+                            <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="absolute left-0 top-0 pop-up-link"
+                            >
+                                <CircleQuestionMark size={14} />
+                            </a>
+                            {centeredTitle}
+                        </div>
                     );
 
                     return (

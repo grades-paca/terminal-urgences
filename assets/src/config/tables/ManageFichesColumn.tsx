@@ -66,6 +66,7 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
 
             return (
                 <Popover
+                    trigger="hover"
                     content={
                         <div className="w-72 text-sm text-gray-700 dark:text-gray-300">
                             <div className="border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">
