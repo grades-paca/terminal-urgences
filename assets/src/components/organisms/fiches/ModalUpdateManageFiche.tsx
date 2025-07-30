@@ -32,6 +32,7 @@ const initialState: Fiche = {
     description: null,
     importation: null,
     configuration: null,
+    logs: [],
 };
 
 export const ModalUpdateManageFiche = ({

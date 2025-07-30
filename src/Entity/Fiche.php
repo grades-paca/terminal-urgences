@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Provider\GenericAuditEnricherProvider;
+use App\Trait\AuditLoggableTrait;
 use App\Validator\AlphanumericConstraint;
 use App\Validator\LargeTextConstraint;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,10 +17,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('VIEW_FICHE', object)"),
+        new Get(security: "is_granted('VIEW_FICHE', object)", provider: GenericAuditEnricherProvider::class),
         new Post(security: "is_granted('ADD_FICHE', object)"),
         new Patch(security: "is_granted('UPDATE_FICHE', object)"),
-        new GetCollection(security: "is_granted('VIEW_FICHES', object)"),
+        new GetCollection(security: "is_granted('VIEW_FICHES', object)", provider: GenericAuditEnricherProvider::class),
     ],
     security: "is_granted('ROLE_USER')"
 )]
@@ -26,6 +28,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity('idTerme')]
 class Fiche
 {
+    use AuditLoggableTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 32)]
     #[Assert\Length(min: 5, max: 32)]
