@@ -49,7 +49,7 @@ export function SortableTable<T>({
     });
 
     return (
-        <div className="overflow-hidden rounded-xl border-1 border-black">
+        <div className="relative shadow-md sm:rounded-lg rounded-xl border-1 border-black">
             <Table hoverable>
                 <TableHead>
                     {table.getHeaderGroups().map((headerGroup, groupIdx) => (
@@ -63,9 +63,9 @@ export function SortableTable<T>({
 
                                     const roundedClass =
                                         isFirstRow && isFirstCell
-                                            ? 'rounded-tl-lg'
+                                            ? 'rounded-tl-xl'
                                             : isFirstRow && isLastCell
-                                              ? 'rounded-tr-lg'
+                                              ? 'rounded-tr-xl'
                                               : '';
 
                                     return (

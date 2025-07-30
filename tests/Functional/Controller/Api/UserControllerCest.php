@@ -60,16 +60,4 @@ class UserControllerCest
         $I->sendGET('/api/me');
         $I->seeResponseCodeIs(401);
     }
-
-    public function _after(FunctionalTester $I): void
-    {
-        $container = $I->grabService('test.service_container');
-        $em = $container->get(EntityManagerInterface::class);
-
-        $user = $em->getRepository(User::class)->findOneBy(['username' => 'test']);
-        if ($user) {
-            $em->remove($user);
-            $em->flush();
-        }
-    }
 }
