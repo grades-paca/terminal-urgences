@@ -1,6 +1,7 @@
 import type { AuditLog } from '@interfaces/AuditLog.ts';
 
 export interface Fiche {
+    archived: boolean;
     id: string;
     idTerme: string;
     description: string | null;

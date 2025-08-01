@@ -1,17 +1,33 @@
 import type { Fiche } from '@interfaces/Fiche.ts';
-import type { Row } from '@tanstack/react-table';
+import type { CellContext, Row } from '@tanstack/react-table';
 import {
     ChevronDown,
     ChevronRight,
     CornerDownRight,
     PencilLine,
 } from 'lucide-react';
-import { Popover } from 'flowbite-react';
+import { Popover, ToggleSwitch } from 'flowbite-react';
 import type { AuditLog } from '@interfaces/AuditLog.ts';
 
-export type FicheWithChildren = Fiche & { childrens?: Fiche[] };
+export type FicheWithChildren = Fiche & { children?: Fiche[] };
 
-export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
+export const getColumns = (
+    onEditFiche: (fiche: FicheWithChildren) => void,
+    onChangeArchiveStatus: (id: string, isChecked: boolean) => void
+) => [
+    {
+        header: 'id',
+        accessorKey: 'id',
+        enableResizing: false,
+        size: 80,
+        maxSize: 80,
+    },
+    {
+        header: 'disabled',
+        accessorKey: 'disabled',
+        size: 80,
+        maxSize: 80,
+    },
     {
         header: 'idTerme',
         accessorKey: 'idTerme',
@@ -24,9 +40,12 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
                         ? row.getToggleExpandedHandler()
                         : undefined
                 }
+                data-testid={`cell-id-terme-${row.getValue('idTerme')}`}
             >
                 {row.getCanExpand() ? (
-                    <button>
+                    <button
+                        className={`${row.getCanExpand() ? 'cursor-pointer' : ''}`}
+                    >
                         {row.getIsExpanded() ? (
                             <ChevronDown size={16} />
                         ) : (
@@ -42,14 +61,20 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
                 {row.original.idTerme}
             </div>
         ),
+        size: 80,
+        maxSize: 80,
     },
     {
         header: 'Description',
         accessorKey: 'description',
+        size: 80,
+        maxSize: 80,
     },
     {
         header: 'Importation',
         accessorKey: 'importation',
+        size: 80,
+        maxSize: 80,
     },
     {
         header: 'Modifications',
@@ -109,9 +134,15 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
                                                                     {key}
                                                                 </span>{' '}
                                                                 : «{' '}
-                                                                {before ?? '—'}{' '}
+                                                                {String(
+                                                                    before ??
+                                                                        '—'
+                                                                )}{' '}
                                                                 » → «{' '}
-                                                                {after ?? '—'} »
+                                                                {String(
+                                                                    after ?? '—'
+                                                                )}{' '}
+                                                                »
                                                             </li>
                                                         )
                                                     )}
@@ -128,18 +159,48 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
                 </Popover>
             );
         },
+        minSize: 160,
+        size: 260,
+        maxSize: 260,
     },
     {
+        id: 'update',
         header: 'Modifier',
-        id: 'edit',
-        cell: ({ row }: { row: Row<FicheWithChildren> }) => (
-            <button
-                onClick={() => onEditFiche(row.original)}
-                title="Modifier la fiche"
-                className="cursor-pointer text-muted-foreground hover:text-primary"
-            >
-                <PencilLine size={16} />
-            </button>
+        cell: (ctx: CellContext<FicheWithChildren, boolean>) => {
+            const disabled: boolean =
+                ctx.row.getValue('archived') || ctx.row.getValue('disabled');
+
+            return (
+                <button
+                    onClick={() => onEditFiche(ctx.row.original)}
+                    title="Modifier la fiche"
+                    className={`${disabled ? '' : 'cursor-pointer'} text-muted-foreground hover:text-primary`}
+                    disabled={disabled}
+                >
+                    <PencilLine size={16} />
+                </button>
+            );
+        },
+        size: 40,
+        minSize: 40,
+        maxSize: 40,
+        enableResizing: false,
+    },
+    {
+        header: 'Archivage',
+        accessorKey: 'archived',
+        enableSorting: false,
+        cell: (ctx: CellContext<FicheWithChildren, boolean>) => (
+            <ToggleSwitch
+                checked={ctx.getValue()}
+                label={`${ctx.getValue() ? 'Archivé' : 'Actif'}`}
+                onChange={(isChecked) =>
+                    onChangeArchiveStatus(ctx.row.getValue('id'), isChecked)
+                }
+                disabled={ctx.row.getValue('disabled')}
+            />
         ),
+        size: 80,
+        maxSize: 80,
     },
 ];

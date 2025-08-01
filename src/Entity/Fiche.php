@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\DataPersister\FicheDataPersister;
 use App\Provider\GenericAuditEnricherProvider;
 use App\Trait\AuditLoggableTrait;
 use App\Validator\AlphanumericConstraint;
+use App\Validator\FicheConstraints;
 use App\Validator\LargeTextConstraint;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,13 +24,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(security: "is_granted('VIEW_FICHE', object)", provider: GenericAuditEnricherProvider::class),
         new Post(security: "is_granted('ADD_FICHE', object)"),
-        new Patch(security: "is_granted('UPDATE_FICHE', object)"),
+        new Patch(security: "is_granted('UPDATE_FICHE', object)", processor: FicheDataPersister::class),
         new GetCollection(security: "is_granted('VIEW_FICHES', object)", provider: GenericAuditEnricherProvider::class),
     ],
     security: "is_granted('ROLE_USER')"
 )]
 #[ORM\Entity]
 #[UniqueEntity('idTerme')]
+#[FicheConstraints]
 class Fiche
 {
     use AuditLoggableTrait;
@@ -53,6 +59,19 @@ class Fiche
 
     #[ORM\ManyToOne(targetEntity: Fiche::class)]
     private ?Fiche $configuration = null;
+
+    /** @var Collection<int, Fiche> */
+    #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'configuration')]
+    #[ApiProperty(readable: false, writable: false)]
+    private Collection $children;
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    private bool $archived = false;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
 
     public function getId(): string
     {
@@ -102,5 +121,21 @@ class Fiche
     public function setConfiguration(?Fiche $configuration): void
     {
         $this->configuration = $configuration;
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): void
+    {
+        $this->archived = $archived;
+    }
+
+    /** @return Collection<int, Fiche> */
+    public function getChildren(): Collection
+    {
+        return $this->children;
     }
 }

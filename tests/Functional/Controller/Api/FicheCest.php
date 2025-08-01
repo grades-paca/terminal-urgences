@@ -104,4 +104,44 @@ class FicheCest
         $I->seeResponseContains('"propertyPath":"description"');
         $I->seeResponseContains('"propertyPath":"importation"');
     }
+
+    public function failOnNestedChild(FunctionalTester $I): void
+    {
+        $I->sendPOST('/api/fiches', [
+            'id' => 'FICHE006',
+            'idTerme' => 'TERME006',
+            'description' => 'Test enfant de niveau 2',
+            'importation' => 'IMP005',
+            'configuration' => '/api/fiches/FICHE003',
+        ]);
+
+        $I->seeResponseCodeIs(422);
+        $I->seeResponseContains('"propertyPath":"configuration"');
+    }
+
+    public function failOnChildToArchived(FunctionalTester $I): void
+    {
+        $I->sendPOST('/api/fiches', [
+            'id' => 'FICHE007',
+            'idTerme' => 'TERME007',
+            'description' => 'Test enfant sur fiche archivée',
+            'importation' => 'IMP007',
+            'configuration' => '/api/fiches/FICHE004',
+        ]);
+
+        $I->seeResponseCodeIs(422);
+        $I->seeResponseContains('"propertyPath":"configuration"');
+    }
+
+    public function failOnUnarchiveWhileParentArchived(FunctionalTester $I): void
+    {
+        $I->haveHttpHeader('Content-Type', 'application/merge-patch+json');
+
+        $I->sendPATCH('/api/fiches/FICHE005', [
+            'archived' => false,
+        ]);
+
+        $I->seeResponseCodeIs(422);
+        $I->seeResponseContains('"propertyPath":"archived"');
+    }
 }
