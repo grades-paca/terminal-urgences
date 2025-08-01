@@ -1,6 +1,12 @@
 import { useMemo, useState } from 'react';
-import { useFiches } from '@services/parameters/useFiche.tsx';
-import { Button } from 'flowbite-react';
+import { useFiches, useFicheSubmit } from '@services/parameters/useFiche.tsx';
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+} from 'flowbite-react';
 import { Plus } from 'lucide-react';
 import { ModalUpdateManageFiche } from '@organisms/fiches/ModalUpdateManageFiche.tsx';
 import { SortableTable } from '@organisms/tables/SortableTable.tsx';
@@ -10,12 +16,18 @@ import {
 } from '@config/tables/ManageFichesColumn.tsx';
 
 export const ManageFiches = () => {
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [pendingChange, setPendingChange] = useState<{
+        id: string;
+        isChecked: boolean;
+    } | null>(null);
     const [openModal, setOpenModal] = useState(false);
     const [updateFiche, setUpdateFiche] = useState<FicheWithChildren | null>(
         null
     );
 
     const { data: fiches, isLoading: isLoadingFiche } = useFiches();
+    const { mutate: submitFiche } = useFicheSubmit({});
 
     const fichesParent = useMemo(() => {
         return (
@@ -34,17 +46,55 @@ export const ManageFiches = () => {
     }, [fiches?.member]);
 
     const fichesDisplay = useMemo(() => {
-        return fichesParent.map((parent) => ({
-            ...parent,
-            childrens: fichesEnfants.filter(
-                (enfant) => enfant.configuration === `/api/fiches/${parent.id}`
-            ),
-        }));
+        return fichesParent.map((parent) => {
+            const isDisabled = parent.archived === true;
+
+            const children = fichesEnfants
+                .filter(
+                    (enfant) =>
+                        enfant.configuration === `/api/fiches/${parent.id}`
+                )
+                .map((enfant) => ({
+                    ...enfant,
+                    disabled: isDisabled,
+                }));
+
+            return {
+                ...parent,
+                disabled: false,
+                children: children,
+            };
+        });
     }, [fichesParent, fichesEnfants]);
 
     const handleEditFiche = (fiche: FicheWithChildren) => {
         setUpdateFiche(fiche);
         setOpenModal(true);
+    };
+
+    const confirmArchiveChange = (id: string, isChecked: boolean) => {
+        const fiche = fiches?.member.find((f) => f.id === id);
+        if (!fiche) return;
+
+        submitFiche({
+            ...fiche,
+            __method: 'PATCH',
+            archived: isChecked,
+        });
+
+        setPendingChange(null);
+        setShowConfirmModal(false);
+    };
+
+    const onChangeArchiveStatus = (id: string, isChecked: boolean) => {
+        if (isLoadingFiche) return;
+
+        if (isChecked) {
+            setPendingChange({ id, isChecked });
+            setShowConfirmModal(true);
+        } else {
+            confirmArchiveChange(id, isChecked);
+        }
     };
 
     return (
@@ -68,8 +118,15 @@ export const ManageFiches = () => {
                 {!isLoadingFiche ? (
                     <SortableTable
                         data={fichesDisplay}
-                        columns={getColumns(handleEditFiche)}
-                        getSubRows={(row: FicheWithChildren) => row.childrens}
+                        columns={getColumns(
+                            handleEditFiche,
+                            onChangeArchiveStatus
+                        )}
+                        getSubRows={(row: FicheWithChildren) => row.children}
+                        columnVisibility={{
+                            id: false,
+                            disabled: false,
+                        }}
                     />
                 ) : (
                     'IsLoading'
@@ -81,6 +138,35 @@ export const ManageFiches = () => {
                 setOpenModal={setOpenModal}
                 fiche={updateFiche}
             />
+            <Modal
+                show={showConfirmModal}
+                onClose={() => setShowConfirmModal(false)}
+            >
+                <ModalHeader>Confirmer l'action</ModalHeader>
+                <ModalBody>
+                    <p>Voulez-vous vraiment archiver cette fiche ?</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button
+                        onClick={() => {
+                            if (pendingChange !== null) {
+                                confirmArchiveChange(
+                                    pendingChange.id,
+                                    pendingChange.isChecked
+                                );
+                            }
+                        }}
+                    >
+                        Confirmer
+                    </Button>
+                    <Button
+                        onClick={() => setShowConfirmModal(false)}
+                        color="red"
+                    >
+                        Annuler
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 };

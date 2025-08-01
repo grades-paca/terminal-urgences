@@ -19,3 +19,19 @@ App\Entity\Fiche:
         description: null
         importation: null
         configuration: '@fiche_2'
+    
+    fiche_4:
+        id: 'FICHE004'
+        idTerme: 'FICHE004'
+        description: null
+        importation: null
+        configuration: null
+        archived: true
+    
+    fiche_5:
+        id: 'FICHE005'
+        idTerme: 'FICHE005'
+        description: null
+        importation: null
+        configuration: '@fiche_4'
+        archived: true

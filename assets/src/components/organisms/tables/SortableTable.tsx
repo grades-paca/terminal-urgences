@@ -23,12 +23,14 @@ interface SortableTableProps<T> {
     data: T[];
     columns: ColumnDef<T, T[keyof T]>[];
     getSubRows?: (row: T) => T[] | undefined;
+    columnVisibility?: Record<string, boolean>;
 }
 
 export function SortableTable<T>({
     data,
     columns,
     getSubRows,
+    columnVisibility = {},
 }: SortableTableProps<T>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [expanded, setExpanded] = useState({});
@@ -39,6 +41,7 @@ export function SortableTable<T>({
         state: {
             sorting,
             expanded,
+            columnVisibility: columnVisibility,
         },
         onSortingChange: setSorting,
         onExpandedChange: setExpanded,
@@ -97,8 +100,11 @@ export function SortableTable<T>({
                     {table.getRowModel().rows.map((row) => (
                         <TableRow
                             key={row.id}
-                            className={`border-b border-gray-200 ${styles.stripedRow} group
-                                text-[var(--color-secondary-900)]`}
+                            className={`
+                                border-b border-gray-200 ${styles.stripedRow} group
+                                text-[var(--color-secondary-900)]
+                                ${(row.original as { disabled?: boolean })?.disabled === true ? styles.disabledRow : ''}
+                            `}
                         >
                             {row.getVisibleCells().map((cell) => (
                                 <TableCell key={cell.id} className="px-3 py-2">

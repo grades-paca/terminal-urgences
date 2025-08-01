@@ -31,7 +31,7 @@ export const useFiches = () => {
     });
 };
 
-type FichePayload = Fiche & { __method: 'POST' | 'PATCH' };
+export type FichePayload = Fiche & { __method: 'POST' | 'PATCH' };
 
 async function submitFiche(
     fiche: FichePayload
@@ -72,16 +72,20 @@ async function submitFiche(
 export const useFicheSubmit = ({
     onSuccess,
     onError,
+    disableAutoRefetch = false,
 }: {
     onSuccess?: (data: ApiPlatformResponse<Fiche>) => void;
     onError?: (error: ApiPlatformError | Error) => void;
+    disableAutoRefetch?: boolean;
 }) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: submitFiche,
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['fiches'] });
+            if (!disableAutoRefetch) {
+                queryClient.invalidateQueries({ queryKey: ['fiches'] });
+            }
             onSuccess?.(data);
         },
         onError,
