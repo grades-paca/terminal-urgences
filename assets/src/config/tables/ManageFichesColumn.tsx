@@ -1,17 +1,28 @@
 import type { Fiche } from '@interfaces/Fiche.ts';
-import type { Row } from '@tanstack/react-table';
+import type { CellContext, Row } from '@tanstack/react-table';
 import {
     ChevronDown,
     ChevronRight,
     CornerDownRight,
     PencilLine,
 } from 'lucide-react';
-import { Popover } from 'flowbite-react';
+import { Popover, ToggleSwitch } from 'flowbite-react';
 import type { AuditLog } from '@interfaces/AuditLog.ts';
 
-export type FicheWithChildren = Fiche & { childrens?: Fiche[] };
+export type FicheWithChildren = Fiche & { children?: Fiche[] };
 
-export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
+export const getColumns = (
+    onEditFiche: (fiche: FicheWithChildren) => void,
+    onChangeArchiveStatus: (id: string, isChecked: boolean) => void
+) => [
+    {
+        header: 'id',
+        accessorKey: 'id',
+    },
+    {
+        header: 'disabled',
+        accessorKey: 'disabled',
+    },
     {
         header: 'idTerme',
         accessorKey: 'idTerme',
@@ -24,6 +35,7 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
                         ? row.getToggleExpandedHandler()
                         : undefined
                 }
+                data-testid={`cell-id-terme-${row.getValue('idTerme')}`}
             >
                 {row.getCanExpand() ? (
                     <button>
@@ -131,15 +143,34 @@ export const getColumns = (onEditFiche: (fiche: FicheWithChildren) => void) => [
     },
     {
         header: 'Modifier',
-        id: 'edit',
-        cell: ({ row }: { row: Row<FicheWithChildren> }) => (
-            <button
-                onClick={() => onEditFiche(row.original)}
-                title="Modifier la fiche"
-                className="cursor-pointer text-muted-foreground hover:text-primary"
-            >
-                <PencilLine size={16} />
-            </button>
+        cell: (ctx: CellContext<FicheWithChildren, boolean>) => {
+            const disabled: boolean =
+                ctx.row.getValue('archived') || ctx.row.getValue('disabled');
+
+            return (
+                <button
+                    onClick={() => onEditFiche(ctx.row.original)}
+                    title="Modifier la fiche"
+                    className={`${disabled ? '' : 'cursor-pointer'} text-muted-foreground hover:text-primary`}
+                    disabled={disabled}
+                >
+                    <PencilLine size={16} />
+                </button>
+            );
+        },
+    },
+    {
+        header: 'Archivage',
+        accessorKey: 'archived',
+        cell: (ctx: CellContext<FicheWithChildren, boolean>) => (
+            <ToggleSwitch
+                checked={ctx.getValue()}
+                label={`${ctx.getValue() ? 'Archivé' : 'Actif'}`}
+                onChange={(isChecked) =>
+                    onChangeArchiveStatus(ctx.row.getValue('id'), isChecked)
+                }
+                disabled={ctx.row.getValue('disabled')}
+            />
         ),
     },
 ];
