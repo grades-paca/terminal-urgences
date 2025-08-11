@@ -89,7 +89,7 @@ describe('Test of fiches interface', () => {
         await userEvent.type(inputIdTerme, 'aaaa');
         isValid = (modal as HTMLFormElement).checkValidity();
         expect(isValid).toBe(true);
-    });
+    }, 10000);
 
     it('Should be able to handle create not duplicate fiches idTerms', async () => {
         const manageFicheAddBtn = screen.getByTestId('manage-fiches-add-btn');

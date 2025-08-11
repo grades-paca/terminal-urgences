@@ -43,7 +43,7 @@ install-dev: ## Build & launch dev environment
 	git config core.hooksPath .hooks
 	@$(MAKE) down-dev
 	@$(MAKE) build-dev
-	@$(MAKE) up-dev
+	$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml up -d
 
 	@$(MAKE) wait-symfony
 	@$(MAKE) doctrine-reset

@@ -23,12 +23,14 @@ interface SortableTableProps<T> {
     data: T[];
     columns: ColumnDef<T, T[keyof T]>[];
     getSubRows?: (row: T) => T[] | undefined;
+    columnVisibility?: Record<string, boolean>;
 }
 
 export function SortableTable<T>({
     data,
     columns,
     getSubRows,
+    columnVisibility = {},
 }: SortableTableProps<T>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [expanded, setExpanded] = useState({});
@@ -39,6 +41,7 @@ export function SortableTable<T>({
         state: {
             sorting,
             expanded,
+            columnVisibility: columnVisibility,
         },
         onSortingChange: setSorting,
         onExpandedChange: setExpanded,
@@ -50,7 +53,13 @@ export function SortableTable<T>({
 
     return (
         <div className="relative shadow-md sm:rounded-lg rounded-xl border-1 border-black">
-            <Table hoverable>
+            <Table className="w-full table-fixed" hoverable>
+                <colgroup>
+                    {table.getFlatHeaders().map((h) => (
+                        <col key={h.id} style={{ width: h.getSize() }} />
+                    ))}
+                </colgroup>
+
                 <TableHead>
                     {table.getHeaderGroups().map((headerGroup, groupIdx) => (
                         <TableRow key={headerGroup.id}>
@@ -63,28 +72,31 @@ export function SortableTable<T>({
 
                                     const roundedClass =
                                         isFirstRow && isFirstCell
-                                            ? 'rounded-tl-xl'
+                                            ? 'rounded-tl-xl sm:rounded-tl-lg'
                                             : isFirstRow && isLastCell
-                                              ? 'rounded-tr-xl'
+                                              ? 'rounded-tr-xl sm:rounded-tr-lg'
                                               : '';
 
                                     return (
                                         <TableHeadCell
                                             key={header.id}
-                                            onClick={header.column.getToggleSortingHandler()}
-                                            className={`cursor-pointer select-none bg-[var(--color-primary-600)] text-[var(--color-secondary-50)] ${roundedClass}`}
+                                            onClick={header.column.getToggleSortingHandler?.()}
+                                            style={{ width: header.getSize() }}
+                                            className={`cursor-pointer select-none bg-[var(--color-primary-600)] text-[var(--color-secondary-50)] ${roundedClass} px-2 py-2`}
                                         >
-                                            <div className="flex items-center justify-between w-full">
-                                                {flexRender(
-                                                    header.column.columnDef
-                                                        .header,
-                                                    header.getContext()
-                                                )}
-                                                {header.column.getIsSorted() ===
-                                                    'asc' && '▲'}
-                                                {header.column.getIsSorted() ===
-                                                    'desc' && '▼'}
-                                            </div>
+                                            {!header.isPlaceholder && (
+                                                <div className="flex items-center justify-between w-full">
+                                                    {flexRender(
+                                                        header.column.columnDef
+                                                            .header,
+                                                        header.getContext()
+                                                    )}
+                                                    {header.column.getIsSorted() ===
+                                                        'asc' && '▲'}
+                                                    {header.column.getIsSorted() ===
+                                                        'desc' && '▼'}
+                                                </div>
+                                            )}
                                         </TableHeadCell>
                                     );
                                 }
@@ -94,22 +106,52 @@ export function SortableTable<T>({
                 </TableHead>
 
                 <TableBody>
-                    {table.getRowModel().rows.map((row) => (
-                        <TableRow
-                            key={row.id}
-                            className={`border-b border-gray-200 ${styles.stripedRow} group
-                                text-[var(--color-secondary-900)]`}
-                        >
-                            {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id} className="px-3 py-2">
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
+                    {table.getRowModel().rows.map((row, rowIdx) => {
+                        const isLastRow =
+                            rowIdx === table.getRowModel().rows.length - 1;
+
+                        return (
+                            <TableRow
+                                key={row.id}
+                                className={`
+                                  ${isLastRow ? '' : 'border-b border-gray-200'}
+                                  ${styles.stripedRow} group
+                                  text-[var(--color-secondary-900)]
+                                  ${(row.original as { disabled?: boolean })?.disabled ? styles.disabledRow : ''}
+                                `}
+                            >
+                                {row
+                                    .getVisibleCells()
+                                    .map((cell, cellIdx, cellArray) => {
+                                        const isFirstCell = cellIdx === 0;
+                                        const isLastCell =
+                                            cellIdx === cellArray.length - 1;
+
+                                        const bottomRoundedClass =
+                                            isLastRow && isFirstCell
+                                                ? 'rounded-bl-xl sm:rounded-bl-lg'
+                                                : isLastRow && isLastCell
+                                                  ? 'rounded-br-xl sm:rounded-br-lg'
+                                                  : '';
+
+                                        return (
+                                            <TableCell
+                                                key={cell.id}
+                                                style={{
+                                                    width: cell.column.getSize(),
+                                                }}
+                                                className={`px-2 py-2 ${bottomRoundedClass}`}
+                                            >
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        );
+                                    })}
+                            </TableRow>
+                        );
+                    })}
                 </TableBody>
             </Table>
         </div>

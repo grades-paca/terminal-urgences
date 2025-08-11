@@ -33,6 +33,7 @@ const initialState: Fiche = {
     importation: null,
     configuration: null,
     logs: [],
+    archived: false,
 };
 
 export const ModalUpdateManageFiche = ({
@@ -184,14 +185,16 @@ export const ModalUpdateManageFiche = ({
                                 }
                             >
                                 <option value="">---</option>
-                                {fichesParent?.map((fiche: Fiche) => (
-                                    <option
-                                        key={fiche.id}
-                                        value={`/api/fiches/${fiche.id}`}
-                                    >
-                                        {fiche.idTerme}
-                                    </option>
-                                ))}
+                                {fichesParent
+                                    ?.filter((fiche: Fiche) => !fiche.archived)
+                                    .map((fiche: Fiche) => (
+                                        <option
+                                            key={fiche.id}
+                                            value={`/api/fiches/${fiche.id}`}
+                                        >
+                                            {fiche.idTerme}
+                                        </option>
+                                    ))}
                             </LabelSelectInput>
                         </div>
                     </div>
