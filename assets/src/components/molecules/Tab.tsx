@@ -4,7 +4,7 @@ import {
     VIEW_DASHBOARD_TYPE,
     VIEW_PARAMETER_TYPE,
 } from '@interfaces/View';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import DropdownMenu from '@organisms/DropdownMenu.tsx';
 
 import styles from './Tab.module.scss';

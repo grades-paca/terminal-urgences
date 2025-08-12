@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { act, render, screen, within } from '@testing-library/react';
+import { act, screen, within } from '@testing-library/react';
 import { login, mockMutate } from './utils/authMocks.ts';
 import { ParameterFiches } from '@pages/parameters/ParameterFiches.tsx';
 import { useFiches, useFicheSubmit } from '@services/parameters/useFiche.tsx';
@@ -9,6 +9,7 @@ import {
     testSanitizedInput,
 } from './utils/testSanitizer.tsx';
 import userEvent from '@testing-library/user-event';
+import { renderWithDataRouter } from './utils/renderWithDataRouter.tsx';
 
 // Mocks globaux
 vi.mock('@services/parameters/useFiche', () => ({
@@ -30,7 +31,7 @@ mockedUseFicheSubmit.mockReturnValue({
 describe('Test of fiches interface', () => {
     beforeEach(() => {
         login();
-        render(<ParameterFiches />);
+        renderWithDataRouter(<ParameterFiches />);
     });
 
     it('Should be able to handle create fiches', async () => {

@@ -1,8 +1,9 @@
 import { describe, it, beforeEach, expect, vi } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { ManageFiches } from '@organisms/fiches/ManageFiches';
 import { useFiches, useFicheSubmit } from '@services/parameters/useFiche';
 import userEvent from '@testing-library/user-event';
+import { renderWithDataRouter } from './utils/renderWithDataRouter.tsx';
 
 // Mocks
 vi.mock('@services/parameters/useFiche', () => ({
@@ -69,7 +70,7 @@ describe('ManageFiches hierarchy and archive logic', () => {
             mutate: mutateMock,
         });
 
-        render(<ManageFiches />);
+        renderWithDataRouter(<ManageFiches />);
     });
 
     it('should render parent and children correctly with archive state', async () => {

@@ -18,6 +18,7 @@ import {
     type ApiPlatformError,
     isApiPlatformError,
 } from '@interfaces/HydraCollection.ts';
+import { useUnsavedChangesPrompt } from '@hooks/useUnsavedChangesPrompt.tsx';
 
 interface ModalUpdateManageFicheProps {
     fichesParent?: Fiche[] | undefined;
@@ -44,13 +45,22 @@ export const ModalUpdateManageFiche = ({
 }: ModalUpdateManageFicheProps) => {
     const [ficheState, setFicheState] = useState<Fiche>(initialState);
     const [ficheError, setFicheError] = useState<FicheError>({});
+    const [initialFiche] = useState<Fiche>(initialState);
+    const [hasChanges, setHasChanges] = useState(false);
 
     useEffect(() => {
         setFicheState(fiche ?? initialState);
         setFicheError({});
     }, [fiche, openModal]);
 
+    useEffect(() => {
+        const changed =
+            JSON.stringify(ficheState) !== JSON.stringify(initialFiche);
+        setHasChanges(changed);
+    }, [ficheState, initialFiche]);
+
     const saveFiche = () => {
+        setHasChanges(false);
         submitFiche({
             ...ficheState,
             configuration:
@@ -60,6 +70,12 @@ export const ModalUpdateManageFiche = ({
             __method: fiche ? 'PATCH' : 'POST',
         });
     };
+
+    const { confirmAndClose } = useUnsavedChangesPrompt({
+        openModal: openModal,
+        isDirty: hasChanges,
+        onClose: () => setOpenModal(false),
+    });
 
     const onError = (error: ApiPlatformError | Error) => {
         if (isApiPlatformError(error)) {
@@ -76,13 +92,13 @@ export const ModalUpdateManageFiche = ({
 
     const { mutate: submitFiche } = useFicheSubmit({
         onSuccess: () => {
-            setOpenModal(false);
+            confirmAndClose();
         },
         onError: onError,
     });
 
     return (
-        <Modal show={openModal} onClose={() => setOpenModal(false)} dismissible>
+        <Modal show={openModal} onClose={confirmAndClose} dismissible>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -206,7 +222,7 @@ export const ModalUpdateManageFiche = ({
                     >
                         Sauvegarder
                     </Button>
-                    <Button color="red" onClick={() => setOpenModal(false)}>
+                    <Button color="red" onClick={confirmAndClose}>
                         Annuler
                     </Button>
                 </ModalFooter>

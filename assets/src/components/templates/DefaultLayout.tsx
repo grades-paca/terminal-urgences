@@ -1,7 +1,7 @@
 import { LoginForm } from '@organisms/LoginForm';
 import { Navigation } from '@organisms/Navigation';
 import { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router';
+import { Link, Outlet } from 'react-router-dom';
 
 import styles from './DefaultLayout.module.scss';
 
