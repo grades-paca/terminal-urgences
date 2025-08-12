@@ -14,7 +14,7 @@ import {
     type SectionMenuItem,
 } from '@config/menuConfig';
 import { Lock } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     children: ReactNode;

@@ -2,7 +2,7 @@ import { useLogin } from '@services/auth/useLogin';
 import { useMe } from '@services/auth/useMe';
 import { Button, TextInput } from 'flowbite-react';
 import { type FormEvent, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const LoginForm = () => {
     const loginMutation = useLogin();

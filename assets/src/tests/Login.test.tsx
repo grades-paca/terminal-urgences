@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import type * as ReactRouter from 'react-router';
+import type * as ReactRouter from 'react-router-dom';
 import {
     login,
     mockedUseLogin,
@@ -11,8 +11,9 @@ import {
 } from './utils/authMocks.ts';
 import { simpleRender } from './utils/render.tsx';
 
-vi.mock('react-router', async () => {
-    const actual = await vi.importActual<typeof ReactRouter>('react-router');
+vi.mock('react-router-dom', async () => {
+    const actual =
+        await vi.importActual<typeof ReactRouter>('react-router-dom');
     return {
         ...actual,
         useNavigate: vi.fn(() => vi.fn()),
