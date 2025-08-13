@@ -100,11 +100,11 @@ function ConfigGrid({
     const navigate = useNavigate();
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-2 items-start">
             {config.map((block: MenuItem, i: number) => (
                 <div
                     key={i}
-                    className="border border-[var(--color-primary-600)] rounded bg-[var(--color-primary-200)]"
+                    className="border border-[var(--color-primary-600)] rounded bg-[var(--color-primary-200)] overflow-hidden"
                 >
                     <div className="bg-[var(--color-primary-600)] text-[var(--color-secondary-50)] font-bold p-2 text-sm">
                         {block.title}
@@ -120,14 +120,18 @@ function ConfigGrid({
                                     <li
                                         key={j}
                                         className={`flex items-center justify-between px-2 py-1 w-full
-                                        bg-[var(--color-secondary-100)]
-                                        text-[var(--color-secondary-900)]
-                                        ${enableLink ? 'cursor-pointer hover:bg-[var(--color-primary-500)] hover:text-[var(--color-secondary-50)]' : ''}`}
+                                            bg-[var(--color-secondary-100)]
+                                            text-[var(--color-secondary-900)]
+                                            ${
+                                                enableLink
+                                                    ? 'cursor-pointer hover:bg-[var(--color-primary-500)] hover:text-[var(--color-secondary-50)]'
+                                                    : ''
+                                            }
+                                        `}
                                         onClick={() => {
                                             if (enableLink) {
                                                 const path =
                                                     section.navigate ?? '';
-
                                                 navigate(path);
                                                 setOpen(false);
                                             }

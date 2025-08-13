@@ -2,6 +2,8 @@ import {
     ROUTE_PARAMETER_FICHES_STANDARD,
     ROUTE_PARAMETER_FICHES_CONF,
     ROUTE_PARAMETER_FICHES_TRANSFER,
+    ROUTE_PARAMETER_USERS_STANDARD,
+    ROUTE_PARAMETER_GROUPS_STANDARD,
 } from '@const/navigation.ts';
 
 export type SectionMenuItem = {
@@ -44,6 +46,15 @@ export const menuConfig: MenuItem[] = [
     {
         title: 'UTILISATEURS ET DROITS',
         navigate: undefined,
-        sections: [],
+        sections: [
+            {
+                label: 'Création et Gestion des utilisateurs',
+                navigate: ROUTE_PARAMETER_USERS_STANDARD,
+            },
+            {
+                label: 'Création et Gestion des groupes de droits',
+                navigate: ROUTE_PARAMETER_GROUPS_STANDARD,
+            },
+        ],
     },
 ];
