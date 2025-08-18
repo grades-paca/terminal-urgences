@@ -4,9 +4,7 @@ import { DefaultLayout } from '@templates/DefaultLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import {
     ROUTE_PARAMETER_FICHES_PARAMETER,
-    ROUTE_PARAMETER_FICHES_STANDARD,
-    ROUTE_PARAMETER_GROUPS_STANDARD,
-    ROUTE_PARAMETER_USERS_STANDARD,
+    ROUTE_PARAMETER_USERS_GROUPS_PARAMETER,
 } from '@const/navigation.ts';
 import { ParameterFiches } from '@pages/parameters/ParameterFiches.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -26,15 +24,7 @@ const router = createBrowserRouter([
                         element: <ParameterFiches />,
                     },
                     {
-                        path: ROUTE_PARAMETER_FICHES_STANDARD,
-                        element: <ParameterFiches />,
-                    },
-                    {
-                        path: ROUTE_PARAMETER_USERS_STANDARD,
-                        element: <ParameterUsersAndGroups />,
-                    },
-                    {
-                        path: ROUTE_PARAMETER_GROUPS_STANDARD,
+                        path: ROUTE_PARAMETER_USERS_GROUPS_PARAMETER,
                         element: <ParameterUsersAndGroups />,
                     },
                 ],

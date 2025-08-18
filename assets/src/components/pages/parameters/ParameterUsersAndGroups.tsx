@@ -4,7 +4,7 @@ import {
 } from '@organisms/TabsWithRightsItem.tsx';
 import { TUTOS_LINK } from '@const/const.ts';
 import { useParams } from 'react-router-dom';
-import { ManageGroups } from '@organisms/usersAndGroups/ManageGroups.tsx';
+import { ManageUserGroup } from '@organisms/usersAndGroups/ManageUserGroup.tsx';
 
 export const ParameterUsersAndGroups = () => {
     // TODO feature access not exist
@@ -14,16 +14,16 @@ export const ParameterUsersAndGroups = () => {
 
     const items: TabsWithRightsItem[] = [
         {
-            id: 'standard',
+            id: 'users',
             label: 'Création et gestion des fiches',
-            content: 'CONTENT MANAGE USERS', //<ManageUsers />,
+            content: 'CONTENT MANAGE USERS',
             allowed: rights.users,
             link: TUTOS_LINK + subLink,
         },
         {
-            id: 'conf',
+            id: 'groups',
             label: 'Configuration des fiches',
-            content: <ManageGroups />,
+            content: <ManageUserGroup />,
             allowed: rights.groups,
             link: TUTOS_LINK + subLink,
         },
