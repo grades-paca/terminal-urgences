@@ -1,5 +1,6 @@
-import { Label, Select, HelperText } from 'flowbite-react';
+import { Select, HelperText } from 'flowbite-react';
 import type { ChangeEvent, ReactNode, SelectHTMLAttributes } from 'react';
+import { LabelInput } from '@atoms/LabelInput.tsx';
 
 export const LabelSelectInput = ({
     id,
@@ -21,7 +22,7 @@ export const LabelSelectInput = ({
 } & SelectHTMLAttributes<HTMLSelectElement>) => {
     return (
         <div className="flex flex-col gap-1">
-            <Label htmlFor={id}>{label}</Label>
+            <LabelInput id={id} required={rest.required} label={label} />
             <Select
                 id={id}
                 data-testid={dataTestId ?? id}

@@ -148,71 +148,63 @@ export const ModalUpdateManageFiche = ({
                             </div>
                         </div>
 
-                        <div>
-                            <LabelTextInput
-                                id={'description'}
-                                label={'Description'}
-                                value={ficheState.description ?? undefined}
-                                sizing="lg"
-                                maxLength={255}
-                                error={ficheError.description}
-                                onChange={(e) =>
-                                    setFicheState((prev) => ({
-                                        ...prev,
-                                        description:
-                                            LargeTextValidator.sanitize(
-                                                e.target.value
-                                            ),
-                                    }))
-                                }
-                            />
-                        </div>
+                        <LabelTextInput
+                            id={'description'}
+                            label={'Description'}
+                            value={ficheState.description ?? undefined}
+                            sizing="lg"
+                            maxLength={255}
+                            error={ficheError.description}
+                            onChange={(e) =>
+                                setFicheState((prev) => ({
+                                    ...prev,
+                                    description: LargeTextValidator.sanitize(
+                                        e.target.value
+                                    ),
+                                }))
+                            }
+                        />
 
-                        <div>
-                            <LabelTextInput
-                                id={'importation'}
-                                label={'Importation'}
-                                value={ficheState.importation ?? undefined}
-                                minLength={4}
-                                maxLength={32}
-                                error={ficheError.importation}
-                                onChange={(e) =>
-                                    setFicheState((prev) => ({
-                                        ...prev,
-                                        importation:
-                                            AlphanumericValidator.sanitize(
-                                                e.target.value
-                                            ),
-                                    }))
-                                }
-                            />
-                        </div>
+                        <LabelTextInput
+                            id={'importation'}
+                            label={'Importation'}
+                            value={ficheState.importation ?? undefined}
+                            minLength={4}
+                            maxLength={32}
+                            error={ficheError.importation}
+                            onChange={(e) =>
+                                setFicheState((prev) => ({
+                                    ...prev,
+                                    importation: AlphanumericValidator.sanitize(
+                                        e.target.value
+                                    ),
+                                }))
+                            }
+                        />
 
-                        <div>
-                            <LabelSelectInput
-                                id="configuration"
-                                label="Configuration"
-                                value={ficheState.configuration ?? undefined}
-                                onChange={(e) =>
-                                    setFicheState((prev) => ({
-                                        ...prev,
-                                        configuration: e.target.value,
-                                    }))
-                                }
-                            >
-                                <option value="">---</option>
-                                {fichesParent
-                                    ?.filter((fiche: Fiche) => !fiche.archived)
-                                    .map((fiche: Fiche) => (
-                                        <option
-                                            key={fiche.id}
-                                            value={`/api/fiches/${fiche.id}`}
-                                        >
-                                            {fiche.idTerme}
-                                        </option>
-                                    ))}
-                            </LabelSelectInput>
-                        </div>
+                        <LabelSelectInput
+                            id="configuration"
+                            label="Configuration"
+                            value={ficheState.configuration ?? undefined}
+                            onChange={(e) =>
+                                setFicheState((prev) => ({
+                                    ...prev,
+                                    configuration: e.target.value,
+                                }))
+                            }
+                        >
+                            <option value="">---</option>
+                            {fichesParent
+                                ?.filter((fiche: Fiche) => !fiche.archived)
+                                .map((fiche: Fiche) => (
+                                    <option
+                                        key={fiche.id}
+                                        value={`/api/fiches/${fiche.id}`}
+                                    >
+                                        {fiche.idTerme}
+                                    </option>
+                                ))}
+                        </LabelSelectInput>
                     </div>
                 </ModalBody>
                 <ModalFooter>

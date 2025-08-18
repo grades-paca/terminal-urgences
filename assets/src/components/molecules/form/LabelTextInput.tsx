@@ -1,9 +1,5 @@
-import {
-    HelperText,
-    Label,
-    TextInput,
-    type TextInputProps,
-} from 'flowbite-react';
+import { HelperText, TextInput, type TextInputProps } from 'flowbite-react';
+import { LabelInput } from '@atoms/LabelInput.tsx';
 
 export const LabelTextInput = ({
     id,
@@ -22,7 +18,7 @@ export const LabelTextInput = ({
     error?: string;
 } & Omit<TextInputProps, 'value' | 'onChange'>) => (
     <div className="flex flex-col">
-        <Label htmlFor={id}>{label}</Label>
+        <LabelInput id={id} required={rest.required} label={label} />
         <TextInput
             id={id}
             data-testid={dataTestId ?? id}

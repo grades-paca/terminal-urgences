@@ -1,0 +1,24 @@
+App\Entity\UserGroup:
+    admin:
+        name: 'Administrateur'
+        targetType: 'service'
+        h24: true
+    
+    user:
+        name: 'Utilisateur'
+        targetType: 'service'
+        h24: true
+        
+    jour:
+        name: 'UtilisateurJour'
+        targetType: 'service'
+        h24: false
+        from: '08:00'
+        to: '16:00'
+    
+    nuit:
+        name: 'UtilisateurNuit'
+        targetType: 'service'
+        h24: false
+        from: '16:00'
+        to: '08:00'

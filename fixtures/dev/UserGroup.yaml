@@ -1,0 +1,10 @@
+App\Entity\UserGroup:
+    admin:
+        name: 'Administrateur'
+        targetType: 'service'
+        h24: true
+    
+    user:
+        name: 'Utilisateur'
+        targetType: 'service'
+        h24: true
