@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Provider\GenericAuditEnricherProvider;
+use App\Trait\AuditLoggableTrait;
 use App\Validator\AlphanumericConstraint;
 use App\Validator\GroupTimeWindowConstraint;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +30,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[GroupTimeWindowConstraint]
 class UserGroup
 {
+    use AuditLoggableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

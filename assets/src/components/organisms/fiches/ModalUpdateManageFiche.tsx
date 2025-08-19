@@ -124,7 +124,7 @@ export const ModalUpdateManageFiche = ({
                             <div className="flex flex-col">
                                 <LabelTextInput
                                     id={'idTerme'}
-                                    label={'IDTerm *'}
+                                    label={'IDTerm'}
                                     value={ficheState.idTerme}
                                     minLength={4}
                                     maxLength={32}

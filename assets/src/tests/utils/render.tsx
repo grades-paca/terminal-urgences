@@ -1,7 +1,8 @@
 import { render } from '@testing-library/react';
-import { AppRouter } from '@routes/AppRouter';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
+import { routes } from '@config/routes.tsx';
 
 export const simpleRender = (path: string = '/') => {
-    window.history.pushState({}, '', path);
-    return render(<AppRouter />);
+    const router = createMemoryRouter(routes, { initialEntries: [path] });
+    return render(<RouterProvider router={router} />);
 };
