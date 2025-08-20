@@ -66,7 +66,6 @@ export const getColumns = (onEditUserGroup: (userGroup: UserGroup) => void) => [
     },
     {
         header: "Nombre d'utilisateurs",
-        accessorKey: 'users',
         enableResizing: false,
         size: 80,
         maxSize: 80,
@@ -82,7 +81,6 @@ export const getColumns = (onEditUserGroup: (userGroup: UserGroup) => void) => [
     },
     {
         header: 'Nombre de droits',
-        accessorKey: 'users',
         enableResizing: false,
         size: 80,
         maxSize: 80,
@@ -112,15 +110,11 @@ export const getColumns = (onEditUserGroup: (userGroup: UserGroup) => void) => [
         id: 'update',
         header: 'Modifier',
         cell: (ctx: CellContext<UserGroup, boolean>) => {
-            const disabled: boolean =
-                ctx.row.getValue('archived') || ctx.row.getValue('disabled');
-
             return (
                 <button
                     onClick={() => onEditUserGroup(ctx.row.original)}
                     title="Modifier la fiche"
-                    className={`${disabled ? '' : 'cursor-pointer'} text-muted-foreground hover:text-primary`}
-                    disabled={disabled}
+                    className={`text-muted-foreground hover:text-primary`}
                 >
                     <PencilLine size={16} />
                 </button>
