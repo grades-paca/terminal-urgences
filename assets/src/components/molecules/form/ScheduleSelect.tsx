@@ -30,7 +30,7 @@ export const ScheduleSelect = ({
     return (
         <div className="flex flex-col gap-2">
             <LabelSelectInput
-                id="hour-mode"
+                id="scheduleSelect"
                 label={'Horaires d’application'}
                 value={value.modeH24}
                 onChange={handleModeChange}
@@ -43,8 +43,11 @@ export const ScheduleSelect = ({
             {value.modeH24 === 'plage' && (
                 <div className="flex gap-3">
                     <div className="flex-1">
-                        <label className="text-xs">Début</label>
+                        <label className="text-xs" htmlFor="schedule-from">
+                            Début
+                        </label>
                         <TextInput
+                            id="schedule-from"
                             type="time"
                             value={value.from || ''}
                             onChange={(e) =>
@@ -55,8 +58,11 @@ export const ScheduleSelect = ({
                         />
                     </div>
                     <div className="flex-1">
-                        <label className="text-xs">Fin</label>
+                        <label className="text-xs" htmlFor="schedule-to">
+                            Fin
+                        </label>
                         <TextInput
+                            id="schedule-to"
                             type="time"
                             value={value.to || ''}
                             onChange={(e) =>
