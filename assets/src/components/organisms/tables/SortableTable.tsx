@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     flexRender,
     getCoreRowModel,
@@ -7,6 +7,7 @@ import {
     useReactTable,
     type ColumnDef,
     type SortingState,
+    type Row,
 } from '@tanstack/react-table';
 import {
     Table,
@@ -19,11 +20,15 @@ import {
 
 import styles from './SortableTable.module.scss';
 
+type SelectionMode = 'none' | 'single' | 'multiple';
+
 interface SortableTableProps<T> {
     data: T[];
     columns: ColumnDef<T, T[keyof T]>[];
     getSubRows?: (row: T) => T[] | undefined;
     columnVisibility?: Record<string, boolean>;
+    selectionMode?: SelectionMode;
+    onSelectionChange?: (p: { ids: string[]; originals: T[] }) => void;
 }
 
 export function SortableTable<T>({
@@ -31,25 +36,55 @@ export function SortableTable<T>({
     columns,
     getSubRows,
     columnVisibility = {},
+    selectionMode = 'none',
+    onSelectionChange,
 }: SortableTableProps<T>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [expanded, setExpanded] = useState({});
 
+    const canSelect = selectionMode !== 'none';
+
     const table = useReactTable({
         data,
         columns,
-        state: {
-            sorting,
-            expanded,
-            columnVisibility: columnVisibility,
-        },
+        getSubRows,
+        state: { sorting, expanded, columnVisibility },
         onSortingChange: setSorting,
         onExpandedChange: setExpanded,
-        getSubRows,
+        enableRowSelection: selectionMode !== 'none',
+        enableMultiRowSelection: selectionMode === 'multiple', // false => single
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
     });
+
+    const rowSelection = table.getState().rowSelection;
+
+    useEffect(() => {
+        if (!onSelectionChange) return;
+
+        const ids = Object.keys(rowSelection);
+        const originals = table
+            .getSelectedRowModel()
+            .flatRows.map((r) => r.original as T);
+
+        onSelectionChange({ ids, originals });
+    }, [table, onSelectionChange, rowSelection]);
+
+    const handleRowClick = (row: Row<T>) => {
+        const disabled = (row.original as { disabled?: boolean })?.disabled;
+        if (disabled) return;
+
+        if (!canSelect) return;
+
+        const willSelect = !row.getIsSelected();
+
+        if (selectionMode === 'single') {
+            table.setRowSelection(willSelect ? { [row.id]: true } : {});
+        } else {
+            row.toggleSelected(willSelect);
+        }
+    };
 
     return (
         <div className="relative shadow-md sm:rounded-lg rounded-xl border-1 border-black">
@@ -109,16 +144,26 @@ export function SortableTable<T>({
                     {table.getRowModel().rows.map((row, rowIdx) => {
                         const isLastRow =
                             rowIdx === table.getRowModel().rows.length - 1;
+                        const disabled = (
+                            row.original as { disabled?: boolean }
+                        )?.disabled;
+                        const isSelected = row.getIsSelected();
 
                         return (
                             <TableRow
                                 key={row.id}
-                                className={`
-                                  ${isLastRow ? '' : 'border-b border-gray-200'}
-                                  ${styles.stripedRow} group
-                                  text-[var(--color-secondary-900)]
-                                  ${(row.original as { disabled?: boolean })?.disabled ? styles.disabledRow : ''}
-                                `}
+                                role="row"
+                                aria-selected={isSelected}
+                                onClick={() => handleRowClick(row)}
+                                className={[
+                                    isLastRow ? '' : 'border-b border-gray-200',
+                                    styles.stripedRow,
+                                    'group text-[var(--color-secondary-900)]',
+                                    disabled
+                                        ? styles.disabledRow
+                                        : 'cursor-pointer',
+                                    isSelected ? styles.selectedRow : '',
+                                ].join(' ')}
                             >
                                 {row
                                     .getVisibleCells()
@@ -126,7 +171,6 @@ export function SortableTable<T>({
                                         const isFirstCell = cellIdx === 0;
                                         const isLastCell =
                                             cellIdx === cellArray.length - 1;
-
                                         const bottomRoundedClass =
                                             isLastRow && isFirstCell
                                                 ? 'rounded-bl-xl sm:rounded-bl-lg'
@@ -137,6 +181,7 @@ export function SortableTable<T>({
                                         return (
                                             <TableCell
                                                 key={cell.id}
+                                                role="cell"
                                                 style={{
                                                     width: cell.column.getSize(),
                                                 }}

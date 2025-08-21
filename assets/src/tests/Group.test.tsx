@@ -176,3 +176,56 @@ describe('Test of group interface', () => {
         expect(error).toHaveTextContent('Cette valeur est déjà utilisée.');
     });
 });
+
+describe('Group permissions', () => {
+    it('Should display group permissions when clicking on a group row', async () => {
+        window.HTMLElement.prototype.scrollIntoView = vi.fn();
+
+        mockedUseUserGroups.mockReturnValue({
+            isLoading: false,
+            data: {
+                '@context': '/api/contexts/UserGroup',
+                '@id': '/api/user_groups',
+                '@type': 'Collection',
+                totalItems: 1,
+                member: [
+                    {
+                        '@id': '/api/user_groups/1',
+                        '@type': 'UserGroup',
+                        id: 1,
+                        name: 'Administrateur',
+                        targetType: 'service',
+                        h24: true,
+                        logs: [
+                            {
+                                id: 1,
+                                timestamp: '2025-08-20T07:01:54+00:00',
+                                action: 'create',
+                                entityClass: 'App\\Entity\\UserGroup',
+                                changes: null,
+                                entityId: '1',
+                                user: null,
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+
+        login();
+        simpleRender(ROUTE_PARAMETER_GROUPS_STANDARD);
+
+        const manageUserGroup = await screen.findByTestId('ManageUserGroup');
+
+        const row = await within(manageUserGroup).findByRole('row', {
+            name: /Administrateur/i,
+        });
+
+        expect(row).toBeInTheDocument();
+
+        await userEvent.click(row);
+
+        const permissions = await screen.findByTestId('groupPermission');
+        expect(permissions).toBeInTheDocument(); // Vérifie que GroupPermission est affiché
+    });
+});
